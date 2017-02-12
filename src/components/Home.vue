@@ -54,7 +54,16 @@
             性别：
           </el-col>
           <el-col :span="16">
-            <el-tag class="tag-font" color="#558b2f">男</el-tag> <el-tag class="tag-font" type="gray">女</el-tag>
+            <span v-on:click="clickTag(otherTag[0])">
+              <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
+                {{otherTag[0].key}}
+              </el-tag>
+            </span>
+            <span v-on:click="clickTag(otherTag[1])">
+              <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
+                {{otherTag[1].key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
 
@@ -66,7 +75,11 @@
         
         <el-row :gutter="10" class="search-margin">
           <el-col v-for="(sub,index) in subject" :span="8" class="search-txt">
-            <el-tag type="gray" class="tag-font">{{sub}}</el-tag>
+            <span v-on:click="clickTag(sub)">
+              <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
+                {{sub.key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
 
@@ -92,10 +105,18 @@
 
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
-            <el-tag type="gray" class="tag-font">0-100</el-tag>
+            <span v-on:click="clickTag(otherTag[2])">
+              <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
+                {{otherTag[2].key}}
+              </el-tag>
+            </span>
           </el-col>
           <el-col :span="8" class="search-txt">
-            <el-tag type="gray" class="tag-font">100-200</el-tag>
+            <span v-on:click="clickTag(otherTag[3])">
+              <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
+                {{otherTag[3].key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
 
@@ -107,13 +128,25 @@
 
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
-            <el-tag type="gray" class="tag-font">紫金港</el-tag>
+            <span v-on:click="clickTag(otherTag[4])">
+              <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
+                {{otherTag[4].key}}
+              </el-tag>
+            </span>
           </el-col>
           <el-col :span="8" class="search-txt">
-            <el-tag type="gray" class="tag-font">西溪</el-tag>
+            <span v-on:click="clickTag(otherTag[5])">
+              <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
+                {{otherTag[5].key}}
+              </el-tag>
+            </span>
           </el-col>
           <el-col :span="8" class="search-txt">
-            <el-tag type="gray" class="tag-font">玉泉</el-tag>
+            <span v-on:click="clickTag(otherTag[6])">
+              <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
+                {{otherTag[6].key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
       </div>
@@ -133,9 +166,29 @@ export default {
       user_name: 'HLH',
       modalDisplay: false,
       searchModal: false,
-      subject: ['小学', '初中', '高中',
-        '语文', '数学', '英语', '物理', '化学', '生物',
-        '地理', '政治', '历史'],
+      subject: [
+        {'key': '小学', 'value': '#dddddd'},
+        {'key': '初中', 'value': '#dddddd'},
+        {'key': '高中', 'value': '#dddddd'},
+        {'key': '语文', 'value': '#dddddd'},
+        {'key': '数学', 'value': '#dddddd'},
+        {'key': '英语', 'value': '#dddddd'},
+        {'key': '物理', 'value': '#dddddd'},
+        {'key': '化学', 'value': '#dddddd'},
+        {'key': '生物', 'value': '#dddddd'},
+        {'key': '地理', 'value': '#dddddd'},
+        {'key': '政治', 'value': '#dddddd'},
+        {'key': '历史', 'value': '#dddddd'}],
+      otherTag: [
+        {'key': '男', 'value': '#dddddd'},
+        {'key': '女', 'value': '#dddddd'},
+        {'key': '0-100', 'value': '#dddddd'},
+        {'key': '100-200', 'value': '#dddddd'},
+        {'key': '紫金港', 'value': '#dddddd'},
+        {'key': '西溪', 'value': '#dddddd'},
+        {'key': '玉泉', 'value': '#dddddd'}
+      ],
+
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -144,7 +197,6 @@ export default {
       this.modalDisplay = !this.modalDisplay
     },
     closeModal: function (event) {
-      console.log(event.target.className)
       if (event.target.className === 'float-container') {
         this.modalDisplay = false
         this.searchModal = false
@@ -155,6 +207,13 @@ export default {
         this.modalDisplay = true
       } else {
         this.searchModal = true
+      }
+    },
+    clickTag: function (item) {
+      if (item.value !== '#dddddd') {
+        item.value = '#dddddd'
+      } else {
+        item.value = '#558b2f'
       }
     }
   }
@@ -264,6 +323,7 @@ export default {
   float: left;
   bottom: 5px;
   right: 0;
+  cursor: pointer;
 }
 .one-icon{
   float: right;
