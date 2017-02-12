@@ -18,10 +18,10 @@
 
 <style>
 #app{
-    height: 100%;
+    /*height: 100%;
     position: absolute;
     width: 100%;
     background-color: #558b2f;
-    overflow: hidden;
+    overflow: hidden;*/
 }
 </style>

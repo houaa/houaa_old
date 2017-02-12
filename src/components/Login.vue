@@ -63,6 +63,9 @@ export default {
 }
 </script>
 
+<style>
+
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
@@ -90,7 +93,7 @@ a {
   color: #fff;
   text-shadow: 0px 0px 6px #000;
   font-weight: bold;
-  margin: 10% auto 0 auto;
+  margin: 5% auto 0 auto;
   text-align: center;
 }
 .login{
