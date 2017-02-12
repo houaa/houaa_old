@@ -29,17 +29,19 @@
       </el-col>
     </el-row>
 
-    <div v-if="modalDisplay" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
-      <div class="float-content">
-        <div class="float-text">
-        如需查看详细信息或进行筛选搜索，请您
+    <transition name="fade">
+      <div v-if="modalDisplay" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
+        <div class="float-content">
+          <div class="float-text">
+          如需查看详细信息或进行筛选搜索，请您
+          </div>
+          <button class="btn  gray" type="button"><span>登录</span></button>
+          <button class="btn" type="button"><span>注册</span></button>
         </div>
-        <button class="btn  gray" type="button"><span>登录</span></button>
-        <button class="btn" type="button"><span>注册</span></button>
       </div>
-    </div>
+    </transition>
 
-    <div v-if="searchModal" v-on:click="closeModal" class="float-container">
+    <div v-show="searchModal" v-on:click="closeModal" class="float-container">
       <div class="search-content">
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="who-teach">
@@ -225,6 +227,17 @@ export default {
 
 </style>
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
+
+
+.el-tag{
+  cursor: pointer;
+}
 .search-margin{
   margin-bottom: 10px;
 }
@@ -248,6 +261,12 @@ export default {
   right: 0;
   top: 0;
   background-color: #fefefe;
+  animation-name: fromLef;
+  animation-duration:0.4s;
+}
+@keyframes fromLef {
+  from {right:-100%;}
+  to {right:0;}
 }
 
 .float-container{
@@ -271,6 +290,7 @@ export default {
   height: 40%;
   overflow: auto;
   background-color: #fefefe;
+  animation-name: 
 }
 .float-text{
   font-size: 24px;
