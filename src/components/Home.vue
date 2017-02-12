@@ -1,8 +1,8 @@
 <template>
   <div class="main-contianer">
     <div class="welcome-msg">
-      <span v-if="!login">欢迎来到猴啊家教，您尚未<span class="login" v-on:click="login=true">登录！</span></span>
-      <span v-else>欢迎来到猴啊家教，{{user_name}}！ <span class="login" v-on:click="login=false">注销</span></span>      
+      <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="userLogin" >登录！</span></span>
+      <span v-else>欢迎来到猴啊家教，{{user_name}}！ <span class="login" @click="userLogout">注销</span></span>      
     </div>
     <el-row>
       <el-col :span="17">
@@ -14,20 +14,7 @@
         <i v-on:click="search" class="el-icon-search one-icon"></i>				
       </el-col>
     </el-row>
-    <el-row  :gutter="10">
-      <el-col class="main-card" :xs="12" :sm="8" :lg="6" v-for="(o,index) in 6">
-        <el-card :body-style="{padding: '0px'}">
-          <img src="../assets/logo.png" class="image">
-          <div style="padding: 14px;">
-            <span>Hey, hlh</span>
-            <div class="bottom clearfix">
-              <time class="time">{{ currentDate }}</time>
-              <el-button v-on:click="showDetail" type="text" class="button">了解详情</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+
 
     <transition name="fade">
       <div v-if="modalDisplay" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
@@ -154,12 +141,17 @@
       </div>
     </div>
 
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'hello',
+  computed: mapGetters([
+    'loggedIn'
+  ]),
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -190,11 +182,14 @@ export default {
         {'key': '西溪', 'value': '#dddddd'},
         {'key': '玉泉', 'value': '#dddddd'}
       ],
-
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
   methods: {
+    ...mapMutations([
+      'userLogin',
+      'userLogout'
+    ]),
     showDetail: function (event) {
       this.modalDisplay = !this.modalDisplay
     },
@@ -223,9 +218,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
-</style>
 <style scoped>
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
