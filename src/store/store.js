@@ -4,7 +4,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  login: false
+  login: false,
+  showLoginModal: false
 }
 
 const mutations = {
@@ -13,6 +14,12 @@ const mutations = {
   },
   userLogout (state) {
     state.login = false
+  },
+  showLoginModal (state) {
+    state.showLoginModal = true
+  },
+  hideLoginModal (state) {
+    state.showLoginModal = false
   }
 }
 
@@ -22,7 +29,8 @@ const mutations = {
 // }
 
 const getters = {
-  loggedIn: state => state.login
+  loggedIn: state => state.login,
+  loginModal: state => state.showLoginModal
 }
 
 export default new Vuex.Store({

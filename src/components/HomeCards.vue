@@ -20,12 +20,28 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'hello',
+  computed: mapGetters([
+    'loggedIn',
+    'loginModal'
+  ]),
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-			currentDate: new Date()
+      currentDate: new Date()
+    }
+  },
+  methods: {
+    ...mapMutations([
+      'showLoginModal',
+      'hideLoginModal'
+    ]),
+    showDetail: function (event) {
+      if (!this.loggedIn) {
+        this.showLoginModal()
+      }
     }
   }
 }
@@ -33,5 +49,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.main-card{
+  margin-top: 20px;
+}
+.time{
+  font-size: 13px;
+  color: #999;
+}
+.image{
+  width: 100%;
+  display: block;
+}
 
 </style>

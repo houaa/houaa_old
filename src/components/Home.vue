@@ -17,7 +17,7 @@
 
 
     <transition name="fade">
-      <div v-if="modalDisplay" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
+      <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
         <div class="float-content">
           <div class="float-text">
           如需查看详细信息或进行筛选搜索，请您
@@ -150,15 +150,14 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'hello',
   computed: mapGetters([
-    'loggedIn'
+    'loggedIn',
+    'loginModal'
   ]),
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       currentDate: new Date(),
-      login: false,
       user_name: 'HLH',
-      modalDisplay: false,
       searchModal: false,
       subject: [
         {'key': '小学', 'value': '#dddddd'},
@@ -188,20 +187,19 @@ export default {
   methods: {
     ...mapMutations([
       'userLogin',
-      'userLogout'
+      'userLogout',
+      'hideLoginModal',
+      'showLoginModal'
     ]),
-    showDetail: function (event) {
-      this.modalDisplay = !this.modalDisplay
-    },
     closeModal: function (event) {
       if (event.target.className === 'float-container') {
-        this.modalDisplay = false
+        this.hideLoginModal()
         this.searchModal = false
       }
     },
     search: function (event) {
-      if (this.login === false) {
-        this.modalDisplay = true
+      if (this.loggedIn === false) {
+        this.showLoginModal()
       } else {
         this.searchModal = true
       }
@@ -282,7 +280,6 @@ export default {
   height: 40%;
   overflow: auto;
   background-color: #fefefe;
-  animation-name: 
 }
 .float-text{
   font-size: 24px;
@@ -290,14 +287,9 @@ export default {
   padding: 2.5%;
   margin-bottom: 10%;
 }
-
-.main-card{
-  margin-top: 20px;
-}
 .login{
   color: orange;
 }
-
 .main-contianer {
   padding: 20px;
   padding-left: 5%;
@@ -341,17 +333,6 @@ export default {
   float: right;
   margin-left: 5%;
 }
-
-.image{
-  width: 100%;
-  display: block;
-}
-.time{
-  font-size: 13px;
-  color: #999;
-}
-
-
 .btn{
   position: relative;
   display: block;
