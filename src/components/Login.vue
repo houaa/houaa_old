@@ -13,25 +13,28 @@
     	<el-card class="box-card">
         <el-form  ref="form" :model="form">
           <el-form-item>
-              <el-input placeholder="用户名/邮箱" v-model="form.name"></el-input>
+            <div class="group">      
+                <input v-model="form.name" type="text" required>
+                <label>用户名/邮箱</label>
+            </div>
           </el-form-item>
           <el-form-item>
             <div class="group">      
-                <input type="text" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
+                <input  type="password" v-model="form.password" required>
                 <label>密码</label>
             </div>
-              <el-input type="password" placeholder="密码" v-model="form.password"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size="large" @click="onSubmit">登录</el-button>
+            <div class="forget">忘记密码?</div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size="large" @click="onSubmit">注册</el-button>
+            <button class="btn  gray" type="button"><span>登录</span></button>
           </el-form-item>
           <el-form-item>
-            <div>随便逛逛</div>
+            <button class="btn" type="button"><span>注册</span></button>
+          </el-form-item>
+          <el-form-item>
+            <div class="notice">随便逛逛?</div>
           </el-form-item>
         </el-form>
       </el-card>
@@ -69,6 +72,7 @@ a {
   color: #42b983;
 }
 
+
 .text {
     font-size: 14px;
   }
@@ -86,6 +90,8 @@ a {
   color: #fff;
   text-shadow: 0px 0px 6px #000;
   font-weight: bold;
+  margin: 10% auto 0 auto;
+  text-align: center;
 }
 .login{
   background-color: #558b2f;
@@ -94,7 +100,7 @@ a {
 
 .group{
   position: relative;
-  margin-bottom: 45px;
+  margin-top: 20px;
 }
 input{
   font-size:18px;
@@ -103,7 +109,7 @@ input{
   width: 90%;
   border: none;
   margin: auto;
-  border-bottom: 1px solid #757575;
+  border-bottom: 2px solid #757575;
 }
 input:focus{
   outline: none;
@@ -111,19 +117,66 @@ input:focus{
 
 label{
   color:#999;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: normal;
   position: absolute;
   pointer-events: none;
-  left: 5px;
-  top: 10px;
+  left: 5%;
+  top: 15%;
   transition: 0.2s ease all
 }
 input:focus~label,
 input:valid~label{
-  top:-20px;
+  top:-24px;
   font-size: 14px;
-  color: #5264AE;
+  color: #558b2f;
 }
 
+
+.btn{
+  position: relative;
+  display: block;
+  margin: -5px auto;
+  padding: 0;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0,0,0.6);
+  background-color: #2ecc71;
+  color: #ecf0f1;
+  transition: background-color .3s;
+  width: 95%;
+}
+.btn:hover,.btn:focus{
+  background-color: #27ae60;
+}
+.btn > * {
+  position: relative;
+}
+.btn span{
+  display: block;
+  padding: 12px 24px;
+}
+.btn.gray{
+  background-color: #747474;
+}
+.btn .gray:hover,.btn.gray:hover{
+  background-color:  #606060
+}
+
+.notice{
+  margin: 0 auto;
+  margin-top: -10px;
+  color: #747474;
+  text-align: center;
+}
+.forget{
+  float: right;
+  right: 15%;
+  margin-top: -20px;
+  color: #747474;
+  text-align: center;
+  /*height: 15px;*/
+}
 </style>

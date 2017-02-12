@@ -22,5 +22,6 @@
     position: absolute;
     width: 100%;
     background-color: #558b2f;
+    overflow: hidden;
 }
 </style>

@@ -9,6 +9,7 @@ import VueRouter from 'vue-router'
 
 import Login from './components/Login'
 import Hello from './components/Hello'
+import Home from './components/Home'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -20,6 +21,7 @@ const Bar = { template: '<div>bar</div>' }
 const routes = [
   { path: '/', component: App },
   { path: '/login', component: Login },
+  { path: '/home', component: Home },
   {
     path: '/hello/:id',
     component: Hello,
