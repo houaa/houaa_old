@@ -39,6 +39,86 @@
       </div>
     </div>
 
+    <div v-if="searchModal" v-on:click="closeModal" class="float-container">
+      <div class="search-content">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="who-teach">
+            谁在教
+          </el-col>
+          <el-col :span="16">
+            <el-input  icon="search" placeholder="随便输入什么"></el-input>
+          </el-col>
+        </el-row>
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="search-txt">
+            性别：
+          </el-col>
+          <el-col :span="16">
+            <el-tag class="tag-font" color="#558b2f">男</el-tag> <el-tag class="tag-font" type="gray">女</el-tag>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
+            志愿科目：
+          </el-col>
+        </el-row>
+        
+        <el-row :gutter="10" class="search-margin">
+          <el-col v-for="(sub,index) in subject" :span="8" class="search-txt">
+            <el-tag type="gray" class="tag-font">{{sub}}</el-tag>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
+            空余时间：
+          </el-col>
+        </el-row>
+        
+        <el-row :gutter="10" class="search-margin">
+          <el-time-picker
+            is-range
+            v-model="avaTime"
+            placeholder="随便什么时候">
+          </el-time-picker>
+        </el-row>
+
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
+            预期价位(每小时)：
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="search-txt">
+            <el-tag type="gray" class="tag-font">0-100</el-tag>
+          </el-col>
+          <el-col :span="8" class="search-txt">
+            <el-tag type="gray" class="tag-font">100-200</el-tag>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
+            地点偏好：
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="search-txt">
+            <el-tag type="gray" class="tag-font">紫金港</el-tag>
+          </el-col>
+          <el-col :span="8" class="search-txt">
+            <el-tag type="gray" class="tag-font">西溪</el-tag>
+          </el-col>
+          <el-col :span="8" class="search-txt">
+            <el-tag type="gray" class="tag-font">玉泉</el-tag>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -51,7 +131,12 @@ export default {
       currentDate: new Date(),
       login: false,
       user_name: 'HLH',
-      modalDisplay: false
+      modalDisplay: false,
+      searchModal: false,
+      subject: ['小学', '初中', '高中',
+        '语文', '数学', '英语', '物理', '化学', '生物',
+        '地理', '政治', '历史'],
+      avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
   methods: {
@@ -59,13 +144,17 @@ export default {
       this.modalDisplay = !this.modalDisplay
     },
     closeModal: function (event) {
+      console.log(event.target.className)
       if (event.target.className === 'float-container') {
         this.modalDisplay = false
+        this.searchModal = false
       }
     },
     search: function (event) {
       if (this.login === false) {
         this.modalDisplay = true
+      } else {
+        this.searchModal = true
       }
     }
   }
@@ -77,6 +166,31 @@ export default {
 
 </style>
 <style scoped>
+.search-margin{
+  margin-bottom: 10px;
+}
+.search-txt{
+  font-size: 18px;
+}
+.tag-font{
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.who-teach{
+  font-size: 22px;
+  color: #558b2f;
+}
+.search-content{
+  position: fixed;
+  z-index: 1;
+  padding: 5%;
+  width: 60%;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background-color: #fefefe;
+}
+
 .float-container{
   position: fixed;
   z-index: 2;
