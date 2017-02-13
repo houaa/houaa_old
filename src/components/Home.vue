@@ -1,12 +1,16 @@
 <template>
   <div class="main-contianer">
     <div class="welcome-msg">
-      <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="userLogin" >登录！</span></span>
+      <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
+        <span class="login" @click="userLogin">临时登录</span>
+      </span>
       <span v-else>欢迎来到猴啊家教，{{user_name}}！ <span class="login" @click="userLogout">注销</span></span>      
     </div>
     <el-row style="margin-bottom: 10px;">
       <el-col :span="17">
-        <span class="title" v-on:click="toHome">谁在教</span><span class="title">|</span><span class="title small">谁在学</span>
+        <span class="title" v-bind:class="{ small:!teachOrFalse }"
+           v-on:click="toHome">谁在教</span><span class="title">|</span><span 
+           class="title" v-on:click="toLearn"  v-bind:class="{ small:teachOrFalse }" >谁在学</span>
       </el-col>
       <el-col :span="7" class="icons">
         <i class="el-icon-date one-icon"></i>
@@ -151,10 +155,19 @@
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'hello',
-  computed: mapGetters([
-    'loggedIn',
-    'loginModal'
-  ]),
+  computed: {
+    ...mapGetters([
+      'loggedIn',
+      'loginModal'
+    ]),
+    teachOrFalse: function () {
+      if (this.$route.path.startsWith('/teach')) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -215,6 +228,12 @@ export default {
     },
     toHome: function () {
       this.$router.push('/')
+    },
+    toLoginPage: function () {
+      this.$router.push('/login')
+    },
+    toLearn: function () {
+      this.$router.push('/learn')
     }
   }
 }
@@ -223,7 +242,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
+  transition: opacity .3s
 }
 .fade-enter, .fade-leave-to {
   opacity: 0

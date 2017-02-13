@@ -14,6 +14,7 @@ import Hello from './components/Hello'
 import Home from './components/Home'
 import Teach from './components/Teach'
 import Teacher from './components/Teacher'
+import Learn from './components/Learn'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -29,7 +30,8 @@ const routes = [
     component: Home,
     children: [
       { path: 'teach', component: Teach },
-      { path: 'teacher', component: Teacher }
+      { path: 'teacher', component: Teacher },
+      { path: 'learn', component: Learn }
     ],
     redirect: 'teach'
   },

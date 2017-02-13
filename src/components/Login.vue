@@ -34,7 +34,8 @@
             <button class="btn" type="button"><span>注册</span></button>
           </el-form-item>
           <el-form-item>
-            <div class="notice">随便逛逛?</div>
+            <div class="notice" @click="toHome">随便逛逛?</div>
+            <div>{{ this.$route.params.section }}</div>
           </el-form-item>
         </el-form>
       </el-card>
@@ -55,9 +56,18 @@ export default {
       }
     }
   },
+  // props: {
+  //   section: {
+  //     type: String,
+  //     default: ''
+  //   }
+  // },
   methods: {
     onSubmit () {
       console.log('submit')
+    },
+    toHome: function () {
+      this.$router.push('/')
     }
   }
 }
