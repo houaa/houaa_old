@@ -41,6 +41,8 @@ export default {
     showDetail: function (event) {
       if (!this.loggedIn) {
         this.showLoginModal()
+      } else {
+        this.$router.push('teacher')
       }
     }
   }

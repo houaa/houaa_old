@@ -6,7 +6,7 @@
     </div>
     <el-row style="margin-bottom: 10px;">
       <el-col :span="17">
-        <span class="title">谁在教</span><span class="title">|</span><span class="title small">谁在学</span>
+        <span class="title" v-on:click="toHome">谁在教</span><span class="title">|</span><span class="title small">谁在学</span>
       </el-col>
       <el-col :span="7" class="icons">
         <i class="el-icon-date one-icon"></i>
@@ -141,7 +141,9 @@
       </div>
     </div>
 
-    <router-view></router-view>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -210,6 +212,9 @@ export default {
       } else {
         item.value = '#558b2f'
       }
+    },
+    toHome: function () {
+      this.$router.push('/')
     }
   }
 }
@@ -312,6 +317,7 @@ export default {
   font-weight: bold;
   letter-spacing: 0.5px;
   border: 1px #000000;
+  cursor: pointer;
 }
 
 .title.small{

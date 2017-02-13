@@ -30,7 +30,9 @@ const routes = [
     children: [
       { path: 'teach', component: Teach },
       { path: 'teacher', component: Teacher }
-    ] },
+    ],
+    redirect: 'teach'
+  },
   {
     path: '/hello/:id',
     component: Hello,
@@ -40,6 +42,7 @@ const routes = [
     ]
   },
   { path: '/bar', component: Bar }
+  // { path: '/', redirect: '/home' }
 ]
 
 const router = new VueRouter({
