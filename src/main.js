@@ -15,6 +15,7 @@ import Home from './components/Home'
 import Teach from './components/Teach'
 import Teacher from './components/Teacher'
 import Learn from './components/Learn'
+import Signup from './components/Signup'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -26,7 +27,7 @@ const Bar = { template: '<div>bar</div>' }
 const routes = [
   { path: '/app', component: App },
   { path: '/login', component: Login },
-  { path: '/signup', component: Login },
+  { path: '/signup', component: Signup },
   { path: '/',
     component: Home,
     children: [
