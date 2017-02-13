@@ -13,6 +13,7 @@ import Login from './components/Login'
 import Hello from './components/Hello'
 import Home from './components/Home'
 import Teach from './components/Teach'
+import Teacher from './components/Teacher'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -27,7 +28,8 @@ const routes = [
   { path: '/',
     component: Home,
     children: [
-      { path: 'teach', component: Teach }
+      { path: 'teach', component: Teach },
+      { path: 'teacher', component: Teacher }
     ] },
   {
     path: '/hello/:id',

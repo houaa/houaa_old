@@ -4,7 +4,7 @@
       <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="userLogin" >登录！</span></span>
       <span v-else>欢迎来到猴啊家教，{{user_name}}！ <span class="login" @click="userLogout">注销</span></span>      
     </div>
-    <el-row>
+    <el-row style="margin-bottom: 10px;">
       <el-col :span="17">
         <span class="title">谁在教</span><span class="title">|</span><span class="title small">谁在学</span>
       </el-col>
