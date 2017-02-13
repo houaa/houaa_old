@@ -12,7 +12,7 @@ import VueRouter from 'vue-router'
 import Login from './components/Login'
 import Hello from './components/Hello'
 import Home from './components/Home'
-import HomeCards from './components/HomeCards'
+import Teach from './components/Teach'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -27,7 +27,7 @@ const routes = [
   { path: '/',
     component: Home,
     children: [
-      { path: 'tech', component: HomeCards }
+      { path: 'teach', component: Teach }
     ] },
   {
     path: '/hello/:id',
