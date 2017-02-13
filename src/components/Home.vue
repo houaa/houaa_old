@@ -2,6 +2,7 @@
   <div class="main-contianer">
     <div class="welcome-msg">
       <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
+        <span class="login" @click="toSignupPage">注册</span>
         <span class="login" @click="userLogin">临时登录</span>
       </span>
       <span v-else>欢迎来到猴啊家教，{{user_name}}！ <span class="login" @click="userLogout">注销</span></span>      
@@ -26,8 +27,8 @@
           <div class="float-text">
           如需查看详细信息或进行筛选搜索，请您
           </div>
-          <button class="btn  gray" type="button"><span>登录</span></button>
-          <button class="btn" type="button"><span>注册</span></button>
+          <button @click="toLoginPage" class="btn  gray" type="button"><span>登录</span></button>
+          <button @click="toSignupPage" class="btn" type="button"><span>注册</span></button>
         </div>
       </div>
     </transition>
@@ -234,6 +235,9 @@ export default {
     },
     toLearn: function () {
       this.$router.push('/learn')
+    },
+    toSignupPage: function () {
+      this.$router.push('/signup')
     }
   }
 }
