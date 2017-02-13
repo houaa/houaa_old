@@ -52,7 +52,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-card{
-  margin-top: 20px;
+  /*margin-top: 20px;*/
+  margin-bottom: 20px;
 }
 .time{
   font-size: 13px;

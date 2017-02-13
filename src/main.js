@@ -26,6 +26,7 @@ const Bar = { template: '<div>bar</div>' }
 const routes = [
   { path: '/app', component: App },
   { path: '/login', component: Login },
+  { path: '/signup', component: Login },
   { path: '/',
     component: Home,
     children: [
