@@ -243,6 +243,9 @@ export default {
 }
 </script>
 
+<style>
+
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .fade-enter-active, .fade-leave-active {
@@ -251,7 +254,6 @@ export default {
 .fade-enter, .fade-leave-to {
   opacity: 0
 }
-
 
 .el-tag{
   cursor: pointer;
