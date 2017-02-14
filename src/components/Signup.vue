@@ -1,11 +1,10 @@
 <template>
   <div class="login">
     <el-row>
-      <el-col :span="12" :offset="6">
         <div class="title">
+          <img src="../assets/houaa.png" style="width: 12%">
           猴啊家教
         </div>
-      </el-col>
     </el-row>
     
     <el-row>

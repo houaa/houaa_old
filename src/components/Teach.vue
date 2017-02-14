@@ -78,7 +78,7 @@ export default {
   background-color: rgba(0,0,0,0.75);
   color: white;
   width: 100%;
-  padding: 7px 0 7px 0;
+  padding: 3px 0 3px 0;
   /*padding: 10px 20px;*/
   text-align: center;
   /*width: 100%;*/

@@ -1,16 +1,15 @@
 <template>
   <div class="login">
 	  <el-row>
-      <el-col :span="12" :offset="6">
         <div class="title">
+          <img src="../assets/houaa.png" style="width: 12%">
           猴啊家教
         </div>
-      </el-col>
     </el-row>
     
     <el-row>
       <el-col :offset="2" :span="20">
-    	<el-card class="box-card">
+    	<el-card>
         <el-form  ref="form" :model="form">
           <el-form-item>
             <div class="group">      
@@ -95,7 +94,7 @@ a {
   }
 
 .el-row{
-  margin-top: 60px;
+  margin-top: 14%;
 }
 
 .title {
