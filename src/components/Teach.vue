@@ -5,7 +5,9 @@
         <el-card :body-style="{padding: '0px'}">
           <div class="img-figure">
             <img src="../assets/logo.png" class="image">
-            <figcaption class="img-caption">{{user.rank}}/5</figcaption>
+            <figcaption class="img-caption">
+              <el-rate v-model="user.rank" disabled></el-rate>
+            </figcaption>
           </div>
           <div style="padding: 14px;">
             <span>{{user.name}}</span>
