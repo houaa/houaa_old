@@ -10,9 +10,10 @@
             </figcaption>
           </div>
           <div style="padding: 14px;">
-            <span>{{user.name}}</span>
-            <div class="bottom">
-              <time class="time">{{ currentDate }}</time>
+            <span style="font-size: 18px">{{user.name}}</span>
+            <div style="font-size: 14px; color: #555">
+              <div>{{ user.basicInfo}}</div>
+              <div>{{user.subject}}</div>
               <el-button v-on:click="showDetail" type="text" class="button">了解详情</el-button>
             </div>
           </div>
@@ -34,11 +35,14 @@ export default {
     allUsers: function () {
       let names = ['wang', 'boxin', 'hao', 'xiangpeng', 'xu', 'guorui', 'qiu', 'shichao']
       let allUsers = []
+      let subjects = ['数学', '物理', '英语', '化学', '生物']
       for (let i = 0; i < 10; i++) {
         allUsers.push({
           name: names[Math.floor(Math.random() * 8)],
           rank: Math.round(Math.random() * 5),
-          avatar: '../assets/logo.png'
+          avatar: '../assets/logo.png',
+          basicInfo: '浙江大学XX学院',
+          subject: subjects[Math.floor(Math.random() * 5)]
         })
       }
       return allUsers
@@ -46,8 +50,7 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      currentDate: new Date()
+      msg: 'Welcome to Your Vue.js App'
     }
   },
   methods: {
