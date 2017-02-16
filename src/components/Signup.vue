@@ -81,45 +81,77 @@ export default {
       if (this.form.name.length > 0 && this.form.name.length < 6 || this.form.name.length > 20) {
         result.push({
           msg: '用户名不够长噢~',
-          error: true
+          error: true,
+          blank: false
+        })
+      } else if (this.form.name.length === 0) {
+        result.push({
+          msg: '用户名',
+          error: false,
+          blank: true
         })
       } else {
         result.push({
           msg: '用户名',
-          error: false
+          error: false,
+          blank: false
         })
       }
       if (this.form.phone.length > 0 && (!this.form.phone.match(/\d/g) || this.form.phone.match(/\d/g).length !== 11)) {
         result.push({
           msg: '手机号不对噢',
-          error: true
+          error: true,
+          blank: false
+        })
+      } else if (this.form.phone.length === 0) {
+        result.push({
+          msg: '手机号',
+          error: false,
+          blank: true
         })
       } else {
         result.push({
           msg: '手机号',
-          error: false
+          error: false,
+          blank: false
         })
       }
       if (this.form.password.length > 0 && this.form.password.length < 7 || this.form.password.length > 30) {
         result.push({
           msg: '密码长度不够',
-          error: true
+          error: true,
+          blank: false
+        })
+      } else if (this.form.password.length === 0) {
+        result.push({
+          msg: '密码',
+          error: false,
+          blank: true
         })
       } else {
         result.push({
           msg: '密码',
-          error: false
+          error: false,
+          blank: false
         })
       }
       if (this.form.repassword.length > 0 && this.form.repassword !== this.form.password) {
         result.push({
           msg: '密码不匹配',
-          error: true
+          error: true,
+          blank: false
+        })
+      } else if (this.form.repassword.length === 0) {
+        result.push({
+          msg: '密码',
+          error: false,
+          blank: true
         })
       } else {
         result.push({
           msg: '密码',
-          error: false
+          error: false,
+          blank: false
         })
       }
       return result
@@ -192,6 +224,9 @@ export default {
       for (let i = 0; i < this.prompt.length; i++) {
         if (self.prompt[i].error) {
           self.validate = false
+        } else if (self.prompt[i].blank) {
+          self.validate = false
+          self.prompt[i].error = true
         }
       }
     }
