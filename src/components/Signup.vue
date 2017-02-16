@@ -13,20 +13,26 @@
         <el-form  ref="form" :model="form">
           <el-form-item>
             <div class="group">      
+                <input v-model="form.name" type="text" required>
+                <label v-bind:class="{ inputerror : prompt[0].error}"  class="input-label">{{prompt[0].msg}}</label>
+            </div>
+          </el-form-item>
+          <el-form-item>
+            <div class="group">      
                 <input v-model="form.phone" type="text" required>
-                <label  class="input-label">请设置您的手机号</label>
+                <label v-bind:class="{ inputerror : prompt[1].error}"  class="input-label">{{prompt[1].msg}}</label>
             </div>
           </el-form-item>
           <el-form-item>
             <div class="group">      
                 <input  type="password" v-model="form.password" required>
-                <label  class="input-label">请设置您的密码</label>
+                <label v-bind:class="{ inputerror : prompt[2].error}" class="input-label">{{prompt[2].msg}}</label>
             </div>
           </el-form-item>
           <el-form-item>
             <div class="group">      
                 <input  type="password" v-model="form.repassword" required>
-                <label  class="input-label">重复输入密码</label>
+                <label v-bind:class="{ inputerror : prompt[3].error}" class="input-label">{{prompt[3].msg}}</label>
             </div>
           </el-form-item>
           
@@ -52,7 +58,7 @@
             </div>
           </el-form-item>
           <el-form-item>
-            <button @click="postData" class="btn" type="button"><span>注册</span></button>
+            <button :disabled="!form.agree" @click="postData" class="btn" type="button"><span>注册</span></button>
           </el-form-item>
           <el-form-item>
             <div class="notice" @click="toHome">随便逛逛?</div>
@@ -69,6 +75,56 @@
 import axios from 'axios'
 export default {
   name: 'hello',
+  computed: {
+    prompt: function () {
+      let result = []
+      if (this.form.name.length > 0 && this.form.name.length < 6 || this.form.name.length > 20) {
+        result.push({
+          msg: '用户名不够长噢~',
+          error: true
+        })
+      } else {
+        result.push({
+          msg: '用户名',
+          error: false
+        })
+      }
+      if (this.form.phone.length > 0 && (!this.form.phone.match(/\d/g) || this.form.phone.match(/\d/g).length !== 11)) {
+        result.push({
+          msg: '手机号不对噢',
+          error: true
+        })
+      } else {
+        result.push({
+          msg: '手机号',
+          error: false
+        })
+      }
+      if (this.form.password.length > 0 && this.form.password.length < 7 || this.form.password.length > 30) {
+        result.push({
+          msg: '密码长度不够',
+          error: true
+        })
+      } else {
+        result.push({
+          msg: '密码',
+          error: false
+        })
+      }
+      if (this.form.repassword.length > 0 && this.form.repassword !== this.form.password) {
+        result.push({
+          msg: '密码不匹配',
+          error: true
+        })
+      } else {
+        result.push({
+          msg: '密码',
+          error: false
+        })
+      }
+      return result
+    }
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -80,15 +136,10 @@ export default {
         captcha: '',
         phone: ''
       },
-      serverCaptcha: ''
+      serverCaptcha: '',
+      validate: true
     }
   },
-  // props: {
-  //   section: {
-  //     type: String,
-  //     default: ''
-  //   }
-  // },
   created: function () {
     let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
     let self = this
@@ -114,6 +165,12 @@ export default {
       )
     },
     postData: function () {
+      this.validate = true
+      this.validateData()
+      if (!this.validate) {
+        console.log('error')
+        return
+      }
       let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
       let self = this
       axios.post(url, {
@@ -129,6 +186,14 @@ export default {
           console.log(response)
         }
       )
+    },
+    validateData: function () {
+      let self = this
+      for (let i = 0; i < this.prompt.length; i++) {
+        if (self.prompt[i].error) {
+          self.validate = false
+        }
+      }
     }
   }
 }
@@ -143,7 +208,10 @@ h1, h2 {
   font-weight: normal;
 }
 a {
-  color: #42b983;
+   color: #42b983;
+}
+.inputerror{
+  color:#e74c3c !important;
 }
 .el-form-item{
   margin-bottom: 10px;
@@ -180,12 +248,12 @@ a {
 
 .group{
   position: relative;
-  margin-top: 5px;
+  margin-top: 0px;
 }
 input[type=text],
 input[type=password]{
   font-size:16px;
-  padding:10px 10px 10px 5px;
+  padding:10px 10px 2px 5px;
   display: block;
   width: 90%;
   border: none;
@@ -209,8 +277,8 @@ input[type=password]:focus{
 }
 input:focus~label,
 input:valid~label{
-  top:-24px;
-  font-size: 14px;
+  top:-14px;
+  font-size: 10px;
   color: #558b2f;
 }
 
@@ -245,6 +313,9 @@ input:valid~label{
 }
 .btn .gray:hover,.btn.gray:hover{
   background-color:  #606060
+}
+.btn:disabled{
+  background-color: #747474;
 }
 
 .notice{
