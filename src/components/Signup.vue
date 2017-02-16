@@ -173,7 +173,7 @@ export default {
     }
   },
   created: function () {
-    let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
+    let url = 'https://api.houaa.xyz/api/index.php/api/captcha'
     let self = this
     axios.get(url).then(
       response => {
@@ -189,7 +189,7 @@ export default {
       this.$router.push('/')
     },
     getCaptcha: function () {
-      let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
+      let url = 'https://api.houaa.xyz/api/index.php/api/captcha'
       axios.get(url).then(
         response => {
           console.log(response)
@@ -203,7 +203,7 @@ export default {
         console.log('error')
         return
       }
-      let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
+      let url = 'https://api.houaa.xyz/api/index.php/api/captcha'
       let self = this
       axios.post(url, {
         id: 'hlh',
