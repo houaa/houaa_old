@@ -13,12 +13,6 @@
         <el-form  ref="form" :model="form">
           <el-form-item>
             <div class="group">      
-                <input v-model="form.name" type="text" required>
-                <label class="input-label">请设置您的用户名/邮箱</label>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <div class="group">      
                 <input v-model="form.phone" type="text" required>
                 <label  class="input-label">请设置您的手机号</label>
             </div>
@@ -31,10 +25,18 @@
           </el-form-item>
           <el-form-item>
             <div class="group">      
+                <input  type="password" v-model="form.repassword" required>
+                <label  class="input-label">重复输入密码</label>
+            </div>
+          </el-form-item>
+          
+          <el-form-item>
+            <div class="group">      
                 <input  type="password" v-model="form.password" required>
                 <label  class="input-label">重复输入密码</label>
             </div>
           </el-form-item>
+
           <el-form-item>
             <div style="margin: auto auto auto 3%">
               <el-checkbox v-model="form.agree">
@@ -57,6 +59,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'hello',
   data () {
@@ -65,8 +68,10 @@ export default {
       form: {
         name: '',
         password: '',
+        repassword: '',
         agree: false
-      }
+      },
+      serverCaptcha: ''
     }
   },
   // props: {
@@ -75,12 +80,29 @@ export default {
   //     default: ''
   //   }
   // },
+  created: function () {
+    let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
+    let self = this
+    axios.get(url).then(
+      response => {
+        self.serverCaptcha = response.data
+      }
+    )
+  },
   methods: {
     onSubmit () {
       console.log('submit')
     },
     toHome: function () {
       this.$router.push('/')
+    },
+    getCaptcha: function () {
+      let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
+      axios.get(url).then(
+        response => {
+          console.log(response)
+        }
+      )
     }
   }
 }
