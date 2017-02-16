@@ -31,9 +31,16 @@
           </el-form-item>
           
           <el-form-item>
-            <div class="group">      
-                <input  type="password" v-model="form.password" required>
-                <label  class="input-label">重复输入密码</label>
+            <div class="group">  
+              <el-row :gutter="0" style="margin: 0 8px 0 8px;"> 
+                <el-col :span="16">   
+                <input  type="password" v-model="form.captcha" required>
+                <label  class="input-label">请输入验证码</label>
+                </el-col>
+                <el-col :span="8">
+                <img style="width: 100%; overflow: hidden;" v-if="serverCaptcha.img_url" :src="serverCaptcha.img_url" />
+                </el-col>
+              </el-row>
             </div>
           </el-form-item>
 
@@ -45,7 +52,7 @@
             </div>
           </el-form-item>
           <el-form-item>
-            <button class="btn" type="button"><span>注册</span></button>
+            <button @click="postData" class="btn" type="button"><span>注册</span></button>
           </el-form-item>
           <el-form-item>
             <div class="notice" @click="toHome">随便逛逛?</div>
@@ -69,7 +76,9 @@ export default {
         name: '',
         password: '',
         repassword: '',
-        agree: false
+        agree: false,
+        captcha: '',
+        phone: ''
       },
       serverCaptcha: ''
     }
@@ -99,6 +108,23 @@ export default {
     getCaptcha: function () {
       let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
       axios.get(url).then(
+        response => {
+          console.log(response)
+        }
+      )
+    },
+    postData: function () {
+      let url = 'http://101.200.46.157:7000/api/index.php/api/captcha'
+      let self = this
+      axios.post(url, {
+        id: 'hlh',
+        mail: 'haolihai@hlh.com',
+        phone: self.form.phone,
+        catpcha: self.form.captcha,
+        token: self.serverCaptcha.token,
+        password: self.form.password,
+        repassword: self.form.password
+      }).then(
         response => {
           console.log(response)
         }
