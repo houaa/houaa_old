@@ -48,7 +48,7 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 14%;
+  height: 12%;
   background-color: rgb(242,242,242);
   border-top: 1px solid rgb(153,153,153);
 }

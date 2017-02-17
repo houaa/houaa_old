@@ -33,7 +33,10 @@ const routes = [
     children: [
       { path: 'teach', component: Teach },
       { path: 'teacher', component: Teacher },
-      { path: 'learn', component: Learn }
+      {
+        path: 'learn',
+        component: Learn
+      }
     ],
     redirect: 'teach'
   },
