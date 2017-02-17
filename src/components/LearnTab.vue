@@ -1,7 +1,7 @@
 <template>
-  <el-col class="tab-col" :span="8">
-    <div style="height: 60%">	<img class="tab-icon" :src="imgUrl"></div>
-    <div style="text-align: center">{{tabContent}}</div>
+  <el-col class="tab-col" v-bind:class="{ tabselected: info.selected }" :span="8">
+    <div @click="logaaa"  style="height: 60%">	<img class="tab-icon" :src="info.imgUrl"></div>
+    <div @click="logaaa"  style="text-align: center">{{info.tabContent}}</div>
   </el-col>
 </template>
 
@@ -9,13 +9,18 @@
 export default {
   name: 'hello',
   props: [
-    'tabContent',
-    'imgUrl'
+    'info'
   ],
   data () {
     return {
       // tabContent: '项目管理',
       // imgUrl: '../assets/project.svg'
+    }
+  },
+  methods: {
+    logaaa: function () {
+      this.info.selected = true
+      this.$emit('changetab')
     }
   }
 }
@@ -23,6 +28,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.tabselected{
+  background-color: rgb(85,139,47);
+  color: #fefefe !important;
+}
 .tab-icon{
   height: 100%;
   display: block;
@@ -39,7 +48,7 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 15%;
+  height: 14%;
   background-color: rgb(242,242,242);
   border-top: 1px solid rgb(153,153,153);
 }
