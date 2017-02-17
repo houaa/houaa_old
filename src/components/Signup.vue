@@ -40,7 +40,7 @@
             <div class="group">  
               <el-row :gutter="0" style="margin: 0 8px 0 8px;"> 
                 <el-col :span="16">   
-                <input  type="password" v-model="form.captcha" required>
+                <input  type="text" v-model="form.captcha" required>
                 <label  class="input-label">请输入验证码</label>
                 </el-col>
                 <el-col :span="8">
@@ -173,7 +173,7 @@ export default {
     }
   },
   created: function () {
-    let url = 'https://api.houaa.xyz/api/index.php/api/captcha'
+    let url = 'https://api.houaa.xyz/index.php/api/captcha'
     let self = this
     axios.get(url).then(
       response => {
@@ -189,7 +189,7 @@ export default {
       this.$router.push('/')
     },
     getCaptcha: function () {
-      let url = 'https://api.houaa.xyz/api/index.php/api/captcha'
+      let url = 'https://api.houaa.xyz/index.php/api/captcha'
       axios.get(url).then(
         response => {
           console.log(response)
@@ -203,16 +203,22 @@ export default {
         console.log('error')
         return
       }
-      let url = 'https://api.houaa.xyz/api/index.php/api/captcha'
       let self = this
-      axios.post(url, {
-        id: 'hlh',
-        mail: 'haolihai@hlh.com',
+      let url = 'https://api.houaa.xyz/index.php/api/users'
+      let data = {
+        id: self.form.name,
         phone: self.form.phone,
-        catpcha: self.form.captcha,
+        captcha: self.form.captcha,
         token: self.serverCaptcha.token,
-        password: self.form.password,
-        repassword: self.form.password
+        password: self.form.password
+      }
+      console.log(data)
+      axios.post(url, {
+        id: self.form.name,
+        phone: self.form.phone,
+        captcha: self.form.captcha,
+        token: self.serverCaptcha.token,
+        password: self.form.password
       }).then(
         response => {
           console.log(response)
