@@ -44,7 +44,7 @@
                 <label  class="input-label">请输入验证码</label>
                 </el-col>
                 <el-col :span="8">
-                <img style="width: 100%; overflow: hidden;" v-if="serverCaptcha.img_url" :src="serverCaptcha.img_url" />
+                <img @click="getCaptcha" style="width: 100%; overflow: hidden; cursor: pointer" v-if="serverCaptcha.img_url" :src="serverCaptcha.img_url" />
                 </el-col>
               </el-row>
             </div>
@@ -58,7 +58,7 @@
             </div>
           </el-form-item>
           <el-form-item>
-            <button :disabled="!form.agree" @click="postData" class="btn" type="button"><span>注册</span></button>
+            <button :disabled="!form.agree" @click="postData" class="btn" type="button"><span>{{regButton}}</span></button>
           </el-form-item>
           <el-form-item>
             <div class="notice" @click="toHome">随便逛逛?</div>
@@ -73,6 +73,7 @@
 
 <script>
 import axios from 'axios'
+import {mapMutations} from 'vuex'
 export default {
   name: 'hello',
   computed: {
@@ -81,6 +82,12 @@ export default {
       if (this.form.name.length > 0 && this.form.name.length < 6 || this.form.name.length > 20) {
         result.push({
           msg: '用户名不够长噢~',
+          error: true,
+          blank: false
+        })
+      } else if (this.form.name.length > 0 && !isNaN(parseInt(this.form.name.charAt(0)))) {
+        result.push({
+          msg: '用户名不能以数字开头~',
           error: true,
           blank: false
         })
@@ -169,19 +176,19 @@ export default {
         phone: ''
       },
       serverCaptcha: '',
-      validate: true
+      validate: true,
+      responseData: '',
+      regButton: '注册'
     }
   },
   created: function () {
-    let url = 'https://api.houaa.xyz/index.php/api/captcha'
-    let self = this
-    axios.get(url).then(
-      response => {
-        self.serverCaptcha = response.data
-      }
-    )
+    this.getCaptcha()
   },
   methods: {
+    ...mapMutations([
+      'userLogin',
+      'setUserInfo'
+    ]),
     onSubmit () {
       console.log('submit')
     },
@@ -189,10 +196,11 @@ export default {
       this.$router.push('/')
     },
     getCaptcha: function () {
+      let self = this
       let url = 'https://api.houaa.xyz/index.php/api/captcha'
       axios.get(url).then(
         response => {
-          console.log(response)
+          self.serverCaptcha = response.data
         }
       )
     },
@@ -205,14 +213,6 @@ export default {
       }
       let self = this
       let url = 'https://api.houaa.xyz/index.php/api/users'
-      let data = {
-        id: self.form.name,
-        phone: self.form.phone,
-        captcha: self.form.captcha,
-        token: self.serverCaptcha.token,
-        password: self.form.password
-      }
-      console.log(data)
       axios.post(url, {
         id: self.form.name,
         phone: self.form.phone,
@@ -222,6 +222,19 @@ export default {
       }).then(
         response => {
           console.log(response)
+          self.responseData = response.data
+          if (self.responseData.msg === 'OK') {
+            self.regButton = '注册成功...'
+            self.userLogin()
+            self.setUserInfo({
+              name: self.form.name,
+              phone: self.form.phone,
+              token: self.form.token
+            })
+            self.toHome()
+          } else {
+            self.regButton = self.responseData.msg
+          }
         }
       )
     },

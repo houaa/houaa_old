@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 const state = {
   login: false,
-  showLoginModal: false
+  showLoginModal: false,
+  userInfo: ''
 }
 
 const mutations = {
@@ -20,6 +21,9 @@ const mutations = {
   },
   hideLoginModal (state) {
     state.showLoginModal = false
+  },
+  setUserInfo (state, info) {
+    state.userInfo = info
   }
 }
 
@@ -30,7 +34,8 @@ const mutations = {
 
 const getters = {
   loggedIn: state => state.login,
-  loginModal: state => state.showLoginModal
+  loginModal: state => state.showLoginModal,
+  userInfo: state => state.userInfo
 }
 
 export default new Vuex.Store({

@@ -5,7 +5,7 @@
         <span class="login" @click="toSignupPage">注册</span>
         <span class="login" @click="userLogin">临时登录</span>
       </span>
-      <span v-else>欢迎来到猴啊家教，{{user_name}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>      
+      <span v-else>欢迎来到猴啊家教，{{userInfo.name}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>      
     </div>
     <el-row style="margin-bottom: 10px;">
       <el-col :span="17">
@@ -159,7 +159,8 @@ export default {
   computed: {
     ...mapGetters([
       'loggedIn',
-      'loginModal'
+      'loginModal',
+      'userInfo'
     ]),
     teachOrFalse: function () {
       if (this.$route.path.startsWith('/teach')) {
