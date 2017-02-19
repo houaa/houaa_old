@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'hello',
   data () {
@@ -52,13 +53,21 @@ export default {
       form: {
         phone: '',
         password: ''
-      }
+      },
+      passwordError: '',
+      phoneError: ''
     }
   },
   computed: {
     userInput: function () {
       let result = []
-      if (this.form.phone.length > 0 && (!this.form.phone.match(/\d/g) || this.form.phone.match(/\d/g).length !== 11)) {
+      if (this.phoneError !== '') {
+        result.push({
+          msg: this.phoneError,
+          error: true,
+          blank: false
+        })
+      } else if (this.form.phone.length > 0 && (!this.form.phone.match(/\d/g) || this.form.phone.match(/\d/g).length !== 11)) {
         result.push({
           msg: '手机号不对噢',
           error: true,
@@ -77,7 +86,13 @@ export default {
           blank: false
         })
       }
-      if (this.form.password.length > 0 && this.form.password.length < 7 || this.form.password.length > 30) {
+      if (this.passwordError !== '') {
+        result.push({
+          msg: this.passwordError,
+          error: true,
+          blank: false
+        })
+      } else if (this.form.password.length > 0 && this.form.password.length < 7 || this.form.password.length > 30) {
         result.push({
           msg: '密码长度不够',
           error: true,
@@ -110,6 +125,24 @@ export default {
       this.$router.push('/signup')
     },
     login: function () {
+      let self = this
+      let url = 'https://api.houaa.xyz/index.php/api/auth'
+      axios.post(url, self.form).then(
+        response => {
+          if (response.data.exit_code === '102' || response.data.exit_code === '101') {
+            self.phoneError = response.data.msg
+            self.form.phone = ''
+          } else if (response.data.exit_code === '104' || response.data.exit_code === '203') {
+            self.passwordError = response.data.msg
+            self.form.password = ''
+          }
+          console.log(response)
+        }
+      ).catch(
+        response => {
+          console.log(response)
+        }
+      )
     }
   }
 }
