@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios'
+import {mapMutations} from 'vuex'
 export default {
   name: 'hello',
   data () {
@@ -115,6 +116,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setUserInfo',
+      'userLogin'
+    ]),
     onSubmit () {
       console.log('submit')
     },
@@ -135,6 +140,13 @@ export default {
           } else if (response.data.exit_code === '104' || response.data.exit_code === '203') {
             self.passwordError = response.data.msg
             self.form.password = ''
+          } else if (response.data.exit_code === '0') {
+            self.setUserInfo({
+              username: response.data.id,
+              token: response.data.token
+            })
+            self.userLogin()
+            this.$router.push('/')
           }
           console.log(response)
         }
