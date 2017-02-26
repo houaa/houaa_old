@@ -51,6 +51,11 @@ export default {
     //   return allUsers
     // }
   },
+  filters: {
+    toInt: function (value) {
+      return parseInt(value)
+    }
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -80,7 +85,13 @@ export default {
           console.log(response.data)
           if (response.data.msg === 'OK') {
             this.$message('成功获取数据')
-            self.allUsers = response.data.teachers
+            self.allUsers = response.data.teachers.map(
+              item => {
+                let newItem = item
+                newItem.ratings = parseInt(newItem.ratings)
+                return newItem
+              }
+            )
           }
         }
       )
