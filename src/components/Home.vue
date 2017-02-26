@@ -2,7 +2,7 @@
   <div class="main-contianer">
     <div class="welcome-msg">
       <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-        <span class="login" @click="toSignupPage">注册</span>
+        <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
         <span class="login" @click="userLogin">临时登录</span>
       </span>
       <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>      
