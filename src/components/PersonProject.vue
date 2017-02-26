@@ -51,6 +51,10 @@ export default {
       }).then(
         response => {
           console.log(response)
+          if (response.data.msg === 'OK') {
+            self.$message('发布成功')
+            self.form = {}
+          }
         }
       )
     }
