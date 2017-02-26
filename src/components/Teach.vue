@@ -85,7 +85,7 @@ export default {
           console.log(response.data)
           if (response.data.msg === 'OK') {
             this.$message('成功获取数据')
-            self.allUsers = response.data.teachers.map(
+            self.allUsers = response.data.teachers.reverse().map(
               item => {
                 let newItem = item
                 newItem.ratings = parseInt(newItem.ratings)
