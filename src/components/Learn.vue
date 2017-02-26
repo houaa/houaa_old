@@ -5,9 +5,10 @@
       <info v-if="personInfo.selected"></info>
       <project v-if="projectManage.selected"></project>
     <el-row class="bottom-tab">
+      <learntab v-on:changetab="selectTab(3)" :info="projectManage"></learntab>
       <learntab v-on:changetab="selectTab(1)" :info="personValidate"></learntab>
       <learntab v-on:changetab="selectTab(2)" :info="personInfo" ></learntab>
-      <learntab v-on:changetab="selectTab(3)" :info="projectManage"></learntab>
+
     </el-row>
   </div>
 </template>
