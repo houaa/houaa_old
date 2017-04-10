@@ -1,15 +1,15 @@
 <template>
   <div style="overflow: scroll; height: 100%">
-    <el-row style="border-bottom: 1px solid #aaa;">
+    <el-row style="border-bottom: 1px solid #ddd;">
       <el-col class="section-left" :span="10">
-        <div style="font-size: 1.2rem">展示照片</div>
-        <div style="font-size: 0.8rem; color: #999">(点击图片更换)</div>
+        <div style="font-size: 1rem">展示照片</div>
+        <div style="font-size: 0.8rem; color: #999">点击图片更换</div>
       </el-col>
       <el-col style="padding: 0.8rem;" :span="14">
         <img width="40%" src="../assets/logo.png">
       </el-col>
     </el-row>
-    <el-row v-for="(o,index) in 10" style="border-bottom: 1px solid #aaa;">
+    <el-row v-for="(o,index) in 10" style="border-bottom: 1px solid #ddd;">
       <el-col class="section-content" :span="10">
         姓名
       </el-col>
@@ -44,6 +44,7 @@ export default {
   padding-bottom: 1.6rem;
   padding-left: 2rem;
   text-align: left;
+  line-height:1.8rem;
 }
 .section-content{
   padding-left: 2rem;

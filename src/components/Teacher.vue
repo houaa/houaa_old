@@ -13,7 +13,7 @@
             评分： {{currentUser.rank}}/5.0
           </div>
           <div>
-            <el-button type="success" style="font-size: 20px; width: 80%; border-color: #558b2f;background-color: #558b2f">预约</el-button>
+            <el-button type="success" style="font-size: 20px; width: 80%; border-color: #21B046;background-color: #21B046">预约</el-button>
           </div>
         </el-col>
       </el-row>
@@ -68,11 +68,11 @@ export default {
   margin-top: 15px;
 }
 .content {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: lighter;
 }
 .sub-title{
-  margin-top: 12px;
+  margin-top: 20px;
   margin-bottom: 0px;
   font-weight: bold;
   font-size: 20px;

@@ -7,13 +7,13 @@
       </span>
       <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>      
     </div>
-    <el-row style="margin-bottom: 10px;">
-      <el-col :span="17">
+    <el-row style="margin-bottom: 25px;">
+      <el-col :span="16">
         <span class="title" v-bind:class="{ small:!teachOrFalse }"
-           v-on:click="toHome">我在教</span><span class="title">|</span><span 
+           v-on:click="toHome">我在教</span><span class="title2"> | </span><span 
            class="title" v-on:click="toLearn"  v-bind:class="{ small:teachOrFalse }" >我在学</span>
       </el-col>
-      <el-col :span="7" class="icons">
+      <el-col :span="8" class="icons">
         <i class="el-icon-date one-icon"></i>
         <i class="el-icon-edit one-icon"></i>
         <i v-on:click="search" class="el-icon-search one-icon"></i>				
@@ -225,7 +225,7 @@ export default {
       if (item.value !== '#dddddd') {
         item.value = '#dddddd'
       } else {
-        item.value = '#558b2f'
+        item.value = '#21B046'
       }
     },
     toHome: function () {
@@ -263,15 +263,16 @@ export default {
   margin-bottom: 10px;
 }
 .search-txt{
-  font-size: 18px;
+  font-size: 16px;
 }
 .tag-font{
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 10px;
 }
 .who-teach{
   font-size: 22px;
-  color: #558b2f;
+  color: #21B046;
+  margin-bottom: 15px;
 }
 .search-content{
   position: fixed;
@@ -313,7 +314,8 @@ export default {
   background-color: #fefefe;
 }
 .float-text{
-  font-size: 24px;
+  font-size: 20px;
+  text-align: center;
   color: #444444;
   padding: 2.5%;
   margin-bottom: 10%;
@@ -338,23 +340,34 @@ export default {
 }
 
 .title {
-  color: #f0f0f0;
-  font-size: 40px;
+  /*color: #f0f0f0;*/
+  color: white;
+  font-size: 25px;
   font-weight: bold;
   letter-spacing: 0.5px;
   border: 1px #000000;
   cursor: pointer;
 }
 
+.title2 {
+  /*color: #f0f0f0;*/
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  border: 1px #000000;
+  cursor: pointer;
+}
+
 .title.small{
-  font-size: 25px;
+  font-size: 16px;
   font-weight: normal;
-  color: #e0e0e0;
+  color: #B4EDDB;
 }
 .icons{
-  font-size: 25px;
+  font-size: 16px;
   font-weight: normal;
-  color: #e0e0e0;
+  /*color: #e0e0e0;*/
+  color: white;
   position: absolute;
   float: left;
   bottom: 5px;

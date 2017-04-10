@@ -9,7 +9,7 @@
     
     <el-row>
       <el-col :span="24">
-      <el-card class="box-card" style="background-color: #fefefe">
+      <div class="box-card" style="background-color: #fefefe">
         <el-form  ref="form" :model="form">
           <el-form-item>
             <div class="group">      
@@ -38,7 +38,7 @@
           
           <el-form-item>
             <div class="group">  
-              <el-row :gutter="0" style="margin: 0 8px 0 8px;"> 
+              <el-row :gutter="0" style="margin: 0 0 0 0;"> 
                 <el-col :span="16">   
                 <input  type="text" v-model="form.captcha" required>
                 <label  class="input-label">请输入验证码</label>
@@ -65,7 +65,7 @@
             <div>{{ this.$route.params.section }}</div>
           </el-form-item>
         </el-form>
-      </el-card>
+      </div>
       </el-col>
     </el-row>
   </div>
@@ -272,7 +272,8 @@ a {
 }
 
 .box-card{
-  width: 100%;
+  padding: 30px 5px 10px 15px;
+  /*width: 100%;*/
 }
 
 .text {
@@ -290,13 +291,13 @@ a {
 .title {
   font-size: 30pt;
   color: #fff;
-  text-shadow: 0px 0px 6px #000;
+  /*text-shadow: 0px 0px 6px #000;*/
   font-weight: bold;
   margin: 5% auto 0 auto;
   text-align: center;
 }
 .login{
-  background-color: #558b2f;
+  background-color: #21B046;
   height: 100%;
 }
 
@@ -306,13 +307,13 @@ a {
 }
 input[type=text],
 input[type=password]{
-  font-size:16px;
+  font-size:14px;
   padding:10px 10px 2px 5px;
   display: block;
   width: 90%;
   border: none;
-  margin: auto;
-  border-bottom: 2px solid #757575;
+  margin-bottom:5px;
+  border-bottom: 1px solid #ddd;
 }
 input[type=text]:focus,
 input[type=password]:focus{
@@ -320,7 +321,7 @@ input[type=password]:focus{
 }
 
 .input-label{
-  color:#999;
+  color:#ddd;
   font-size: 14px;
   font-weight: normal;
   position: absolute;
@@ -333,7 +334,7 @@ input:focus~label,
 input:valid~label{
   top:-14px;
   font-size: 10px;
-  color: #558b2f;
+  color: #21B046;
 }
 
 
@@ -374,7 +375,7 @@ input:valid~label{
 
 .notice{
   margin: 0 auto;
-  margin-top: -10px;
+  margin-top: 5px;
   color: #747474;
   text-align: center;
 }

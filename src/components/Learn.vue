@@ -72,12 +72,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .bottom-tab{
+  font-size: 14px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 14%;
-  background-color: rgb(242,242,242);
-  border-top: 1px solid rgb(153,153,153);
+  height: 8%;
+  /*background-color: rgb(242,242,242);*/
+  background-color: #eee;
+  /*border-top: 1px solid rgb(153,153,153);*/
 }
 .background{
   width: 100%;

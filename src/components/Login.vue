@@ -8,8 +8,8 @@
     </el-row>
     
     <el-row>
-      <el-col :offset="2" :span="20">
-    	<el-card>
+      <el-col>
+    	<div class="box-card">
         <el-form  ref="form" :model="form">
           <el-form-item>
             <div class="group">      
@@ -37,7 +37,7 @@
             <div>{{ this.$route.params.section }}</div>
           </el-form-item>
         </el-form>
-      </el-card>
+      </div>
       </el-col>
     </el-row>
   </div>
@@ -191,13 +191,13 @@ a {
 .title {
   font-size: 30pt;
   color: #fff;
-  text-shadow: 0px 0px 6px #000;
+  /*text-shadow: 0px 0px 6px #000;*/
   font-weight: bold;
   margin: 5% auto 0 auto;
   text-align: center;
 }
 .login{
-  background-color: #558b2f;
+  background-color: #21B046;
   height: 100%;
 }
 
@@ -212,15 +212,15 @@ input{
   width: 90%;
   border: none;
   margin: auto;
-  border-bottom: 2px solid #757575;
+  border-bottom: 1px solid #ddd;
 }
 input:focus{
   outline: none;
 }
 
 label{
-  color:#999;
-  font-size: 16px;
+  color:#ddd;
+  font-size: 14px;
   font-weight: normal;
   position: absolute;
   pointer-events: none;
@@ -232,7 +232,7 @@ input:focus~label,
 input:valid~label{
   top:-24px;
   font-size: 14px;
-  color: #558b2f;
+  color: #21B046;
 }
 
 
@@ -281,5 +281,11 @@ input:valid~label{
   color: #747474;
   text-align: center;
   /*height: 15px;*/
+}
+
+.box-card{
+  padding: 30px 5px 10px 15px;
+  background-color: white;
+  /*width: 100%;*/
 }
 </style>

@@ -1,12 +1,16 @@
 <template>
   <div class="teach-container" >
-    <el-row  :gutter="10">
+    <el-row  :gutter="12">
       <el-col class="main-card" :xs="12" :sm="8" :lg="6" v-for="(user,index) in allUsers">
         <el-card :body-style="{padding: '0px'}">
           <div class="img-figure">
             <img src="../assets/logo.png" class="image">
             <figcaption class="img-caption">
-              <el-rate v-model="user.ratings" disabled></el-rate>
+              <el-rate 
+              v-model="user.ratings" 
+              disabled
+              :colors="['#21B046', '#21B046', '#21B046']"
+              ></el-rate>
             </figcaption>
           </div>
           <div style="padding: 14px;">
@@ -130,7 +134,7 @@ export default {
 }
 .main-card{
   /*margin-top: 20px;*/
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 .time{
   font-size: 13px;

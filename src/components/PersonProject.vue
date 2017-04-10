@@ -10,8 +10,8 @@
       <el-form-item label="描述">
         <el-input type="textarea" v-model="form.description"></el-input>          
       </el-form-item>
-      <el-form-item style="margin-top: 0.5rem;">
-        <el-button type="primary" @click="onSubmit">发布活动</el-button>
+      <el-form-item style="margin-top: 1rem;">
+        <el-button @click="onSubmit">发布活动</el-button>
       </el-form-item>
     </el-form>
   </div>

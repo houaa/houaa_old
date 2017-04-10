@@ -1,6 +1,6 @@
 <template>
   <el-col class="tab-col" v-bind:class="{ tabselected: info.selected }" :span="8">
-    <div @click="logaaa"  style="height: 60%">	<img class="tab-icon" :src="info.imgUrl"></div>
+    <!--<div @click="logaaa"  style="height: 60%">	<img class="tab-icon" :src="info.imgUrl"></div>-->
     <div @click="logaaa"  style="text-align: center">{{info.tabContent}}</div>
   </el-col>
 </template>
@@ -29,7 +29,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .tabselected{
-  background-color: rgb(85,139,47);
+  background-color: #21B046;
   color: #fefefe !important;
 }
 .tab-icon{
@@ -48,7 +48,7 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 12%;
+  height: 8%;
   background-color: rgb(242,242,242);
   border-top: 1px solid rgb(153,153,153);
 }
