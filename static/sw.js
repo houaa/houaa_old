@@ -1,6 +1,6 @@
 importScripts('serviceworker-cache-polyfill.js');
 
-var CACHE_NAME = 'simple-pwa-v2';
+var CACHE_NAME = 'houaa-pwa-v2';
 
 // File want to cache
 var urlsToCache = [
@@ -10,7 +10,7 @@ var urlsToCache = [
   // './src/assets/img/blank-thumbnail.png',
   '/favicon.png',
   '/favicon.ico',
-  '/app.js',
+  // '/app.js',
   // './build.js',
 ];
 

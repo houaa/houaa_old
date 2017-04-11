@@ -18,6 +18,11 @@
       "sizes": "96x96"
     },
     {
+      "src": "144-01.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
       "src": "192-01.png",
       "type": "image/png",
       "sizes": "192x192"
