@@ -1,0 +1,25 @@
+{
+  "short_name": "猴啊家教",
+  "name": "猴啊家教",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "index.html?launcher=true",
+  "background_color": "#21B046",
+  "display": "standalone",
+  "theme_color": "#21B046"
+}
