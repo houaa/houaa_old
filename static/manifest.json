@@ -6,6 +6,21 @@
       "src": "favicon.png",
       "type": "image/png",
       "sizes": "64x64"
+    },
+    {
+      "src": "48-01.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "96-01.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "192-01.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
   "orientation": "portrait",
