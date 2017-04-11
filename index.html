@@ -18,6 +18,7 @@
       overflow: hidden;
     }
   </style>
+  <meta name="theme-color" content="#21B046">
   <link rel="shortcut icon" type="image/png" href="/static/favicon.png" />
   <link rel="manifest" href="/static/manifest.json">
   <title>猴啊家教</title>
@@ -29,5 +30,18 @@
   </div>
   <!-- built files will be auto injected -->
 </body>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/static/sw.js', { scope: '/' }).then(
+      function (registration) {
+        console.log('[serviceWorker]: registrations sucessful with scope: ', registration.scope)
+      }
+    ).catch(function (err) {
+      console.log('[serviceWorker]: registration failed', err)
+    })
+  }
+
+</script>
 
 </html>
