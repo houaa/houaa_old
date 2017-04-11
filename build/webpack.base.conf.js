@@ -32,6 +32,9 @@ module.exports = {
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
+  headers: {
+    'Service-Worker-Allowed': 'true'
+  },
   module: {
     preLoaders: [
       {

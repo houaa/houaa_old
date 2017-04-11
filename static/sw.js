@@ -6,10 +6,10 @@ var CACHE_NAME = 'simple-pwa-v2';
 var urlsToCache = [
   './',
   '/index.html',
-  '/static/manifest.json',
+  '/manifest.json',
   // './src/assets/img/blank-thumbnail.png',
-  '/static/favicon.png',
-  '/static/favicon.ico',
+  '/favicon.png',
+  '/favicon.ico',
   '/app.js',
   // './build.js',
 ];
@@ -74,7 +74,6 @@ self.onfetch = function (e) {
       })
     );
   }
-
   else {
     e.respondWith(
       caches.match(e.request).then(function (res) {
