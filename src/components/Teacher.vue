@@ -13,7 +13,7 @@
             评分： {{currentTeacher.ratings}}/5.0
           </div>
           <div>
-            <el-button type="success" style="font-size: 20px; width: 80%; border-color: #21B046;background-color: #21B046">预约</el-button>
+            <el-button v-on:click="reserve()" type="success" style="font-size: 20px; width: 80%; border-color: #21B046;background-color: #21B046">预约</el-button>
           </div>
         </el-col>
       </el-row>
@@ -48,13 +48,15 @@ export default {
       'currentTeacher'
     ])
   },
-  reserve () {
-    this.$alert('请等待教师回复', '预约成功', {
-      confirmButtonText: 'OK',
-      callback: () => {
-        console.log(`预约${this.currentTeacher.id}`)
-      }
-    })
+  methods: {
+    reserve () {
+      this.$alert('请等待教师回复', '预约成功', {
+        confirmButtonText: 'OK',
+        callback: () => {
+          console.log(`预约${this.currentTeacher.id}`) // TODO: Add Reserve Request
+        }
+      })
+    }
   }
 }
 </script>
