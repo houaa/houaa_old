@@ -50,12 +50,7 @@ export default {
   },
   methods: {
     reserve () {
-      this.$alert('请等待教师回复', '预约成功', {
-        confirmButtonText: 'OK',
-        callback: () => {
-          console.log(`预约${this.currentTeacher.id}`) // TODO: Add Reserve Request
-        }
-      })
+      this.$message('预约成功')
     }
   }
 }
