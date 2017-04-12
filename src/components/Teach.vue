@@ -18,7 +18,7 @@
             <div style="font-size: 14px; color: #555">
               <div>{{ user.basicInfo}}</div>
               <div>{{user.subject}}</div>
-              <el-button v-on:click="showDetail" type="text" class="button">了解详情</el-button>
+              <el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>
             </div>
           </div>
         </el-card>
@@ -73,12 +73,14 @@ export default {
   methods: {
     ...mapMutations([
       'showLoginModal',
-      'hideLoginModal'
+      'hideLoginModal',
+      'setCurrentTeacher'
     ]),
-    showDetail: function (event) {
+    showDetail: function (index, event) {
       if (!this.loggedIn) {
         this.showLoginModal()
       } else {
+        this.setCurrentTeacher(this.allUsers[index])
         this.$router.push('teacher')
       }
     },

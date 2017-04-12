@@ -7,10 +7,10 @@
         </el-col>
         <el-col :span="14">
           <div class="title" >
-            {{ currentUser.userName }}
+            {{ currentTeacher.name }}
           </div>
           <div style="margin-bottom: 15px; font-size: 18px">
-            评分： {{currentUser.rank}}/5.0
+            评分： {{currentTeacher.ratings}}/5.0
           </div>
           <div>
             <el-button type="success" style="font-size: 20px; width: 80%; border-color: #21B046;background-color: #21B046">预约</el-button>
@@ -18,46 +18,43 @@
         </el-col>
       </el-row>
       <div class="sub-title">基本信息</div>
-      <div class="content">{{currentUser.basicInfo}}</div>
+      <div class="content">{{currentTeacher.description}}</div>
 
       <div class="sub-title">教学偏好</div>
       <div class="content">
-        志愿科目: {{currentUser.subject}}<br>
-        空余时间: {{currentUser.avaTime}}<br>
-        预期价位: {{currentUser.price}}<br>
-        地点偏好: {{currentUser.location}}<br>
+        志愿科目: {{currentTeacher.area}}<br>
+        空余时间: 随意咯<br>
+        预期价位: 无上限<br>
+        地点偏好: OK<br>
       </div>
       <div class="sub-title">联系方式</div>
       <div class="content">
-        手机：{{currentUser.phoneNum}}<br>
-        微信：{{currentUser.weChat}}<br>
-        QQ：{{currentUser.QQ}}<br>
-        邮箱: {{currentUser.mailAddr}}<br>
+        手机：{{currentTeacher.phone}}<br>
+        微信：Don't Know<br>
+        QQ：Don't Know<br>
+        邮箱: Don't Know<br>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'hello',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      currentUser: {
-        userName: 'Wang BX',
-        rank: 4.9,
-        basicInfo: '浙江大学巨佬',
-        subject: '语文数学英语无所不通',
-        avaTime: '看你给多少钱',
-        price: '准备好预算无限',
-        location: '寝室',
-        phoneNum: '16666666',
-        weChat: 'wbx',
-        QQ: '233',
-        mailAddr: 'wbx@ym.com'
+  computed: {
+    ...mapGetters([
+      'allTeachers',
+      'currentTeacher'
+    ])
+  },
+  reserve () {
+    this.$alert('请等待教师回复', '预约成功', {
+      confirmButtonText: 'OK',
+      callback: () => {
+        console.log(`预约${this.currentTeacher.id}`)
       }
-    }
+    })
   }
 }
 </script>
