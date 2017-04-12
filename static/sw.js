@@ -4,7 +4,7 @@ var CACHE_NAME = 'houaa-pwa-v2';
 
 // File want to cache
 var urlsToCache = [
-  './',
+  '/',
   '/index.html',
   '/manifest.json',
   // './src/assets/img/blank-thumbnail.png',
@@ -34,53 +34,79 @@ self.oninstall = function (e) {
 
 
 self.onfetch = function (e) {
+  e.respondWith(
+    caches.match(e.request)
+      .then(function (response) {
+        if (response) {
+          console.log('[serviceWorker]: cache hit with ', response)
+          return response
+        }
+        let fetchRequest = e.request.clone();
+        return fetch(fetchRequest).then(
+          function (response) {
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              console.log('[serviceWorker]: invalid cache')
+              return response
+            }
 
-  console.log('[serviceWorker]: Fetching ' + e.request.url);
-  var raceUrl = '/';
-  if (e.request.url.indexOf(raceUrl) > -1) {
-    e.respondWith(
-      caches.open(CACHE_NAME).then(function (cache) {
-        return fetch(e.request).then(function (res) {
-          cache.put(e.request.url, res.clone());
-          return res;
-        }).catch(err => {
-          console.log('[serviceWorker]: Fetch Error ' + err);
-        });
-      })
-    );
-  }
-
-  else if (e.request.url.indexOf('static/') > -1) {
-    e.respondWith(
-      caches.match(e.request).then(function (res) {
-
-        if (res) return res
-
-        return fetch(e.request.clone(), { mode: 'no-cors' }).then(function (newRes) {
-
-          if (!newRes || newRes.status !== 200 || newRes.type !== 'basic') {
-            return newRes;
+            let response2Cache = response.clone()
+            caches.open(CACHE_NAME).then(
+              function (cache) {
+                console.log('[serviceWorker]: cache new resource ', response2Cache)
+                cache.put(e.request, response2Cache)
+              }
+            )
+            return response
           }
-
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(e.request, newRes.clone());
-          }).catch(err => {
-            console.log('[serviceWorker]: Fetch Error ' + err);
-          });
-
-          return newRes;
-        });
-
+        )
       })
-    );
-  }
-  else {
-    e.respondWith(
-      caches.match(e.request).then(function (res) {
-        return res || fetch(e.request)
-      })
-    );
-  }
+  )
+  // console.log('[serviceWorker]: Fetching ' + e.request.url);
+  // var raceUrl = '/';
+  // if (e.request.url.indexOf(raceUrl) > -1) {
+  //   e.respondWith(
+  //     caches.open(CACHE_NAME).then(function (cache) {
+  //       return fetch(e.request).then(function (res) {
+  //         cache.put(e.request.url, res.clone());
+  //         return res;
+  //       }).catch(err => {
+  //         console.log('[serviceWorker]: Fetch Error ' + err);
+  //       });
+  //     })
+  //   );
+  // }
+
+  // else if (e.request.url.indexOf('static/') > -1) {
+  //   e.respondWith(
+  //     caches.match(e.request).then(function (res) {
+
+  //       if (res) return res
+
+  //       return fetch(e.request.clone(), { mode: 'no-cors' }).then(function (newRes) {
+
+  //         if (!newRes || newRes.status !== 200 || newRes.type !== 'basic') {
+  //           return newRes;
+  //         }
+
+  //         caches.open(CACHE_NAME).then(function (cache) {
+  //           cache.put(e.request, newRes.clone());
+  //         }).catch(err => {
+  //           console.log('[serviceWorker]: Fetch Error ' + err);
+  //         });
+
+  //         return newRes;
+  //       });
+
+  //     })
+  //   );
+  // }
+  // else {
+  //   e.respondWith(
+  //     caches.match(e.request).then(function (res) {
+  //       return res || fetch(e.request)
+  //     })
+  //   );
+  // }
 
 };
 
