@@ -10,6 +10,7 @@ const state = {
   allTeachers: '',
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
+  currentTeacher: {},
   superToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ub3NzbC5ob3VhYS54eXoiLCJpcCI6IjEyNy4wLjAuMSIsImlkIjoiaGFvaGFvIiwicGhvbmUiOiIxMjM0NTY3ODkwMSIsImlhdCI6MTQ4ODEwNTkxOH0.2r47M-_GmiH591q4Yscp-Hbp8eWqN0k7eKlANlAtfg4'
 }
 
@@ -28,6 +29,11 @@ const mutations = {
   },
   setUserInfo (state, info) {
     state.userInfo = info
+  },
+  setCurrentTeacher (state, teacher) {
+    state.currentTeacher = {
+      ...teacher
+    }
   }
 }
 
@@ -43,7 +49,8 @@ const getters = {
   postProjectURL: state => state.postProjectURL,
   superToken: state => state.superToken,
   allTeachers: state => state.allTeachers,
-  teachURL: state => state.teachURL
+  teachURL: state => state.teachURL,
+  currentTeacher: state => state.currentTeacher
 }
 
 export default new Vuex.Store({
