@@ -36,10 +36,7 @@ const routes = [
     children: [
       { path: 'teach', component: Teach },
       { path: 'teacher', component: Teacher },
-      {
-        path: 'learn',
-        component: Learn
-      },
+      { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
       { path: 'tereserve', component: Tereserve }
     ],

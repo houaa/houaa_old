@@ -1,16 +1,19 @@
 <template>
-  <div class="teach-container" >
-    <el-row  :gutter="12">
-      <el-col class="main-card" :xs="12" :sm="8" :lg="6" v-for="(user,index) in allUsers">
+  <div class="teach-container">
+    <el-row :gutter="12">
+      <el-col class="main-card"
+              :xs="12"
+              :sm="8"
+              :lg="6"
+              v-for="(user,index) in allUsers">
         <el-card :body-style="{padding: '0px'}">
           <div class="img-figure">
-            <img src="../assets/logo.png" class="image">
+            <img src="../assets/logo.png"
+                 class="image">
             <figcaption class="img-caption">
-              <el-rate 
-              v-model="user.ratings" 
-              disabled
-              :colors="['#21B046', '#21B046', '#21B046']"
-              ></el-rate>
+              <el-rate v-model="user.ratings"
+                       disabled
+                       :colors="['#21B046', '#21B046', '#21B046']"></el-rate>
             </figcaption>
           </div>
           <div style="padding: 14px;">
@@ -18,7 +21,9 @@
             <div style="font-size: 14px; color: #555">
               <div>{{ user.basicInfo}}</div>
               <div>{{user.subject}}</div>
-              <el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>
+              <el-button v-on:click="showDetail(index, $event)"
+                         type="text"
+                         class="button">了解详情</el-button>
             </div>
           </div>
         </el-card>
@@ -60,7 +65,7 @@ export default {
       return parseInt(value)
     }
   },
-  data () {
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App',
       allUsers: {}
@@ -90,7 +95,11 @@ export default {
         response => {
           console.log(response.data)
           if (response.data.msg === 'OK') {
-            this.$message('成功获取数据')
+            this.$message({
+              message: '成功获取数据',
+              showClose: true,
+              duration: 1000
+            })
             self.allUsers = response.data.teachers.reverse().map(
               item => {
                 let newItem = item
@@ -108,21 +117,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.img-figure{
+.img-figure {
   display: block;
   position: relative;
   overflow: hidden;
 }
-.img-caption{
+
+.img-caption {
   position: absolute;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.75);
   color: white;
   width: 100%;
   padding: 3px 0 3px 0;
   /*padding: 10px 20px;*/
   text-align: center;
   /*width: 100%;*/
-
   /*opacity: 0;*/
   /*bottom: -30%;*/
   bottom: 0;
@@ -130,21 +139,24 @@ export default {
   left: 0;
   transition: all 0.6s ease;
 }
-.main-card:hover .img-caption{
+
+.main-card:hover .img-caption {
   opacity: 1;
   /*bottom: 0;*/
 }
-.main-card{
+
+.main-card {
   /*margin-top: 20px;*/
   margin-bottom: 12px;
 }
-.time{
+
+.time {
   font-size: 13px;
   color: #999;
 }
-.image{
+
+.image {
   width: 100%;
   display: block;
 }
-
 </style>
