@@ -2,150 +2,189 @@
   <div class="main-contianer">
     <div class="welcome-msg">
       <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-        <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
-        <span class="login" @click="userLogin">临时登录</span>
+      <span class="login"
+            style="cursor: pointer"
+            @click="toSignupPage">注册</span>
+      <span class="login"
+            @click="userLogin">临时登录</span>
       </span>
-      <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>      
+      <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
     </div>
     <el-row style="margin-bottom: 25px;">
       <el-col :span="16">
-        <span class="title" v-bind:class="{ small:!teachOrFalse }"
-           v-on:click="toHome">我在教</span><span class="title2"> | </span><span 
-           class="title" v-on:click="toLearn"  v-bind:class="{ small:teachOrFalse }" >我在学</span>
+        <span class="title"
+              v-bind:class="{ small:!teachOrFalse }"
+              v-on:click="toHome">我在教</span><span class="title2"> | </span><span class="title"
+              v-on:click="toLearn"
+              v-bind:class="{ small:teachOrFalse }">我在学</span>
       </el-col>
-      <el-col :span="8" class="icons">
-        <i v-on:click="date" class="el-icon-date one-icon"></i>
-        <i class="el-icon-edit one-icon"></i>
-        <i v-on:click="search" class="el-icon-search one-icon"></i>				
+      <el-col :span="8"
+              class="icons">
+        <i v-on:click="toDate"
+           class="el-icon-date one-icon"></i>
+        <i v-on:click="toTeacherDate" class="el-icon-edit one-icon"></i>
+        <i v-on:click="search"
+           class="el-icon-search one-icon"></i>
       </el-col>
     </el-row>
-
-
+  
     <transition name="fade">
-      <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
+      <div v-if="loginModal"
+           v-on:click="closeModal"
+           class="float-container"
+           :body-style="{padding: '0px'}">
         <div class="float-content">
           <div class="float-text">
-          如需查看详细信息或进行筛选搜索，请您
+            如需查看详细信息或进行筛选搜索，请您
           </div>
-          <button @click="toLoginPage" class="btn  gray" type="button"><span>登录</span></button>
-          <button @click="toSignupPage" class="btn" type="button"><span>注册</span></button>
+          <button @click="toLoginPage"
+                  class="btn  gray"
+                  type="button"><span>登录</span></button>
+          <button @click="toSignupPage"
+                  class="btn"
+                  type="button"><span>注册</span></button>
         </div>
       </div>
     </transition>
-
-    <div v-show="searchModal" v-on:click="closeModal" class="float-container">
+  
+    <div v-show="searchModal"
+         v-on:click="closeModal"
+         class="float-container">
       <div class="search-content">
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="who-teach">
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="8"
+                  class="who-teach">
             谁在教
           </el-col>
           <el-col :span="16">
-            <el-input  icon="search" placeholder="随便输入什么"></el-input>
+            <el-input icon="search"
+                      placeholder="随便输入什么"></el-input>
           </el-col>
         </el-row>
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="8"
+                  class="search-txt">
             性别：
           </el-col>
           <el-col :span="16">
             <span v-on:click="clickTag(otherTag[0])">
-              <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
-                {{otherTag[0].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
+                      {{otherTag[0].key}}
+                    </el-tag>
+                  </span>
             <span v-on:click="clickTag(otherTag[1])">
-              <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
-                {{otherTag[1].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
+                      {{otherTag[1].key}}
+                    </el-tag>
+                  </span>
           </el-col>
         </el-row>
-
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="24"
+                  class="search-txt">
             志愿科目：
           </el-col>
         </el-row>
-        
-        <el-row :gutter="10" class="search-margin">
-          <el-col v-for="(sub,index) in subject" :span="8" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col v-for="(sub,index) in subject"
+                  :span="8"
+                  class="search-txt">
             <span v-on:click="clickTag(sub)">
-              <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
-                {{sub.key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
+                      {{sub.key}}
+                    </el-tag>
+                  </span>
           </el-col>
         </el-row>
-
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="24"
+                  class="search-txt">
             空余时间：
           </el-col>
         </el-row>
-        
-        <el-row :gutter="10" class="search-margin">
-          <el-time-picker
-            is-range
-            v-model="avaTime"
-            placeholder="随便什么时候">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-time-picker is-range
+                          v-model="avaTime"
+                          placeholder="随便什么时候">
           </el-time-picker>
         </el-row>
-
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="24"
+                  class="search-txt">
             预期价位(每小时)：
           </el-col>
         </el-row>
-
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="8"
+                  class="search-txt">
             <span v-on:click="clickTag(otherTag[2])">
-              <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
-                {{otherTag[2].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
+                      {{otherTag[2].key}}
+                    </el-tag>
+                  </span>
           </el-col>
-          <el-col :span="8" class="search-txt">
+          <el-col :span="8"
+                  class="search-txt">
             <span v-on:click="clickTag(otherTag[3])">
-              <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
-                {{otherTag[3].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
+                      {{otherTag[3].key}}
+                    </el-tag>
+                  </span>
           </el-col>
         </el-row>
-
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="24"
+                  class="search-txt">
             地点偏好：
           </el-col>
         </el-row>
-
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
+  
+        <el-row :gutter="10"
+                class="search-margin">
+          <el-col :span="8"
+                  class="search-txt">
             <span v-on:click="clickTag(otherTag[4])">
-              <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
-                {{otherTag[4].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
+                      {{otherTag[4].key}}
+                    </el-tag>
+                  </span>
           </el-col>
-          <el-col :span="8" class="search-txt">
+          <el-col :span="8"
+                  class="search-txt">
             <span v-on:click="clickTag(otherTag[5])">
-              <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
-                {{otherTag[5].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
+                      {{otherTag[5].key}}
+                    </el-tag>
+                  </span>
           </el-col>
-          <el-col :span="8" class="search-txt">
+          <el-col :span="8"
+                  class="search-txt">
             <span v-on:click="clickTag(otherTag[6])">
-              <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
-                {{otherTag[6].key}}
-              </el-tag>
-            </span>
+                    <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
+                      {{otherTag[6].key}}
+                    </el-tag>
+                  </span>
           </el-col>
         </el-row>
       </div>
     </div>
-
+  
     <transition name="fade">
       <router-view></router-view>
     </transition>
@@ -170,33 +209,33 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App',
       currentDate: new Date(),
       user_name: 'HLH',
       searchModal: false,
       subject: [
-        {'key': '小学', 'value': '#dddddd'},
-        {'key': '初中', 'value': '#dddddd'},
-        {'key': '高中', 'value': '#dddddd'},
-        {'key': '语文', 'value': '#dddddd'},
-        {'key': '数学', 'value': '#dddddd'},
-        {'key': '英语', 'value': '#dddddd'},
-        {'key': '物理', 'value': '#dddddd'},
-        {'key': '化学', 'value': '#dddddd'},
-        {'key': '生物', 'value': '#dddddd'},
-        {'key': '地理', 'value': '#dddddd'},
-        {'key': '政治', 'value': '#dddddd'},
-        {'key': '历史', 'value': '#dddddd'}],
+        { 'key': '小学', 'value': '#dddddd' },
+        { 'key': '初中', 'value': '#dddddd' },
+        { 'key': '高中', 'value': '#dddddd' },
+        { 'key': '语文', 'value': '#dddddd' },
+        { 'key': '数学', 'value': '#dddddd' },
+        { 'key': '英语', 'value': '#dddddd' },
+        { 'key': '物理', 'value': '#dddddd' },
+        { 'key': '化学', 'value': '#dddddd' },
+        { 'key': '生物', 'value': '#dddddd' },
+        { 'key': '地理', 'value': '#dddddd' },
+        { 'key': '政治', 'value': '#dddddd' },
+        { 'key': '历史', 'value': '#dddddd' }],
       otherTag: [
-        {'key': '男', 'value': '#dddddd'},
-        {'key': '女', 'value': '#dddddd'},
-        {'key': '0-100', 'value': '#dddddd'},
-        {'key': '100-200', 'value': '#dddddd'},
-        {'key': '紫金港', 'value': '#dddddd'},
-        {'key': '西溪', 'value': '#dddddd'},
-        {'key': '玉泉', 'value': '#dddddd'}
+        { 'key': '男', 'value': '#dddddd' },
+        { 'key': '女', 'value': '#dddddd' },
+        { 'key': '0-100', 'value': '#dddddd' },
+        { 'key': '100-200', 'value': '#dddddd' },
+        { 'key': '紫金港', 'value': '#dddddd' },
+        { 'key': '西溪', 'value': '#dddddd' },
+        { 'key': '玉泉', 'value': '#dddddd' }
       ],
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
@@ -213,6 +252,12 @@ export default {
         this.hideLoginModal()
         this.searchModal = false
       }
+    },
+    toDate: function () {
+      this.$router.push('/reserve')
+    },
+    toTeacherDate: function () {
+      this.$router.push('/tereserve')
     },
     search: function (event) {
       if (this.loggedIn === false) {
@@ -245,36 +290,42 @@ export default {
 </script>
 
 <style>
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity .3s
 }
-.fade-enter, .fade-leave-to {
+
+.fade-enter,
+.fade-leave-to {
   opacity: 0
 }
-
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.el-tag{
+.el-tag {
   cursor: pointer;
 }
-.search-margin{
+
+.search-margin {
   margin-bottom: 10px;
 }
-.search-txt{
+
+.search-txt {
   font-size: 16px;
 }
-.tag-font{
+
+.tag-font {
   font-size: 14px;
   margin-bottom: 10px;
 }
-.who-teach{
+
+.who-teach {
   font-size: 22px;
   color: #21B046;
   margin-bottom: 15px;
 }
-.search-content{
+
+.search-content {
   position: fixed;
   z-index: 1;
   padding: 5%;
@@ -284,14 +335,19 @@ export default {
   top: 0;
   background-color: #fefefe;
   animation-name: fromLef;
-  animation-duration:0.4s;
-}
-@keyframes fromLef {
-  from {right:-100%;}
-  to {right:0;}
+  animation-duration: 0.4s;
 }
 
-.float-container{
+@keyframes fromLef {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.float-container {
   position: fixed;
   z-index: 2;
   left: 0%;
@@ -299,9 +355,10 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.6);
 }
-.float-content{
+
+.float-content {
   position: fixed;
   z-index: 1;
   padding-top: 60px;
@@ -313,16 +370,19 @@ export default {
   overflow: auto;
   background-color: #fefefe;
 }
-.float-text{
+
+.float-text {
   font-size: 20px;
   text-align: center;
   color: #444444;
   padding: 2.5%;
   margin-bottom: 10%;
 }
-.login{
+
+.login {
   color: orange;
 }
+
 .main-contianer {
   padding: 20px;
   padding-left: 5%;
@@ -330,10 +390,12 @@ export default {
   overflow: scroll;
   height: 100%;
 }
-::-webkit-scrollbar{
+
+::-webkit-scrollbar {
   display: none;
 }
-.welcome-msg{
+
+.welcome-msg {
   color: #fefefe;
   font-size: 14px;
   margin-bottom: 25px;
@@ -358,12 +420,13 @@ export default {
   cursor: pointer;
 }
 
-.title.small{
+.title.small {
   font-size: 16px;
   font-weight: normal;
   color: #B4EDDB;
 }
-.icons{
+
+.icons {
   font-size: 16px;
   font-weight: normal;
   /*color: #e0e0e0;*/
@@ -374,11 +437,13 @@ export default {
   right: 0;
   cursor: pointer;
 }
-.one-icon{
+
+.one-icon {
   float: right;
   margin-left: 5%;
 }
-.btn{
+
+.btn {
   position: relative;
   display: block;
   margin: 0px auto 10px;
@@ -387,26 +452,33 @@ export default {
   border-width: 0;
   outline: none;
   border-radius: 2px;
-  box-shadow: 0 1px 4px rgba(0, 0,0,0.6);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   background-color: #2ecc71;
   color: #ecf0f1;
   transition: background-color .3s;
   width: 95%;
 }
-.btn:hover,.btn:focus{
+
+.btn:hover,
+.btn:focus {
   background-color: #27ae60;
 }
-.btn > * {
+
+.btn>* {
   position: relative;
 }
-.btn span{
+
+.btn span {
   display: block;
   padding: 12px 24px;
 }
-.btn.gray{
+
+.btn.gray {
   background-color: #747474;
 }
-.btn .gray:hover,.btn.gray:hover{
-  background-color:  #606060
+
+.btn .gray:hover,
+.btn.gray:hover {
+  background-color: #606060
 }
 </style>
