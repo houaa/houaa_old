@@ -15,22 +15,27 @@ const state = {
 }
 
 const mutations = {
-  userLogin (state) {
+  userLogin(state) {
     state.login = true
+    if (state.userInfo === '') {
+      state.userInfo = {
+        username: '临时用户'
+      }
+    }
   },
-  userLogout (state) {
+  userLogout(state) {
     state.login = false
   },
-  showLoginModal (state) {
+  showLoginModal(state) {
     state.showLoginModal = true
   },
-  hideLoginModal (state) {
+  hideLoginModal(state) {
     state.showLoginModal = false
   },
-  setUserInfo (state, info) {
+  setUserInfo(state, info) {
     state.userInfo = info
   },
-  setCurrentTeacher (state, teacher) {
+  setCurrentTeacher(state, teacher) {
     state.currentTeacher = {
       ...teacher
     }
