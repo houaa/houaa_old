@@ -17,6 +17,7 @@ import Teacher from './components/Teacher'
 import Learn from './components/Learn'
 import Signup from './components/Signup'
 import Reserve from './components/Reserve'
+import Tereserve from './components/Tereserve'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -39,9 +40,8 @@ const routes = [
         path: 'learn',
         component: Learn
       },
-      {
-        path: 'reserve', component: Reserve
-      }
+      { path: 'reserve', component: Reserve },
+      { path: 'tereserve', component: Tereserve }
     ],
     redirect: 'teach'
   },
