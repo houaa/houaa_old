@@ -14,7 +14,7 @@
            class="title" v-on:click="toLearn"  v-bind:class="{ small:teachOrFalse }" >我在学</span>
       </el-col>
       <el-col :span="8" class="icons">
-        <i class="el-icon-date one-icon"></i>
+        <i v-on:click="date" class="el-icon-date one-icon"></i>
         <i class="el-icon-edit one-icon"></i>
         <i v-on:click="search" class="el-icon-search one-icon"></i>				
       </el-col>
