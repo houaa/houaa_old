@@ -1,7 +1,7 @@
 <template>
   <div class="all">
     <h3>全部订单</h3>
-    <div class="container" v-for='student in reservations'>
+    <div class="container" v-for='(student, index) in reservations'>
       <el-row class="student">
         <el-col :span="18">
           <el-row>
@@ -14,7 +14,11 @@
           </el-row>
         </el-col>
         <el-col :span="6">
-          <el-button id="accept">接受预约</el-button>
+          <el-button v-if="now === ''" v-on:click="accept(student.name, index)" id="accept">接受预约</el-button>
+          <template v-else>
+            <el-button v-if="now === index" id="accept">已接受</el-button>
+            <el-button v-else :disabled="true" id="accept">接受预约</el-button>
+          </template>
         </el-col>
       </el-row>
     </div>
@@ -26,6 +30,7 @@ export default {
   name: 'Reserve List',
   data () {
     return {
+      now: '',
       reservations: [{
         name: 'YangKeao',
         grade: '小学二年级',
@@ -52,6 +57,12 @@ export default {
         location: '小学二年级',
         date: '2017.4.16'
       }]
+    }
+  },
+  methods: {
+    accept (name, index) {
+      this.$message(`已接收${name}预约`)
+      this.now = index
     }
   }
 }
@@ -88,5 +99,11 @@ export default {
 
   .student {
     margin: 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px #dddddd solid;
+  }
+
+  #accept {
+    text-align: center;
   }
 </style>
