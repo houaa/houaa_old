@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: 'Reserve List',
+  name: 'ReserveList',
   data () {
     return {
       now: '',

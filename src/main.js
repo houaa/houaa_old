@@ -11,11 +11,12 @@ import VueRouter from 'vue-router'
 
 import Login from './components/Login'
 import Hello from './components/Hello'
+import SignupNew from './components/Signupnew'
 import Home from './components/Home'
 import Teach from './components/Teach'
 import Teacher from './components/Teacher'
 import Learn from './components/Learn'
-import Signup from './components/Signup'
+// import Signup from './components/Signup'
 import Reserve from './components/Reserve'
 import Tereserve from './components/Tereserve'
 
@@ -29,7 +30,8 @@ const Bar = { template: '<div>bar</div>' }
 const routes = [
   { path: '/app', component: App },
   { path: '/login', component: Login },
-  { path: '/signup', component: Signup },
+  // { path: '/signup', component: Signup },
+  { path: '/signup', component: SignupNew },
   {
     path: '/',
     component: Home,
