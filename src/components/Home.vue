@@ -93,7 +93,7 @@
         <el-row :gutter="10"
                 class="search-margin">
           <el-col v-for="(sub,index) in subject"
-                  :span="8"
+                  :span="8" :key="index"
                   class="search-txt">
             <span v-on:click="clickTag(sub)">
                     <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >

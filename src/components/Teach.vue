@@ -5,6 +5,7 @@
               :xs="12"
               :sm="8"
               :lg="6"
+              :key="index"
               v-for="(user,index) in allUsers">
         <el-card :body-style="{padding: '0px'}">
           <div class="img-figure">

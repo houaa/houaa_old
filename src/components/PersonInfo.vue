@@ -9,7 +9,7 @@
         <img width="40%" src="../assets/logo.png">
       </el-col>
     </el-row>
-    <el-row v-for="(o,index) in 10" style="border-bottom: 1px solid #ddd;">
+    <el-row :key="index" v-for="(o,index) in 10" style="border-bottom: 1px solid #ddd;">
       <el-col class="section-content" :span="10">
         姓名
       </el-col>
