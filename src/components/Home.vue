@@ -2,191 +2,151 @@
   <div class="main-contianer">
     <div class="welcome-msg">
       <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-      <span class="login"
-            style="cursor: pointer"
-            @click="toSignupPage">注册</span>
-      <span class="login"
-            @click="userLogin">临时登录</span>
+      <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
+      <span class="login" @click="userLogin">临时登录</span>
       </span>
       <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
     </div>
+  
     <el-row style="margin-bottom: 25px;">
-      <el-col :span="16">
-        <span class="title"
-              v-bind:class="{ small:!teachOrFalse }"
-              v-on:click="toHome">我在教</span><span class="title2"> | </span><span class="title"
-              v-on:click="toLearn"
-              v-bind:class="{ small:teachOrFalse }">我在学</span>
-      </el-col>
-      <el-col :span="8"
-              class="icons">
-        <i v-on:click="toDate"
-           class="el-icon-date one-icon"></i>
+
+      <el-col :span="8" class="icons">
+        <i v-on:click="toDate" class="el-icon-date one-icon"></i>
         <i v-on:click="toTeacherDate" class="el-icon-edit one-icon"></i>
-        <i v-on:click="search"
-           class="el-icon-search one-icon"></i>
+        <i v-on:click="search" class="el-icon-search one-icon"></i>
       </el-col>
     </el-row>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="教师" name="first">
+        <router-view></router-view>
+      </el-tab-pane>
+      <el-tab-pane label="学生" name="second">学生</el-tab-pane>
+    </el-tabs>
   
     <transition name="fade">
-      <div v-if="loginModal"
-           v-on:click="closeModal"
-           class="float-container"
-           :body-style="{padding: '0px'}">
+      <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
         <div class="float-content">
           <div class="float-text">
             如需查看详细信息或进行筛选搜索，请您
           </div>
-          <button @click="toLoginPage"
-                  class="btn  gray"
-                  type="button"><span>登录</span></button>
-          <button @click="toSignupPage"
-                  class="btn"
-                  type="button"><span>注册</span></button>
+          <button @click="toLoginPage" class="btn  gray" type="button"><span>登录</span></button>
+          <button @click="toSignupPage" class="btn" type="button"><span>注册</span></button>
         </div>
       </div>
     </transition>
   
-    <div v-show="searchModal"
-         v-on:click="closeModal"
-         class="float-container">
+    <div v-show="searchModal" v-on:click="closeModal" class="float-container">
       <div class="search-content">
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="8"
-                  class="who-teach">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="who-teach">
             谁在教
           </el-col>
           <el-col :span="16">
-            <el-input icon="search"
-                      placeholder="随便输入什么"></el-input>
+            <el-input icon="search" placeholder="随便输入什么"></el-input>
           </el-col>
         </el-row>
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="8"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="search-txt">
             性别：
           </el-col>
           <el-col :span="16">
             <span v-on:click="clickTag(otherTag[0])">
-                    <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
-                      {{otherTag[0].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
+                                  {{otherTag[0].key}}
+                                </el-tag>
+                              </span>
             <span v-on:click="clickTag(otherTag[1])">
-                    <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
-                      {{otherTag[1].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
+                                  {{otherTag[1].key}}
+                                </el-tag>
+                              </span>
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="24"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
             志愿科目：
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col v-for="(sub,index) in subject"
-                  :span="8" :key="index"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col v-for="(sub,index) in subject" :span="8" :key="index" class="search-txt">
             <span v-on:click="clickTag(sub)">
-                    <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
-                      {{sub.key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
+                                  {{sub.key}}
+                                </el-tag>
+                              </span>
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="24"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
             空余时间：
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-time-picker is-range
-                          v-model="avaTime"
-                          placeholder="随便什么时候">
+        <el-row :gutter="10" class="search-margin">
+          <el-time-picker is-range v-model="avaTime" placeholder="随便什么时候">
           </el-time-picker>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="24"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
             预期价位(每小时)：
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="8"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[2])">
-                    <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
-                      {{otherTag[2].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
+                                  {{otherTag[2].key}}
+                                </el-tag>
+                              </span>
           </el-col>
-          <el-col :span="8"
-                  class="search-txt">
+          <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[3])">
-                    <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
-                      {{otherTag[3].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
+                                  {{otherTag[3].key}}
+                                </el-tag>
+                              </span>
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="24"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="24" class="search-txt">
             地点偏好：
           </el-col>
         </el-row>
   
-        <el-row :gutter="10"
-                class="search-margin">
-          <el-col :span="8"
-                  class="search-txt">
+        <el-row :gutter="10" class="search-margin">
+          <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[4])">
-                    <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
-                      {{otherTag[4].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
+                                  {{otherTag[4].key}}
+                                </el-tag>
+                              </span>
           </el-col>
-          <el-col :span="8"
-                  class="search-txt">
+          <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[5])">
-                    <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
-                      {{otherTag[5].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
+                                  {{otherTag[5].key}}
+                                </el-tag>
+                              </span>
           </el-col>
-          <el-col :span="8"
-                  class="search-txt">
+          <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[6])">
-                    <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
-                      {{otherTag[6].key}}
-                    </el-tag>
-                  </span>
+                                <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
+                                  {{otherTag[6].key}}
+                                </el-tag>
+                              </span>
           </el-col>
         </el-row>
       </div>
     </div>
   
     <transition name="fade">
-      <router-view></router-view>
+  
     </transition>
   </div>
 </template>
@@ -237,6 +197,7 @@ export default {
         { 'key': '西溪', 'value': '#dddddd' },
         { 'key': '玉泉', 'value': '#dddddd' }
       ],
+      activeName: '教师',
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -252,6 +213,9 @@ export default {
         this.hideLoginModal()
         this.searchModal = false
       }
+    },
+    handleClick: function () {
+      console.log('click')
     },
     toDate: function () {
       this.$router.push('/reserve')
@@ -396,7 +360,7 @@ export default {
 }
 
 .welcome-msg {
-  color: #fefefe;
+  color: #555;
   font-size: 14px;
   margin-bottom: 25px;
 }
@@ -430,7 +394,7 @@ export default {
   font-size: 16px;
   font-weight: normal;
   /*color: #e0e0e0;*/
-  color: white;
+  color: black;
   position: absolute;
   float: left;
   bottom: 5px;

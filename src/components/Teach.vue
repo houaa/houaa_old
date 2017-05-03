@@ -1,30 +1,18 @@
 <template>
   <div class="teach-container">
+  
     <el-row :gutter="12">
-      <el-col class="main-card"
-              :xs="12"
-              :sm="8"
-              :lg="6"
-              :key="index"
-              v-for="(user,index) in allUsers">
+      <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers" v-on:click.native="showDetail(index, $event)">
         <el-card :body-style="{padding: '0px'}">
-          <div class="img-figure">
-            <img src="../assets/logo.png"
-                 class="image">
-            <figcaption class="img-caption">
-              <el-rate v-model="user.ratings"
-                       disabled
-                       :colors="['#21B046', '#21B046', '#21B046']"></el-rate>
-            </figcaption>
-          </div>
-          <div style="padding: 14px;">
-            <span style="font-size: 18px">{{user.name}}</span>
+          <div style="padding: 0.6rem;">
+            <div style="padding:0.5rem 0 0.5rem 0;">
+              <span style="font-size: 1.3rem;">{{user.name}}</span>
+              <span style="color:#555;"> /{{user.school}}</span>
+            </div>
             <div style="font-size: 14px; color: #555">
-              <div>{{ user.basicInfo}}</div>
-              <div>{{user.subject}}</div>
-              <el-button v-on:click="showDetail(index, $event)"
-                         type="text"
-                         class="button">了解详情</el-button>
+              <div>{{user.major}}</div>
+              <div>{{user.area}} - 加入时间：{{user.join_time}}</div>
+              <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
             </div>
           </div>
         </el-card>
@@ -45,21 +33,6 @@ export default {
       'allTeachers',
       'teachURL'
     ])
-    // allUsers: function () {
-    //   let names = ['wang', 'boxin', 'hao', 'xiangpeng', 'xu', 'guorui', 'qiu', 'shichao']
-    //   let allUsers = []
-    //   let subjects = ['数学', '物理', '英语', '化学', '生物']
-    //   for (let i = 0; i < 10; i++) {
-    //     allUsers.push({
-    //       name: names[Math.floor(Math.random() * 8)],
-    //       rank: Math.round(Math.random() * 5),
-    //       avatar: '../assets/logo.png',
-    //       basicInfo: '浙江大学XX学院',
-    //       subject: subjects[Math.floor(Math.random() * 5)]
-    //     })
-    //   }
-    //   return allUsers
-    // }
   },
   filters: {
     toInt: function (value) {
