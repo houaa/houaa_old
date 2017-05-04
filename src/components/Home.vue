@@ -1,15 +1,17 @@
 <template>
   <div class="main-contianer">
-    <div class="welcome-msg">
-      <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-      <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
-      <span class="login" @click="userLogin">临时登录</span>
-      </span>
-      <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
-    </div>
+    <!--<div class="welcome-msg">
+          <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
+          <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
+          <span class="login" @click="userLogin">临时登录</span>
+          </span>
+          <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
+        </div>-->
   
-    <el-row style="margin-bottom: 25px;">
-  
+    <el-row>
+      <el-col :span="16" style="padding-left:1rem;padding-top:0.5rem;">
+        <img style="height:2.5rem;" src="../assets/Houaa_logo.svg" />
+      </el-col>
       <el-col :span="8" class="icons">
         <i v-on:click="toDate" class="el-icon-date one-icon"></i>
         <i v-on:click="toTeacherDate" class="el-icon-edit one-icon"></i>
@@ -20,7 +22,9 @@
       <el-tab-pane label="教师" name="first">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="学生" name="second">学生</el-tab-pane>
+      <el-tab-pane label="学生" name="second">
+        <router-view></router-view>
+      </el-tab-pane>
     </el-tabs>
   
     <transition name="fade">
@@ -51,15 +55,15 @@
           </el-col>
           <el-col :span="16">
             <span v-on:click="clickTag(otherTag[0])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
-                                    {{otherTag[0].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
+                                            {{otherTag[0].key}}
+                                          </el-tag>
+                                        </span>
             <span v-on:click="clickTag(otherTag[1])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
-                                    {{otherTag[1].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
+                                            {{otherTag[1].key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
         </el-row>
   
@@ -72,10 +76,10 @@
         <el-row :gutter="10" class="search-margin">
           <el-col v-for="(sub,index) in subject" :span="8" :key="index" class="search-txt">
             <span v-on:click="clickTag(sub)">
-                                  <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
-                                    {{sub.key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
+                                            {{sub.key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
         </el-row>
   
@@ -99,17 +103,17 @@
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[2])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
-                                    {{otherTag[2].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
+                                            {{otherTag[2].key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[3])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
-                                    {{otherTag[3].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
+                                            {{otherTag[3].key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
         </el-row>
   
@@ -122,24 +126,24 @@
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[4])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
-                                    {{otherTag[4].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
+                                            {{otherTag[4].key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[5])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
-                                    {{otherTag[5].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
+                                            {{otherTag[5].key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[6])">
-                                  <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
-                                    {{otherTag[6].key}}
-                                  </el-tag>
-                                </span>
+                                          <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
+                                            {{otherTag[6].key}}
+                                          </el-tag>
+                                        </span>
           </el-col>
         </el-row>
       </div>
@@ -154,7 +158,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 export default {
-  name: 'hello',
+  name: 'techpage',
   computed: {
     ...mapGetters([
       'loggedIn',
@@ -197,7 +201,7 @@ export default {
         { 'key': '西溪', 'value': '#dddddd' },
         { 'key': '玉泉', 'value': '#dddddd' }
       ],
-      activeName: '教师',
+      activeName: 'first',
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -283,7 +287,8 @@ export default {
 .el-tabs__header {
   margin-bottom: 0px;
 }
-.el-tabs__item.is-active{
+
+.el-tabs__item.is-active {
   color: #00AF63;
 }
 </style>
@@ -337,7 +342,7 @@ export default {
 .float-container {
   position: fixed;
   z-index: 2;
-  left: 0%;
+  left: 0;
   top: 0px;
   width: 100%;
   height: 100%;
@@ -348,9 +353,12 @@ export default {
 .float-content {
   position: fixed;
   z-index: 1;
-  padding-top: 60px;
-  padding-bottom: 30px;
-  left: 15%;
+  /*padding-top: 60px;*/
+  /*padding-bottom: 30px;*/
+  padding: 3.5rem 1rem 2rem 1rem;
+  left: 50%;
+  /*right: 0;*/
+  transform: translateX(-50%);
   top: 130px;
   width: 70%;
   height: 40%;
@@ -371,7 +379,7 @@ export default {
 }
 
 .main-contianer {
-  padding-top: 20px;
+  padding-top: 0.3rem;
   overflow: scroll;
   height: 100%;
 }
@@ -382,8 +390,8 @@ export default {
 
 .welcome-msg {
   color: #555;
-  font-size: 14px;
-  margin-bottom: 25px;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
 }
 
 .title {
