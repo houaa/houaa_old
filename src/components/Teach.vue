@@ -3,19 +3,17 @@
   
     <el-row :gutter="12">
       <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers" v-on:click.native="showDetail(index, $event)">
-        <el-card :body-style="{padding: '0px'}">
-          <div style="padding: 0.6rem;">
-            <div style="padding:0.5rem 0 0.5rem 0;">
-              <span style="font-size: 1.3rem;">{{user.name}}</span>
-              <span style="color:#555;"> /{{user.school}}</span>
-            </div>
-            <div style="font-size: 14px; color: #555">
-              <div>{{user.major}}</div>
-              <div>{{user.area}} - 加入时间：{{user.join_time}}</div>
-              <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
-            </div>
+        <div style="padding: 0.6rem 1.5rem 0.6rem 1.5rem;border-bottom:1px solid #eee;">
+          <div style="padding:0.5rem 0 0.5rem 0;">
+            <span style="font-size: 1.3rem;">{{user.name}}</span>
+            <span style="color:#555;"> /{{user.school}}</span>
           </div>
-        </el-card>
+          <div style="font-size: 14px; color: #555">
+            <div>{{user.major}}</div>
+            <div>{{user.area}} - 加入时间：{{user.join_time}}</div>
+            <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
+          </div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -97,6 +95,7 @@ export default {
   overflow: hidden;
 }
 
+
 .img-caption {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.75);
@@ -121,7 +120,7 @@ export default {
 
 .main-card {
   /*margin-top: 20px;*/
-  margin-bottom: 12px;
+  margin-bottom: 0.5rem;
 }
 
 .time {

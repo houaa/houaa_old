@@ -9,7 +9,7 @@
     </div>
   
     <el-row style="margin-bottom: 25px;">
-
+  
       <el-col :span="8" class="icons">
         <i v-on:click="toDate" class="el-icon-date one-icon"></i>
         <i v-on:click="toTeacherDate" class="el-icon-edit one-icon"></i>
@@ -51,15 +51,15 @@
           </el-col>
           <el-col :span="16">
             <span v-on:click="clickTag(otherTag[0])">
-                                <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
-                                  {{otherTag[0].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
+                                    {{otherTag[0].key}}
+                                  </el-tag>
+                                </span>
             <span v-on:click="clickTag(otherTag[1])">
-                                <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
-                                  {{otherTag[1].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
+                                    {{otherTag[1].key}}
+                                  </el-tag>
+                                </span>
           </el-col>
         </el-row>
   
@@ -72,10 +72,10 @@
         <el-row :gutter="10" class="search-margin">
           <el-col v-for="(sub,index) in subject" :span="8" :key="index" class="search-txt">
             <span v-on:click="clickTag(sub)">
-                                <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
-                                  {{sub.key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
+                                    {{sub.key}}
+                                  </el-tag>
+                                </span>
           </el-col>
         </el-row>
   
@@ -99,17 +99,17 @@
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[2])">
-                                <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
-                                  {{otherTag[2].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
+                                    {{otherTag[2].key}}
+                                  </el-tag>
+                                </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[3])">
-                                <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
-                                  {{otherTag[3].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
+                                    {{otherTag[3].key}}
+                                  </el-tag>
+                                </span>
           </el-col>
         </el-row>
   
@@ -122,24 +122,24 @@
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[4])">
-                                <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
-                                  {{otherTag[4].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
+                                    {{otherTag[4].key}}
+                                  </el-tag>
+                                </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[5])">
-                                <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
-                                  {{otherTag[5].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
+                                    {{otherTag[5].key}}
+                                  </el-tag>
+                                </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[6])">
-                                <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
-                                  {{otherTag[6].key}}
-                                </el-tag>
-                              </span>
+                                  <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
+                                    {{otherTag[6].key}}
+                                  </el-tag>
+                                </span>
           </el-col>
         </el-row>
       </div>
@@ -263,6 +263,29 @@ export default {
 .fade-leave-to {
   opacity: 0
 }
+
+.el-tabs__nav {
+  width: 100%;
+  display: flex;
+}
+
+.el-tabs__item {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.el-tabs__active-bar {
+  width: 50%;
+  background-color: #00AF63;
+  height: 4px;
+}
+
+.el-tabs__header {
+  margin-bottom: 0px;
+}
+.el-tabs__item.is-active{
+  color: #00AF63;
+}
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -348,9 +371,7 @@ export default {
 }
 
 .main-contianer {
-  padding: 20px;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-top: 20px;
   overflow: scroll;
   height: 100%;
 }
