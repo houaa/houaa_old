@@ -9,7 +9,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 
-import Login from './components/Login'
+// import Login from './components/Login'
 import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
 import Home from './components/Home'
@@ -17,6 +17,7 @@ import Teach from './components/Teach'
 import Teacher from './components/Teacher'
 import Learn from './components/Learn'
 // import Signup from './components/Signup'
+import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
 import Tereserve from './components/Tereserve'
 
@@ -29,7 +30,8 @@ const Bar = { template: '<div>bar</div>' }
 
 const routes = [
   { path: '/app', component: App },
-  { path: '/login', component: Login },
+  // { path: '/login', component: Login },
+  { path: '/login', component: LoginNew },
   // { path: '/signup', component: Signup },
   { path: '/signup', component: SignupNew },
   {
