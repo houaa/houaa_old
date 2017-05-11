@@ -12,9 +12,11 @@ import VueRouter from 'vue-router'
 // import Login from './components/Login'
 import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
-import Home from './components/Home'
+// import Home from './components/Home'
+import HomeNew from './components/Homenew'
 import Teach from './components/Teach'
-import Teacher from './components/Teacher'
+// import Teacher from './components/Teacher'
+import TeacherNew from './components/Teachernew'
 import Learn from './components/Learn'
 // import Signup from './components/Signup'
 import LoginNew from './components/Loginnew'
@@ -36,10 +38,12 @@ const routes = [
   { path: '/signup', component: SignupNew },
   {
     path: '/',
-    component: Home,
+    // component: Home,
+    component: HomeNew,
     children: [
       { path: 'teach', component: Teach },
-      { path: 'teacher', component: Teacher },
+      // { path: 'teacher', component: Teacher },
+      { path: 'teacher', component: TeacherNew },
       { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
       { path: 'tereserve', component: Tereserve }
