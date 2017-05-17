@@ -1,28 +1,28 @@
 <template>
   <div class="main-contianer">
     <!--<div class="welcome-msg">
-          <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-          <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
-          <span class="login" @click="userLogin">临时登录</span>
-          </span>
-          <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
-        </div>-->
+      <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
+      <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
+      <span class="login" @click="userLogin">临时登录</span>
+      </span>
+      <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
+    </div>-->
   
-    <el-row>
-      <el-col :span="16" style="padding-left:1rem;padding-top:0.5rem;">
-        <img style="height:2.5rem;" src="../assets/Houaa_logo.svg" />
-      </el-col>
-      <el-col :span="8" class="icons">
-        <i v-on:click="toDate" class="el-icon-date one-icon"></i>
-        <i v-on:click="toTeacherDate" class="el-icon-edit one-icon"></i>
-        <i v-on:click="search" class="el-icon-search one-icon"></i>
-      </el-col>
-    </el-row>
+    <div style="width:95%;margin:1rem auto 0.5rem auto;">
+      <el-input placeholder="猴啊家教" size="large" icon="search">
+      </el-input>
+    </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="教师" name="first">
+      <el-tab-pane label="教师" name="teach">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="学生" name="second">
+      <el-tab-pane label="学生" name="teacher">
+        <router-view></router-view>
+      </el-tab-pane>
+      <el-tab-pane label="订单" name="thrid">
+        <router-view></router-view>
+      </el-tab-pane>
+      <el-tab-pane label="个人" name="forth">
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
@@ -33,8 +33,12 @@
           <div class="float-text">
             如需查看详细信息或进行筛选搜索，请您
           </div>
-          <button @click="toLoginPage" class="btn  gray" type="button"><span>登录</span></button>
-          <button @click="toSignupPage" class="btn" type="button"><span>注册</span></button>
+          <button @click="toLoginPage" class="btn  gray" type="button">
+            <span>登录</span>
+          </button>
+          <button @click="toSignupPage" class="btn" type="button">
+            <span>注册</span>
+          </button>
         </div>
       </div>
     </transition>
@@ -55,15 +59,15 @@
           </el-col>
           <el-col :span="16">
             <span v-on:click="clickTag(otherTag[0])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[0].value" class="tag-font" >
-                                            {{otherTag[0].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[0].value" class="tag-font">
+                {{otherTag[0].key}}
+              </el-tag>
+            </span>
             <span v-on:click="clickTag(otherTag[1])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[1].value" class="tag-font" >
-                                            {{otherTag[1].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[1].value" class="tag-font">
+                {{otherTag[1].key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
   
@@ -76,10 +80,10 @@
         <el-row :gutter="10" class="search-margin">
           <el-col v-for="(sub,index) in subject" :span="8" :key="index" class="search-txt">
             <span v-on:click="clickTag(sub)">
-                                          <el-tag  type="gray" v-bind:color="sub.value" class="tag-font" >
-                                            {{sub.key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="sub.value" class="tag-font">
+                {{sub.key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
   
@@ -103,17 +107,17 @@
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[2])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[2].value" class="tag-font" >
-                                            {{otherTag[2].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[2].value" class="tag-font">
+                {{otherTag[2].key}}
+              </el-tag>
+            </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[3])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[3].value" class="tag-font" >
-                                            {{otherTag[3].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[3].value" class="tag-font">
+                {{otherTag[3].key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
   
@@ -126,24 +130,24 @@
         <el-row :gutter="10" class="search-margin">
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[4])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[4].value" class="tag-font" >
-                                            {{otherTag[4].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[4].value" class="tag-font">
+                {{otherTag[4].key}}
+              </el-tag>
+            </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[5])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[5].value" class="tag-font" >
-                                            {{otherTag[5].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[5].value" class="tag-font">
+                {{otherTag[5].key}}
+              </el-tag>
+            </span>
           </el-col>
           <el-col :span="8" class="search-txt">
             <span v-on:click="clickTag(otherTag[6])">
-                                          <el-tag  type="gray" v-bind:color="otherTag[6].value" class="tag-font" >
-                                            {{otherTag[6].key}}
-                                          </el-tag>
-                                        </span>
+              <el-tag type="gray" v-bind:color="otherTag[6].value" class="tag-font">
+                {{otherTag[6].key}}
+              </el-tag>
+            </span>
           </el-col>
         </el-row>
       </div>
@@ -158,7 +162,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 export default {
-  name: 'techpage',
+  name: 'home',
   computed: {
     ...mapGetters([
       'loggedIn',
@@ -201,7 +205,7 @@ export default {
         { 'key': '西溪', 'value': '#dddddd' },
         { 'key': '玉泉', 'value': '#dddddd' }
       ],
-      activeName: 'first',
+      activeName: 'teach',
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -218,8 +222,8 @@ export default {
         this.searchModal = false
       }
     },
-    handleClick: function () {
-      console.log('click')
+    handleClick: function (tab, event) {
+      this.$router.push(tab.name)
     },
     toDate: function () {
       this.$router.push('/reserve')
@@ -291,9 +295,15 @@ export default {
 .el-tabs__item.is-active {
   color: #00AF63;
 }
+/*.el-input__inner {
+  background: url(../assets/houaa-r.png) no-repeat scroll;
+  padding-left: 30px;
+}*/
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
 .el-tag {
   cursor: pointer;
 }

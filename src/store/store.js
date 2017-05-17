@@ -39,6 +39,9 @@ const mutations = {
     state.currentTeacher = {
       ...teacher
     }
+  },
+  setAllTeachers(state, teachers) {
+    state.allTeachers = teachers
   }
 }
 
