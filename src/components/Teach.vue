@@ -25,8 +25,15 @@
 </template>
 
 <script>
+import AV from 'leancloud-storage'
 import { mapGetters, mapMutations } from 'vuex'
 import axios from 'axios'
+var APP_ID = 'bbuNR4JPyRBbqYTFkPIripnW-gzGzoHsz'
+var APP_KEY = 'Vld6ht18jVtJ9M9oAdPYpCzl'
+AV.init({
+  appId: APP_ID,
+  appKey: APP_KEY
+})
 export default {
   name: 'teach',
   computed: {
@@ -51,6 +58,13 @@ export default {
   created: function () {
     let self = this
     self.fetchTeachers()
+    // var TestObject = AV.Object.extend('TestObject')
+    // var testObject = new TestObject()
+    // testObject.save({
+    //   words: 'Hello World!'
+    // }).then(function (object) {
+    //   console.log('LeanCloud Rocks!')
+    // })
   },
   methods: {
     ...mapMutations([

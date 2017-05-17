@@ -19,10 +19,10 @@
       <el-tab-pane label="学生" name="teacher">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="订单" name="thrid">
+      <el-tab-pane label="订单" name="reserve">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="个人" name="forth">
+      <el-tab-pane label="个人" name="tereserve">
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
