@@ -19,6 +19,7 @@ import Learn from './components/Learn'
 // import Signup from './components/Signup'
 import Reserve from './components/Reserve'
 import Tereserve from './components/Tereserve'
+import Leancloud from './components/leancloudDemo'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -52,6 +53,7 @@ const routes = [
       { path: 'bar', component: Foo }
     ]
   },
+  { path: '/leancloud', component: Leancloud },
   { path: '/bar', component: Bar }
   // { path: '/', redirect: '/home' }
 ]
