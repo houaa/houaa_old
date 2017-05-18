@@ -9,7 +9,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 
-import Self from './components/Self'
+// import Self from './components/Self'
+import SelfNew from './components/SelfNew'
 // import Login from './components/Login'
 import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
@@ -48,7 +49,7 @@ const routes = [
       { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
       { path: 'tereserve', component: Tereserve },
-      { path: 'self', component: Self }
+      { path: 'self', component: SelfNew }
     ],
     redirect: 'teach'
   },
