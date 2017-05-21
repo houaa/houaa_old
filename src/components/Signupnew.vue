@@ -14,7 +14,8 @@
         {{caption}}
         <p v-if="state===1&&phoneNumber">{{phoneNumber}}</p>
       </div>
-      <div style="width:70%;margin-left:2rem;">
+      <div id="nickname" style="width:70%;margin-left:2rem;">
+        <el-input v-show="state==0" v-model="nickname" placeholder="请输入昵称"></el-input>        
         <el-input :placeholder="placeHolder" icon="phone" v-model="phoneNumber">
         </el-input>
       </div>
@@ -36,15 +37,22 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       phoneNumber: '',
-      state: 0
+      state: 0,
+      nickname: ''
     }
   },
   methods: {
     toNext: function () {
-      this.state += 1
+      console.log(this.state)
+      if (this.state === 1) {
+        this.$router.push('/')
+      } else this.state = 1
     },
     toPrev: function () {
-      this.state -= 1
+      console.log(this.state)
+      if (this.state === 0) {
+        this.$router.push('/')
+      } else this.state = 0
     }
   },
   computed: {
@@ -81,5 +89,9 @@ export default {
 .el-button:hover {
   color: #000;
   background-color: #ddd;
+}
+
+.el-input{
+  margin: 5px 0;
 }
 </style>
