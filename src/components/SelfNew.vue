@@ -2,8 +2,8 @@
   <div id="Container">
     <div style="justify-content: space-between;">
       <div id="Meta">
-        <div id="Name" style="font-weight:600;font-size: 24px;color: #0bb279">
-          {{name}}
+        <div id="Name">
+          <input v-model="name" style="outline:none;font-weight: 600;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"/>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <div id="auth" style="color: #0bb279;font-size: 14px;">
@@ -23,11 +23,7 @@
     </div>
     <div class="Content1">
       <div>薪资</div>
-      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" :value="salary" /></i>/小时</div>
-    </div>
-    <div class="Content1">
-      <div>校区</div>
-      <div><i v-for="(place,index) in places" style="font-style:normal;color:#000;font-weigth:600;">{{place}}{{index!==places.length-1?'、':''}}</i></div>
+      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" v-model="salary" /></i>/小时</div>
     </div>
     <div class="Content1">
       <div>科目</div>
@@ -76,6 +72,7 @@
           {{days[i]}}
         </div>
         <div v-for="j in [0,1,2]" @click="toggleCalendar(i,j)" class="time" v-bind:class="availableTime[i][j]?'okTime':'notTime'">
+          
         </div>
       </div>
     </div>
@@ -84,21 +81,28 @@
         标签
       </div>
       <div style="">
-        <div v-for="tag in tags" style="display: inline-block;border-radius: 5px;background:#0bb279;padding:3px 6px;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
+        <el-tag :key="tag" v-for="tag in tags" :closable="true" :close-transition="false" @close="deleteTag(tag)" style="display: inline-block;border-radius: 5px;background:#0bb279;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
           {{tag}}
-        </div>
-        <div id="Add" style="display: inline-block;width: 20px;text-align:center;border:1px #0bb279 solid;border-radius: 5px;padding:3px 6px;margin-right: 9px;color:#0bb279;font-weight:600;margin-bottom: 10px;">
-          +
-        </div>
+        </el-tag>
+        <el-input
+          class="input-new-tag"
+          v-if="newTagInputVisible"
+          v-model="newTag"
+          ref="saveTagInput"
+          size="mini"
+          @keyup.enter.native="handleNewTagConfirm"
+          @blur="handleNewTagConfirm"
+        >
+        </el-input>
+        <el-button v-else class="button-new-tag" size="small" @click="showNewTagInput">+ New Tag</el-button>
       </div>
     </div>
     <div class="Content2">
       <div>
         个人宣言
       </div>
-      <div style="font-size:14px;color:#7e7e7e">
-        {{selfIntro}}
-      </div>
+      <el-input autosize type="textarea" v-model="selfIntro" id="SelfIntro" style="font-size:14px;color:#7e7e7e">
+      </el-input>
     </div>
     <div style="color:#000;font-size:18px;font-weight:600;">
       <div>月收入排名</div>
@@ -118,14 +122,15 @@ export default {
       rate: 4.5,
       salary: 99,
       highestSalary: 120,
-      places: ['紫金港', '玉泉'],
       teach: [[1, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
       availableTime: [[1, 0, 0], [0, 0, 1], [0, 0, 0], [0, 0, 1], [0, 0, 1], [1, 1, 1], [1, 1, 1]],
       tags: ['专业排名前20%', '学业奖学金', '性格开朗', '脾气好'],
       selfIntro: '虽然我的成绩不是最棒的，但是我相信，我一定是最有热情的，如果你愿意相信我，我一定不会让你失望',
       rankRate: 0.8,
       classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
-      days: ['一', '二', '三', '四', '五', '六', '日']
+      days: ['一', '二', '三', '四', '五', '六', '日'],
+      newTag: '',
+      newTagInputVisible: false
     }
   },
   methods: {
@@ -142,6 +147,22 @@ export default {
       const newAvailableTime = [...this.availableTime]
       newAvailableTime[day][time] = !newAvailableTime[day][time]
       this.availableTime = newAvailableTime
+    },
+    deleteTag(tag) {
+      this.tags.splice(this.tags.indexOf(tag), 1)
+    },
+    showNewTagInput() {
+      this.newTagInputVisible = true
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
+    },
+    handleNewTagConfirm() {
+      if (this.newTag) {
+        this.tags.push(this.newTag)
+      }
+      this.newTag = ''
+      this.newTagInputVisible = false
     }
   }
 }
@@ -171,6 +192,18 @@ export default {
     font-size: 18px;
     font-weight: 600;
     color: #000;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 24px;
+    line-height: 22px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width:78px;
+    margin-left:10px;
+    height: 24px;
   }
   .Content1 .salaryInput {
     border: none;
@@ -249,3 +282,10 @@ export default {
     margin-left: 5px;
   }
 </style>
+<style>
+  #SelfIntro > textarea{
+    border: none;
+    padding: 0;
+  }
+</style>
+
