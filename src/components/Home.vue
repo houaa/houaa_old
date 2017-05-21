@@ -1,22 +1,22 @@
 <template>
   <div class="main-contianer">
     <!--<div class="welcome-msg">
-      <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-      <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
-      <span class="login" @click="userLogin">临时登录</span>
-      </span>
-      <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
-    </div>-->
+            <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
+            <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
+            <span class="login" @click="userLogin">临时登录</span>
+            </span>
+            <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
+          </div>-->
   
     <div style="width:95%;margin:1rem auto 0.5rem auto;">
       <el-input placeholder="猴啊家教" size="large" icon="search">
       </el-input>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="教师" name="teach">
+      <el-tab-pane label="教师" name="teacher">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="学生" name="teacher">
+      <el-tab-pane label="学生" name="student">
         <router-view></router-view>
       </el-tab-pane>
       <el-tab-pane label="订单" name="reserve">
@@ -177,6 +177,9 @@ export default {
       }
     }
   },
+  created: function () {
+    this.activeName = this.$route.path.substring(1)
+  },
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -205,7 +208,7 @@ export default {
         { 'key': '西溪', 'value': '#dddddd' },
         { 'key': '玉泉', 'value': '#dddddd' }
       ],
-      activeName: 'teach',
+      activeName: 'teacher',
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -295,6 +298,10 @@ export default {
 .el-tabs__item.is-active {
   color: #00AF63;
 }
+
+
+
+
 /*.el-input__inner {
   background: url(../assets/houaa-r.png) no-repeat scroll;
   padding-left: 30px;
@@ -302,8 +309,6 @@ export default {
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
 .el-tag {
   cursor: pointer;
 }
