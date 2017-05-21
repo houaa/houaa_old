@@ -41,10 +41,16 @@ export default {
   },
   methods: {
     toNext: function () {
-      this.state += 1
+      console.log(this.state)
+      if (this.state === 1) {
+        console.log('go next')
+      } else this.state = 1
     },
     toPrev: function () {
-      this.state -= 1
+      console.log(this.state)
+      if (this.state === 0) {
+        console.log('backtofront')
+      } else this.state = 0
     }
   },
   computed: {
