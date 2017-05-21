@@ -14,9 +14,10 @@
         {{caption}}
         <p v-if="state===1&&phoneNumber">{{phoneNumber}}</p>
       </div>
-      <div id="nickname" style="width:70%;margin-left:2rem;">
+      <div style="width:70%;margin-left:2rem;">
         <el-input v-show="state==0" v-model="nickname" placeholder="请输入昵称"></el-input>        
-        <el-input :placeholder="placeHolder" icon="phone" v-model="phoneNumber">
+        <el-input v-show="state==0" placeholder="请输入手机号" icon="phone" v-model="phoneNumber"></el-input>
+        <el-input v-show="state==1" v-model="veri" placeholder="请输入验证码"></el-input>
         </el-input>
       </div>
       <div style="display:flex;flex-direction:row-reverse;padding-right:2rem;height:6rem;">
@@ -38,21 +39,32 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       phoneNumber: '',
       state: 0,
-      nickname: ''
+      nickname: '',
+      veri: ''
     }
   },
   methods: {
     toNext: function () {
       console.log(this.state)
-      if (this.state === 1) {
-        this.$router.push('/')
-      } else this.state = 1
+      if (this.state === 0) {
+        // console.log('qwq')
+        // console.log(this.nickname + 'quq')
+        if (this.nickcname === '') {
+          this.$message('请输入昵称')
+        } if (!(/^1[3|5][0-9]\d{4,8}$/.test(this.phoneNumber))) {
+          this.$message('请输入有效的手机号')
+        } else this.state = 1
+      } else {
+        if (this.veri === '') {
+          this.$message('请输入验证码')
+        } else this.$router.push('/')
+      }
     },
     toPrev: function () {
       console.log(this.state)
-      if (this.state === 0) {
-        this.$router.push('/')
-      } else this.state = 0
+      if (this.state === 1) {
+        this.state = 0
+      } else this.$router.push('/')
     }
   },
   computed: {
@@ -68,9 +80,6 @@ export default {
     },
     buttonRight: function () {
       return this.state === 0 ? '发送验证短信' : '下一步'
-    },
-    placeHolder: function () {
-      return this.state === 0 ? '请输入手机号' : '验证码'
     }
   }
 }
@@ -93,5 +102,12 @@ export default {
 
 .el-input{
   margin: 5px 0;
+}
+
+.el-message-box{
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
