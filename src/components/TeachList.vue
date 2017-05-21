@@ -25,15 +25,8 @@
 </template>
 
 <script>
-import AV from 'leancloud-storage'
 import { mapGetters, mapMutations } from 'vuex'
 import axios from 'axios'
-var APP_ID = 'bbuNR4JPyRBbqYTFkPIripnW-gzGzoHsz'
-var APP_KEY = 'Vld6ht18jVtJ9M9oAdPYpCzl'
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-})
 export default {
   name: 'teach',
   computed: {

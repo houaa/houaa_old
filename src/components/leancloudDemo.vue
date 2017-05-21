@@ -22,18 +22,13 @@
     <el-card v-for="(item, index) in queryResult" :key="index">
       用户名:{{item.attributes.name}},密码:{{item.attributes.password}},邮箱:{{item.attributes.email}} 生成日期:{{item.createdAt}}
     </el-card>
+    <el-button @click="query">query</el-button>  
     <!--<div v-for="item in queryResult">{{item}}</div>-->
   </div>
 </template>
 
 <script>
 import AV from 'leancloud-storage'
-var APP_ID = 'bbuNR4JPyRBbqYTFkPIripnW-gzGzoHsz'
-var APP_KEY = 'Vld6ht18jVtJ9M9oAdPYpCzl'
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-})
 export default {
   name: 'leancloud',
   data() {
@@ -115,8 +110,6 @@ export default {
     },
     wechat: function () {
       AV.User.signUpOrlogInWithAuthData({
-        // 微博（weibo）用 uid
-        // 微信（weixin）和 QQ（qq）用 openid
         'openid': 'oPrJ7uM5Y5oeypd0fyqQcKCaRv3o',
         'access_token': 'OezXcEiiBSKSxW0eoylIeNFI3H7HsmxM7dUj1dGRl2dXJOeIIwD4RTW7Iy2IfJePh6jj7OIs1GwzG1zPn7XY_xYdFYvISeusn4zfU06NiA1_yhzhjc408edspwRpuFSqtYk0rrfJAcZgGBWGRp7wmA',
         'expires_at': '2017-06-06T11:43:11.904Z'
