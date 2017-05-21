@@ -22,7 +22,7 @@
       <el-tab-pane label="订单" name="reserve">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="个人" name="tereserve">
+      <el-tab-pane label="个人" name="self">
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>

@@ -14,8 +14,8 @@ import SelfNew from './components/SelfNew'
 // import Login from './components/Login'
 import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
-// import Home from './components/Home'
-import HomeNew from './components/Homenew'
+import Home from './components/Home'
+// import HomeNew from './components/Homenew'
 import Teach from './components/Teach'
 // import Teacher from './components/Teacher'
 import TeacherNew from './components/Teachernew'
@@ -23,7 +23,6 @@ import Learn from './components/Learn'
 // import Signup from './components/Signup'
 import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
-import Tereserve from './components/Tereserve'
 import Leancloud from './components/leancloudDemo'
 
 Vue.use(ElementUI)
@@ -42,14 +41,14 @@ const routes = [
   {
     path: '/',
     // component: Home,
-    component: HomeNew,
+    component: Home,
     children: [
       { path: 'teach', component: Teach },
       // { path: 'teacher', component: Teacher },
       { path: 'teacher', component: TeacherNew },
       { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
-      { path: 'tereserve', component: Tereserve },
+      // { path: 'tereserve', component: Tereserve },
       { path: 'self', component: SelfNew }
     ],
     redirect: 'teach'
@@ -75,8 +74,3 @@ new Vue({
   router,
   store
 }).$mount('#app')
-// new Vue({
-//   el: '#app',
-//   template: '<App/>',
-//   components: { App }
-// })
