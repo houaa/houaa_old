@@ -1,9 +1,9 @@
 <template>
   <div style="display:flex;width:100%;flex-direction:column;height:100%;">
     <div style="height:40%;background-color:#00AF73;
-  flex-direction:column-reverse;display:flex;">
+                        flex-direction:column-reverse;display:flex;">
       <div style="display:flex;align-items:center; padding-left:2rem;
-  height:30%; background-color: #009c66;color:#fff;">
+                        height:30%; background-color: #009c66;color:#fff;">
         <span style="font-size:1.8rem;">{{title}}</span>
       </div>
       <img style="position:absolute;width:54%;right:0.3rem;top:1rem;" src="../assets/signupMask.svg"></img>
@@ -15,7 +15,7 @@
         <p v-if="state===1&&phoneNumber">{{phoneNumber}}</p>
       </div>
       <div style="width:70%;margin-left:2rem;">
-        <el-input v-show="state==0" v-model="nickname" placeholder="请输入昵称"></el-input>        
+        <el-input v-show="state==0" v-model="nickname" placeholder="请输入昵称"></el-input>
         <el-input v-show="state==0" placeholder="请输入手机号" icon="phone" v-model="phoneNumber"></el-input>
         <el-input v-show="state==1" v-model="veri" placeholder="请输入验证码"></el-input>
         </el-input>
@@ -25,13 +25,16 @@
       </div>
       <el-button-group>
         <el-button @click="toPrev()" style="border-right: 1px solid #aaa;" icon="arrow-left">{{buttonLeft}}</el-button>
-        <el-button @click="toNext()">{{buttonRight}}<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+        <el-button @click="toNext()">{{buttonRight}}
+          <i class="el-icon-arrow-right el-icon-right"></i>
+        </el-button>
       </el-button-group>
     </div>
   </div>
 </template>
 
 <script>
+import AV from 'leancloud-storage'
 export default {
   name: 'signupnew',
   data() {
@@ -46,6 +49,7 @@ export default {
   methods: {
     toNext: function () {
       console.log(this.state)
+      let self = this
       if (this.state === 0) {
         // console.log('qwq')
         // console.log(this.nickname + 'quq')
@@ -53,11 +57,28 @@ export default {
           this.$message('请输入昵称')
         } if (!(/^1[3|5][0-9]\d{4,8}$/.test(this.phoneNumber))) {
           this.$message('请输入有效的手机号')
-        } else this.state = 1
+        } else {
+          AV.Cloud.requestSmsCode(self.phoneNumber).then(success => {
+            self.$message('已发送')
+            this.state = 1
+          }, error => {
+            self.$message('各种错误')
+            console.log(error)
+          })
+          // this.state = 1
+        }
       } else {
         if (this.veri === '') {
           this.$message('请输入验证码')
-        } else this.$router.push('/')
+        } else {
+          AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
+            // console.log(loggedInUser)
+            self.$message(loggedInUser)
+            this.$router.push('self')
+          }, error => {
+            console.log(error)
+          })
+        }
       }
     },
     toPrev: function () {
@@ -100,11 +121,11 @@ export default {
   background-color: #ddd;
 }
 
-.el-input{
+.el-input {
   margin: 5px 0;
 }
 
-.el-message-box{
+.el-message-box {
   width: 60%;
   display: flex;
   align-items: center;
