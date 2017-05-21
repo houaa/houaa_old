@@ -23,7 +23,7 @@
     </div>
     <div class="Content1">
       <div>薪资</div>
-      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ {{salary}}</i>/小时</div>
+      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" :value="salary" /></i>/小时</div>
     </div>
     <div class="Content1">
       <div>校区</div>
@@ -35,7 +35,7 @@
         <div class="eduRank">
           <div>小学</div>
           <div id="classes">
-            <i v-for="i in [0,1]" v-bind:class="teach[0][i]?'ok':'not'">
+            <i v-for="i in [0,1]" @click="toggleTeach(0,i)" v-bind:class="teach[0][i]?'ok':'not'">
               {{classes[0][i]}}
             </i>
           </div>
@@ -43,7 +43,7 @@
         <div class="eduRank">
           <div>初中</div>
           <div id="classes">
-            <i v-for="i in [0,1,2]" v-bind:class="teach[1][i]?'ok':'not'">
+            <i v-for="i in [0,1,2]" @click="toggleTeach(1,i)" v-bind:class="teach[1][i]?'ok':'not'">
               {{classes[1][i]}}
             </i>
           </div>
@@ -51,7 +51,7 @@
         <div class="eduRank">
           <div>高中</div>
           <div id="classes">
-            <i v-for="i in [0,1,2]" v-bind:class="teach[2][i]?'ok':'not'">
+            <i v-for="i in [0,1,2]" @click="toggleTeach(2,i)" v-bind:class="teach[2][i]?'ok':'not'">
               {{classes[2][i]}}
             </i>
           </div>
@@ -75,7 +75,7 @@
         <div>
           {{days[i]}}
         </div>
-        <div v-for="j in [0,1,2]" class="time" v-bind:class="availableTime[i][j]?'okTime':'notTime'">
+        <div v-for="j in [0,1,2]" @click="toggleCalendar(i,j)" class="time" v-bind:class="availableTime[i][j]?'okTime':'notTime'">
         </div>
       </div>
     </div>
@@ -127,6 +127,22 @@ export default {
       classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
       days: ['一', '二', '三', '四', '五', '六', '日']
     }
+  },
+  methods: {
+    toggleTeach(eduRank, classes) {
+      const newTeach = [...this.teach]
+      newTeach[eduRank][classes] = !newTeach[eduRank][classes]
+      this.teach = newTeach
+      // newTeach[classes] = !newTeach[classes]
+      // console.log(newTeach)
+      // this.$set(this.newTeach, eduRank, newTeach)
+      // this.teach[eduRank][classes] = !this.teach[eduRank][classes]
+    },
+    toggleCalendar(day, time) {
+      const newAvailableTime = [...this.availableTime]
+      newAvailableTime[day][time] = !newAvailableTime[day][time]
+      this.availableTime = newAvailableTime
+    }
   }
 }
 </script>
@@ -155,6 +171,16 @@ export default {
     font-size: 18px;
     font-weight: 600;
     color: #000;
+  }
+  .Content1 .salaryInput {
+    border: none;
+    outline: none;
+    width: 30px;
+    text-align: right;
+    font-size: 17px;
+    margin-right: 5px;
+    color: #0bb279;
+    font-weight: 600;
   }
   #Container > div.Content2 {
     display: block;
@@ -187,6 +213,7 @@ export default {
     background: #0bb279;
     color: #FFF;
     border: #0bb279 2px solid;
+    margin-bottom: 5px;
     font-size: 14px;
     font-weight: 600;
   }
