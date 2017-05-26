@@ -10,7 +10,7 @@
             {{user.auth?"认证教员":"非认证教员"}}
           </div>
           <div id="grade" style="font-size: 14px;margin-left: 24px;">
-            <input placeholder="修改年级" type="text" v-model="user.grade" style="outline: none;font-weight: 600;font-size: 14px;width: 100px;border: none; color: #7e7e7e">
+            <input  placeholder="修改年级" v-model="user.grade" style="outline: none;font-weight: 600;font-size: 14px;width: 100px;border: none; color: #7e7e7e">
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="Content1">
       <div>薪资</div>
-      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" v-model="user.salary" /></i>/小时</div>
+      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" type="number" v-model.number="user.salary" /></i>/小时</div>
     </div>
     <div class="Content1">
       <div>科目</div>
@@ -140,11 +140,9 @@ export default {
   },
   created: function() {
     if (!AV.User.current()) {
-      window.location.hash = '/login'
+      this.$router.push('/login')
     }
     this.getInfo(AV.User.current())
-  },
-  beforeCreate: async function() {
   },
   methods: {
     ...mapActions([
@@ -177,7 +175,7 @@ export default {
       this.inputText(['selfIntro', this.user.selfIntro])
       this.inputText(['grade', this.user.grade])
       await this.submitToAV()
-      window.location.hash = '/teacher'
+      this.$router.push('/teacher')
     }
   }
 }
