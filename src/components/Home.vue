@@ -1,12 +1,12 @@
 <template>
   <div class="main-contianer">
     <!--<div class="welcome-msg">
-            <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-            <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
-            <span class="login" @click="userLogin">临时登录</span>
-            </span>
-            <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
-          </div>-->
+              <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
+              <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
+              <span class="login" @click="userLogin">临时登录</span>
+              </span>
+              <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
+            </div>-->
   
     <div style="width:95%;margin:1rem auto 0.5rem auto;">
       <el-input placeholder="猴啊家教" size="large" icon="search">
@@ -22,7 +22,7 @@
       <el-tab-pane label="订单" name="reserve">
         <router-view></router-view>
       </el-tab-pane>
-      <el-tab-pane label="个人" name="self">
+      <el-tab-pane label="我" name="self">
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
@@ -235,7 +235,7 @@ export default {
       this.$router.push('/tereserve')
     },
     search: function (event) {
-      if (this.loggedIn === false) {
+      if (!this.userInfo) {
         this.showLoginModal()
       } else {
         this.searchModal = true
@@ -298,6 +298,7 @@ export default {
 .el-tabs__item.is-active {
   color: #00AF63;
 }
+
 
 
 

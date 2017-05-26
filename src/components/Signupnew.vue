@@ -1,9 +1,9 @@
 <template>
   <div style="display:flex;width:100%;flex-direction:column;height:100%;">
     <div style="height:40%;background-color:#00AF73;
-                        flex-direction:column-reverse;display:flex;">
+                                            flex-direction:column-reverse;display:flex;">
       <div style="display:flex;align-items:center; padding-left:2rem;
-                        height:30%; background-color: #009c66;color:#fff;">
+                                            height:30%; background-color: #009c66;color:#fff;">
         <span style="font-size:1.8rem;">{{title}}</span>
       </div>
       <img style="position:absolute;width:54%;right:0.3rem;top:1rem;" src="../assets/signupMask.svg"></img>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import AV from 'leancloud-storage'
 export default {
   name: 'signupnew',
@@ -47,6 +48,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'userLogin'
+    ]),
     toNext: function () {
       console.log(this.state)
       let self = this
@@ -58,8 +62,12 @@ export default {
         } if (!(/^1[3|5][0-9]\d{4,8}$/.test(this.phoneNumber))) {
           this.$message('请输入有效的手机号')
         } else {
-          AV.Cloud.requestSmsCode(self.phoneNumber).then(success => {
-            self.$message('已发送')
+          AV.Cloud.requestSmsCode({
+            mobilePhoneNumber: self.phoneNumber,
+            name: '猴啊家教',
+            ttl: 10
+          }).then(success => {
+            self.$message('已发送短信')
             this.state = 1
           }, error => {
             self.$message('各种错误')
@@ -73,7 +81,9 @@ export default {
         } else {
           AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
             // console.log(loggedInUser)
-            self.$message(loggedInUser)
+            // self.setLoggedInUser(loggedInUser)
+            self.userLogin(loggedInUser)
+            self.$message('登陆成功')
             this.$router.push('self')
           }, error => {
             console.log(error)
