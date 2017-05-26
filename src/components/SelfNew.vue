@@ -10,7 +10,7 @@
             {{user.auth?"认证教员":"非认证教员"}}
           </div>
           <div id="grade" style="font-size: 14px;margin-left: 24px;">
-            {{user.grade}}
+            <input placeholder="修改年级" type="text" v-model="user.grade" style="outline: none;font-weight: 600;font-size: 14px;width: 100px;border: none; color: #7e7e7e">
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
         <div class="eduRank">
           <div>小学</div>
           <div id="classes">
-            <i v-for="i in [0,1]" @click="toggleTeach(0,i)" v-bind:class="user.teach[0][i]?'ok':'not'">
+            <i v-for="i in [0,1]" @click="toggleTeach([0,i])" v-bind:class="user.teach[0][i]?'ok':'not'">
               {{classes[0][i]}}
             </i>
           </div>
@@ -39,7 +39,7 @@
         <div class="eduRank">
           <div>初中</div>
           <div id="classes">
-            <i v-for="i in [0,1,2]" @click="toggleTeach(1,i)" v-bind:class="user.teach[1][i]?'ok':'not'">
+            <i v-for="i in [0,1,2]" @click="toggleTeach([1,i])" v-bind:class="user.teach[1][i]?'ok':'not'">
               {{classes[1][i]}}
             </i>
           </div>
@@ -47,7 +47,7 @@
         <div class="eduRank">
           <div>高中</div>
           <div id="classes">
-            <i v-for="i in [0,1,2]" @click="toggleTeach(2,i)" v-bind:class="user.teach[2][i]?'ok':'not'">
+            <i v-for="i in [0,1,2]" @click="toggleTeach([2,i])" v-bind:class="user.teach[2][i]?'ok':'not'">
               {{classes[2][i]}}
             </i>
           </div>
@@ -71,7 +71,7 @@
         <div>
           {{days[i]}}
         </div>
-        <div v-for="j in [0,1,2]" @click="toggleCalendar(i,j)" >
+        <div v-for="j in [0,1,2]" @click="toggleCalendar([i,j])" >
           <div class="time" v-bind:class="user.availableTime[i][j]?'okTime':'notTime'"></div>
         </div>
       </div>
@@ -104,6 +104,9 @@
       <el-input placeholder="输入个人宣言" autosize type="textarea" v-model="user.selfIntro" id="SelfIntro" style="font-size:14px;color:#7e7e7e">
       </el-input>
     </div>
+    <div style="width: 100%;">
+      <el-button style="margin-left:auto;margin-right:auto" type="success" @click="submit">提交</el-button>
+    </div>
     <!--<div style="color:#000;font-size:18px;font-weight:600;">
       <div>月收入排名</div>
       <el-progress :text-inside="true" :stroke-width="18" :percentage="100" status="success" ></el-progress>
@@ -112,7 +115,7 @@
 </template>
 <script>
 import AV from 'leancloud-storage'
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 // const APP_ID = 'bbuNR4JPyRBbqYTFkPIripnW-gzGzoHsz'
 // const APP_KEY = 'Vld6ht18jVtJ9M9oAdPYpCzl'
 // AV.init({
@@ -145,25 +148,16 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getInfo'
+      'getInfo',
+      'submitToAV'
     ]),
-    toggleTeach(eduRank, classes) {
-      const newTeach = [...this.teach]
-      newTeach[eduRank][classes] = !newTeach[eduRank][classes]
-      this.teach = newTeach
-      // newTeach[classes] = !newTeach[classes]
-      // console.log(newTeach)
-      // this.$set(this.newTeach, eduRank, newTeach)
-      // this.teach[eduRank][classes] = !this.teach[eduRank][classes]
-    },
-    toggleCalendar(day, time) {
-      const newAvailableTime = [...this.availableTime]
-      newAvailableTime[day][time] = !newAvailableTime[day][time]
-      this.availableTime = newAvailableTime
-    },
-    deleteTag(tag) {
-      this.tags.splice(this.tags.indexOf(tag), 1)
-    },
+    ...mapMutations([
+      'toggleTeach',
+      'toggleCalendar',
+      'deleteTag',
+      'addTag',
+      'inputText'
+    ]),
     showNewTagInput() {
       this.newTagInputVisible = true
       this.$nextTick(_ => {
@@ -172,10 +166,18 @@ export default {
     },
     handleNewTagConfirm() {
       if (this.newTag) {
-        this.tags.push(this.newTag)
+        this.addTag(this.newTag)
       }
       this.newTag = ''
       this.newTagInputVisible = false
+    },
+    async submit() {
+      this.inputText(['name', this.user.name])
+      this.inputText(['salary', this.user.salary])
+      this.inputText(['selfIntro', this.user.selfIntro])
+      this.inputText(['grade', this.user.grade])
+      await this.submitToAV()
+      window.location.hash = '/teacher'
     }
   }
 }

@@ -58,8 +58,27 @@ const mutations = {
   setUserInfo(state, info) {
     state.user = info
   },
-  setName(name) {
+  setName(state, name) {
     state.user.name = name
+  },
+  toggleTeach(state, [eduRank, classes]) {
+    const newTeach = [...state.user.teach]
+    newTeach[eduRank][classes] = !newTeach[eduRank][classes]
+    state.user.teach = newTeach
+  },
+  toggleCalendar(state, [day, time]) {
+    const newAvailableTime = [...state.user.availableTime]
+    newAvailableTime[day][time] = !newAvailableTime[day][time]
+    state.user.availableTime = newAvailableTime
+  },
+  deleteTag(state, tag) {
+    state.user.tags.splice(state.user.tags.indexOf(tag), 1)
+  },
+  addTag(state, tag) {
+    state.user.tags.push(tag)
+  },
+  inputText(state, [attr, content]) {
+    state.user[attr] = content
   }
 }
 
@@ -69,20 +88,21 @@ const actions = {
       name: AVuser.attributes.name,
       sex: AVuser.attributes.sex,
       auth: AVuser.attributes.auth,
-      grade: AVuser.attributes.grade,
+      grade: AVuser.attributes.grade || '本科一年级',
       rate: AVuser.attributes.rate,
       salary: AVuser.attributes.salary,
       highestSalary: AVuser.attributes.highestSalary,
-      teach: AVuser.attributes.teach,
-      availableTime: AVuser.attributes.availableTime,
-      tags: AVuser.attributes.tags,
+      teach: AVuser.attributes.teach || [[1, 1], [1, 1, 1], [1, 1, 1]],
+      availableTime: AVuser.attributes.availableTime || [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]],
+      tags: AVuser.attributes.tags || [],
       selfIntro: AVuser.attributes.selfIntro
     })
   },
-  async setName(context, name) {
-    const AVuser = await AV.User.current()
-    context.commit('setName', name)
-    AVuser.set('name', name)
+  async submitToAV(context) {
+    const AVuser = AV.User.current()
+    for (const key in context.state.user) {
+      AVuser.set(key, context.state.user[key])
+    }
     await AVuser.save()
   }
 }
