@@ -140,7 +140,7 @@ export default {
   },
   created: function() {
     if (!AV.User.current()) {
-      window.location.hash = '/login'
+      this.$router.push('/login')
     }
     this.getInfo(AV.User.current())
   },
@@ -177,7 +177,7 @@ export default {
       this.inputText(['selfIntro', this.user.selfIntro])
       this.inputText(['grade', this.user.grade])
       await this.submitToAV()
-      window.location.hash = '/teacher'
+      this.$router.push('/teacher')
     }
   }
 }

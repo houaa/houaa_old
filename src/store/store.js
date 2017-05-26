@@ -100,6 +100,24 @@ const actions = {
   },
   async submitToAV(context) {
     const AVuser = AV.User.current()
+
+    const teacherQuery = new AV.Query('TeacherList')
+    const result = await teacherQuery.equalTo('id', AVuser.id).find()
+    if (result.length === 0) {
+      const TeacherList = AV.Object.extend('TeacherList')
+      const newTeacher = new TeacherList()
+      await newTeacher.save({
+        ...context.state.user,
+        id: AVuser.id
+      })
+    } else {
+      const TeacherUser = result[0]
+      for (const key in context.state.user) {
+        TeacherUser.set(key, context.state.user[key])
+      }
+      await TeacherUser.save()
+    }
+
     for (const key in context.state.user) {
       AVuser.set(key, context.state.user[key])
     }
