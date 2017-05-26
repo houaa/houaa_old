@@ -24,6 +24,7 @@
 
 <script>
 import AV from 'leancloud-storage'
+import { mapActions } from 'vuex'
 export default {
   name: 'loginNew',
   data() {
@@ -33,6 +34,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'getInfo'
+    ]),
     toSignUp: function () {
       this.$router.push('signup')
     },
@@ -48,7 +52,21 @@ export default {
     logInPhone: function () {
       let self = this
       AV.User.signUpOrlogInWithMobilePhone(self.phone, self.recaptcha).then(loggedInUser => {
-        console.log(loggedInUser)
+        loggedInUser.set('name', '')
+        loggedInUser.set('sex', 0)
+        loggedInUser.set('auth', 0)
+        loggedInUser.set('grade', '本科 一年级')
+        loggedInUser.set('rate', 0)
+        loggedInUser.set('salary', 0)
+        loggedInUser.set('highestSalary', 0)
+        loggedInUser.set('teach', [[1, 1], [1, 1, 1], [1, 1, 1]])
+        loggedInUser.set('availableTime', [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]])
+        loggedInUser.set('tags', [])
+        loggedInUser.set('selfIntro', '')
+        loggedInUser.save().then((loggedInUser) => {
+          console.log(loggedInUser)
+          this.getInfo(loggedInUser)
+        })
         self.$message(loggedInUser.attributes.email)
       }, error => {
         console.log(error)

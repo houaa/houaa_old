@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import AV from 'leancloud-storage'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,21 @@ const state = {
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
   currentTeacher: {},
-  superToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ub3NzbC5ob3VhYS54eXoiLCJpcCI6IjEyNy4wLjAuMSIsImlkIjoiaGFvaGFvIiwicGhvbmUiOiIxMjM0NTY3ODkwMSIsImlhdCI6MTQ4ODEwNTkxOH0.2r47M-_GmiH591q4Yscp-Hbp8eWqN0k7eKlANlAtfg4'
+  superToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ub3NzbC5ob3VhYS54eXoiLCJpcCI6IjEyNy4wLjAuMSIsImlkIjoiaGFvaGFvIiwicGhvbmUiOiIxMjM0NTY3ODkwMSIsImlhdCI6MTQ4ODEwNTkxOH0.2r47M-_GmiH591q4Yscp-Hbp8eWqN0k7eKlANlAtfg4',
+  user: {
+    name: '',
+    sex: 1,
+    auth: true,
+    grade: '',
+    rate: 0,
+    salary: 0,
+    highestSalary: 0,
+    teach: [],
+    availableTime: [],
+    tags: [],
+    selfIntro: '',
+    rankRate: 0
+  }
 }
 
 const mutations = {
@@ -32,9 +47,6 @@ const mutations = {
   hideLoginModal(state) {
     state.showLoginModal = false
   },
-  setUserInfo(state, info) {
-    state.userInfo = info
-  },
   setCurrentTeacher(state, teacher) {
     state.currentTeacher = {
       ...teacher
@@ -42,6 +54,36 @@ const mutations = {
   },
   setAllTeachers(state, teachers) {
     state.allTeachers = teachers
+  },
+  setUserInfo(state, info) {
+    state.user = info
+  },
+  setName(name) {
+    state.user.name = name
+  }
+}
+
+const actions = {
+  async getInfo(context, AVuser) {
+    context.commit('setUserInfo', {
+      name: AVuser.attributes.name,
+      sex: AVuser.attributes.sex,
+      auth: AVuser.attributes.auth,
+      grade: AVuser.attributes.grade,
+      rate: AVuser.attributes.rate,
+      salary: AVuser.attributes.salary,
+      highestSalary: AVuser.attributes.highestSalary,
+      teach: AVuser.attributes.teach,
+      availableTime: AVuser.attributes.availableTime,
+      tags: AVuser.attributes.tags,
+      selfIntro: AVuser.attributes.selfIntro
+    })
+  },
+  async setName(context, name) {
+    const AVuser = await AV.User.current()
+    context.commit('setName', name)
+    AVuser.set('name', name)
+    await AVuser.save()
   }
 }
 
@@ -58,11 +100,13 @@ const getters = {
   superToken: state => state.superToken,
   allTeachers: state => state.allTeachers,
   teachURL: state => state.teachURL,
-  currentTeacher: state => state.currentTeacher
+  currentTeacher: state => state.currentTeacher,
+  user: state => state.user
 }
 
 export default new Vuex.Store({
   state,
   getters,
-  mutations
+  mutations,
+  actions
 })
