@@ -5,10 +5,10 @@ import AV from 'leancloud-storage'
 Vue.use(Vuex)
 
 const state = {
-  login: false,
   showLoginModal: false,
   userInfo: '',
   allTeachers: '',
+  loggedInUser: '',
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
   currentTeacher: {},
@@ -30,8 +30,8 @@ const state = {
 }
 
 const mutations = {
-  userLogin(state) {
-    state.login = true
+  userLogin(state, user) {
+    state.userInfo = user
     if (state.userInfo === '') {
       state.userInfo = {
         username: '临时用户'
