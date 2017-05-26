@@ -5,25 +5,27 @@ import Vue from 'vue'
 import store from './store/store'
 import App from './App'
 
+import AV from 'leancloud-storage'
+var APP_ID = 'bbuNR4JPyRBbqYTFkPIripnW-gzGzoHsz'
+var APP_KEY = 'Vld6ht18jVtJ9M9oAdPYpCzl'
+AV.init({
+  appId: APP_ID,
+  appKey: APP_KEY
+})
+Vue.use(AV)
+
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
-
-// import Self from './components/Self'
 import SelfNew from './components/SelfNew'
-// import Login from './components/Login'
 import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
-// import Home from './components/Home'
-import HomeNew from './components/Homenew'
-import Teach from './components/Teach'
-// import Teacher from './components/Teacher'
-import TeacherNew from './components/Teachernew'
+import Home from './components/Home'
+import TeachList from './components/TeachList'
 import Learn from './components/Learn'
-// import Signup from './components/Signup'
 import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
-import Tereserve from './components/Tereserve'
+import Leancloud from './components/leancloudDemo'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -34,24 +36,19 @@ const Bar = { template: '<div>bar</div>' }
 
 const routes = [
   { path: '/app', component: App },
-  // { path: '/login', component: Login },
   { path: '/login', component: LoginNew },
-  // { path: '/signup', component: Signup },
   { path: '/signup', component: SignupNew },
   {
     path: '/',
-    // component: Home,
-    component: HomeNew,
+    component: Home,
     children: [
-      { path: 'teach', component: Teach },
-      // { path: 'teacher', component: Teacher },
-      { path: 'teacher', component: TeacherNew },
+      { path: 'teacher', component: TeachList },
+      { path: 'student', component: TeachList },
       { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
-      { path: 'tereserve', component: Tereserve },
       { path: 'self', component: SelfNew }
     ],
-    redirect: 'teach'
+    redirect: 'teacher'
   },
   {
     path: '/hello/:id',
@@ -61,8 +58,8 @@ const routes = [
       { path: 'bar', component: Foo }
     ]
   },
+  { path: '/leancloud', component: Leancloud },
   { path: '/bar', component: Bar }
-  // { path: '/', redirect: '/home' }
 ]
 
 const router = new VueRouter({
@@ -73,8 +70,3 @@ new Vue({
   router,
   store
 }).$mount('#app')
-// new Vue({
-//   el: '#app',
-//   template: '<App/>',
-//   components: { App }
-// })
