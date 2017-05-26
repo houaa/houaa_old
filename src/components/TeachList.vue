@@ -8,14 +8,15 @@
         </div>
         <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;">
           <div style="padding:0.5rem 0 0.5rem 0;">
-            <span style="font-size: 1.3rem;">{{user.name}}</span>
-            <span style="color:#555;"> /{{user.school}}</span>
+            <span style="font-size: 1.3rem;">{{user.attributes.name}}</span>
+            <span style="color:#555;"> /{{user.attributes.selfIntro}}</span>
           </div>
           <div style="font-size: 14px; color: #555">
-            <div>本科：{{user.major}}</div>
+            <div>年级：{{user.attributes.grade}}</div>
             <div>
-              <el-tag type="success">{{user.area}}</el-tag>
-              <el-tag type="success">信息技术</el-tag> - 加入时间：{{user.join_time}}</div>
+              <el-tag v-for="(tag,index) in user.attributes.tags" type="success">{{tag}}</el-tag>
+            </div>
+            <div>加入时间：{{user.createdAt|toDate}}</div>
             <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
           </div>
         </div>
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import AV from 'leancloud-storage'
 import { mapGetters, mapMutations } from 'vuex'
 import axios from 'axios'
 export default {
@@ -40,6 +42,12 @@ export default {
   filters: {
     toInt: function (value) {
       return parseInt(value)
+    },
+    toDate: function (value) {
+      console.log(value)
+      let newDate = new Date(value)
+      if (!newDate) return ''
+      return newDate.getFullYear() + '年' + (parseInt(newDate.getMonth()) + 1) + '月'
     }
   },
   data() {
@@ -50,14 +58,7 @@ export default {
   },
   created: function () {
     let self = this
-    self.fetchTeachers()
-    // var TestObject = AV.Object.extend('TestObject')
-    // var testObject = new TestObject()
-    // testObject.save({
-    //   words: 'Hello World!'
-    // }).then(function (object) {
-    //   console.log('LeanCloud Rocks!')
-    // })
+    self.getTeachers()
   },
   methods: {
     ...mapMutations([
@@ -100,6 +101,18 @@ export default {
       } else {
         self.allUsers = self.allTeachers
       }
+    },
+    getTeachers: function () {
+      let self = this
+      let query = new AV.Query('TeacherList')
+      query.find().then((result) => {
+        // console.log('asdf', result)
+        self.allUsers = result
+        self.setAllTeachers(result)
+        console.log(self.allUsers)
+      }, error => {
+        console.log(error)
+      })
     }
   }
 }

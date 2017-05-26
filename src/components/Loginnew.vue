@@ -52,9 +52,11 @@ export default {
     logInPhone: function () {
       let self = this
       AV.User.signUpOrlogInWithMobilePhone(self.phone, self.recaptcha).then(loggedInUser => {
-        console.log(loggedInUser)
-        self.$message(loggedInUser.attributes.email)
+        self.$message('登陆成功')
+        self.$router.push('/teacher')
+        // self.push('teacher')
       }, error => {
+        self.$message('不对的验证码噢')
         console.log(error)
       })
     }

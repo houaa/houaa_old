@@ -1,13 +1,5 @@
 <template>
   <div class="main-contianer">
-    <!--<div class="welcome-msg">
-              <span v-if="!loggedIn">欢迎来到猴啊家教，您尚未<span class="login" @click="toLoginPage" >登录！</span>
-              <span class="login" style="cursor: pointer" @click="toSignupPage">注册</span>
-              <span class="login" @click="userLogin">临时登录</span>
-              </span>
-              <span v-else>欢迎来到猴啊家教，{{userInfo.username}}！ <span class="login" style="cursor: pointer" @click="userLogout">注销</span></span>
-            </div>-->
-  
     <div style="width:95%;margin:1rem auto 0.5rem auto;">
       <el-input placeholder="猴啊家教" size="large" icon="search">
       </el-input>
@@ -33,7 +25,7 @@
           <div class="float-text">
             如需查看详细信息或进行筛选搜索，请您
           </div>
-          <button @click="toLoginPage" class="btn  gray" type="button">
+          <button @click="toLoginPage" class="btn gray" type="button">
             <span>登录</span>
           </button>
           <button @click="toSignupPage" class="btn" type="button">
@@ -175,10 +167,10 @@ export default {
       } else {
         return false
       }
+    },
+    activeName: function () {
+      return this.$route.path.substring(1)
     }
-  },
-  created: function () {
-    this.activeName = this.$route.path.substring(1)
   },
   data() {
     return {
@@ -208,7 +200,6 @@ export default {
         { 'key': '西溪', 'value': '#dddddd' },
         { 'key': '玉泉', 'value': '#dddddd' }
       ],
-      activeName: 'teacher',
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -298,6 +289,13 @@ export default {
 .el-tabs__item.is-active {
   color: #00AF63;
 }
+
+
+
+
+
+
+
 
 
 
