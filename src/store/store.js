@@ -8,6 +8,7 @@ const state = {
   showLoginModal: false,
   userInfo: '',
   allTeachers: '',
+  loggedInUser: '',
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
   currentTeacher: {},
@@ -42,6 +43,9 @@ const mutations = {
   },
   setAllTeachers(state, teachers) {
     state.allTeachers = teachers
+  },
+  setLoggedInUser(state, user) {
+    state.loggedInUser = user
   }
 }
 
@@ -58,7 +62,8 @@ const getters = {
   superToken: state => state.superToken,
   allTeachers: state => state.allTeachers,
   teachURL: state => state.teachURL,
-  currentTeacher: state => state.currentTeacher
+  currentTeacher: state => state.currentTeacher,
+  loggedInUser: state => state.loggedInUser
 }
 
 export default new Vuex.Store({
