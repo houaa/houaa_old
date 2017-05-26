@@ -1,9 +1,9 @@
 <template>
   <div style="display:flex;width:100%;flex-direction:column;height:100%;">
     <div style="height:40%;background-color:#00AF73;
-                                        flex-direction:column-reverse;display:flex;">
+                                            flex-direction:column-reverse;display:flex;">
       <div style="display:flex;align-items:center; padding-left:2rem;
-                                        height:30%; background-color: #009c66;color:#fff;">
+                                            height:30%; background-color: #009c66;color:#fff;">
         <span style="font-size:1.8rem;">{{title}}</span>
       </div>
       <img style="position:absolute;width:54%;right:0.3rem;top:1rem;" src="../assets/signupMask.svg"></img>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 import AV from 'leancloud-storage'
 export default {
   name: 'signupnew',
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setLoggedInUser'
+      'userLogin'
     ]),
     toNext: function () {
       console.log(this.state)
@@ -81,7 +81,8 @@ export default {
         } else {
           AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
             // console.log(loggedInUser)
-            self.setLoggedInUser(loggedInUser)
+            // self.setLoggedInUser(loggedInUser)
+            self.userLogin(loggedInUser)
             self.$message('登陆成功')
             this.$router.push('self')
           }, error => {
@@ -98,9 +99,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'loggedInUser'
-    ]),
     title: function () {
       return this.state === 0 ? '您的手机号' : '验证短信'
     },

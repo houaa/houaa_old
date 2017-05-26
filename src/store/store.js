@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  login: false,
   showLoginModal: false,
   userInfo: '',
   allTeachers: '',
@@ -16,8 +15,8 @@ const state = {
 }
 
 const mutations = {
-  userLogin(state) {
-    state.login = true
+  userLogin(state, user) {
+    state.userInfo = user
     if (state.userInfo === '') {
       state.userInfo = {
         username: '临时用户'
@@ -43,9 +42,6 @@ const mutations = {
   },
   setAllTeachers(state, teachers) {
     state.allTeachers = teachers
-  },
-  setLoggedInUser(state, user) {
-    state.loggedInUser = user
   }
 }
 
@@ -62,8 +58,7 @@ const getters = {
   superToken: state => state.superToken,
   allTeachers: state => state.allTeachers,
   teachURL: state => state.teachURL,
-  currentTeacher: state => state.currentTeacher,
-  loggedInUser: state => state.loggedInUser
+  currentTeacher: state => state.currentTeacher
 }
 
 export default new Vuex.Store({
