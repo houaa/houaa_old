@@ -14,7 +14,7 @@
           <div style="font-size: 14px; color: #555">
             <div>年级：{{user.attributes.grade}}</div>
             <div>
-              <el-tag v-for="(tag,index) in user.attributes.tags" type="success">{{tag}}</el-tag>
+              <el-tag v-for="(tag,index) in user.attributes.tags" key="index" type="success">{{tag}}</el-tag>
             </div>
             <div>加入时间：{{user.createdAt|toDate}}</div>
             <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
