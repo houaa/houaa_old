@@ -3,10 +3,10 @@
     <div style="justify-content: space-between;">
       <div id="Meta">
         <div id="Name">
-          <input placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 600;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"/>
+          <input placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 600;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;" ></input>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
-          <div id="auth" style="color: #0bb279;font-size: 14px;">
+          <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
             {{user.auth?"认证教员":"非认证教员"}}
           </div>
           <div id="grade" style="font-size: 14px;margin-left: 24px;">
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
-        <el-rate v-model="user.rate" disabled v-bind:colors="['#0bb279','#0bb279','#0bb279']"/>
+        <el-rate style="min-width:126px" v-model="user.rate" disabled v-bind:colors="['#0bb279','#0bb279','#0bb279']"></el-rate>
         <div style="margin-top:27px;letter-spacing:2px;">
           {{user.rate}}<i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
         </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="Content1">
       <div>薪资</div>
-      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" type="number" v-model.number="user.salary" /></i>/小时</div>
+      <div style="font-size:16px"><i style="color: #0bb279;font-style: normal;">￥ <input class="salaryInput" type="number" v-model.number="user.salary" ></input></i>/小时</div>
     </div>
     <div class="Content1">
       <div>科目</div>
@@ -81,7 +81,7 @@
         标签
       </div>
       <div style="">
-        <el-tag :key="tag" v-for="tag in user.tags" :closable="true" :close-transition="false" @close="deleteTag(tag)" style="display: inline-block;border-radius: 5px;background:#0bb279;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
+        <el-tag :key="tag" v-for="tag in user.tags" :closable="true" :close-transition="false" @close="deleteTag(tag)" style="font-weight:600;font-size:14px;display: inline-block;border-radius: 5px;background:#0bb279;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
           {{tag}}
         </el-tag>
         <el-input
@@ -94,7 +94,7 @@
           @blur="handleNewTagConfirm"
         >
         </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showNewTagInput">+ New Tag</el-button>
+        <el-button v-else class="button-new-tag" style="font-weight:600;font-size:14px;" size="small" @click="showNewTagInput">+ New Tag</el-button>
       </div>
     </div>
     <div class="Content2">
@@ -105,7 +105,7 @@
       </el-input>
     </div>
     <div style="width: 100%;">
-      <el-button style="margin-left:auto;margin-right:auto" type="success" @click="submit">提交</el-button>
+      <el-button style="margin-left:auto;margin-right:auto;background:rgb(11, 178, 121)" type="success" @click="submit">提交</el-button>
     </div>
     <!--<div style="color:#000;font-size:18px;font-weight:600;">
       <div>月收入排名</div>
