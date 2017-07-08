@@ -65,11 +65,11 @@
           <el-row class="search-title"># 价格</el-row>
           <el-row class="search-margin">
             <el-col :span="4"class="search-pay">
-              <el-input class="search-input"  id = "selectme" size="mini" placeholder="min"></el-input>
+              <el-input class="search-input" size="mini" placeholder="min"></el-input>
             </el-col>
             <el-col :span="2" style="color:#595959;text-align:center">一</el-col>
             <el-col :span="4">
-              <el-input class="search-input" id = "selectme2" size="mini" placeholder="max"></el-input>
+              <el-input class="search-input" size="mini" placeholder="max"></el-input>
             </el-col>
           </el-row>
         </div>
