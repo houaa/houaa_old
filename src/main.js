@@ -23,6 +23,7 @@ import SignupNew from './components/Signupnew'
 import Home from './components/Home'
 import TeachList from './components/TeachList'
 import Learn from './components/Learn'
+import Search from './components/Search'
 import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
 import Leancloud from './components/leancloudDemo'
@@ -59,7 +60,8 @@ const routes = [
     ]
   },
   { path: '/leancloud', component: Leancloud },
-  { path: '/bar', component: Bar }
+  { path: '/bar', component: Bar },
+  { path: '/search', component: Search }
 ]
 
 const router = new VueRouter({

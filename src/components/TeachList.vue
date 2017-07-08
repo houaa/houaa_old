@@ -19,7 +19,6 @@
             <div>
               <el-tag v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
             </div>
-            <el-input :value="testData" @change="handleValue">{{testData2}}</el-input>
             <div>加入时间：{{user.createdAt|toDate}}</div>
             <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
           </div>
@@ -63,9 +62,7 @@ export default {
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
-      allUsers: {},
-      testData: '',
-      testData2: ''
+      allUsers: {}
     }
   },
   created: function () {

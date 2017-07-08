@@ -1,7 +1,7 @@
 <template>
   <div class="main-contianer">
     <div style="width:95%;margin:1rem auto 0.5rem auto;">
-      <el-input placeholder="猴啊家教" size="large" icon="search">
+      <el-input @click.native="toSearch" placeholder="猴啊家教" size="large" icon="search">
       </el-input>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -210,6 +210,9 @@ export default {
       'hideLoginModal',
       'showLoginModal'
     ]),
+    toSearch: function () {
+      this.$router.push('/search')
+    },
     closeModal: function (event) {
       if (event.target.className === 'float-container') {
         this.hideLoginModal()
@@ -289,6 +292,8 @@ export default {
 .el-tabs__item.is-active {
   color: #00AF63;
 }
+
+
 
 
 
