@@ -1,12 +1,13 @@
 <template>
   <div>
   
-    <div v-for="item in reserveInfo" :key="item" style="height:5em;display:flex;padding-top:0.4em;padding-bottom:0.4em;font-color:#ddd;">
+    <div v-for="item in reserveInfo" :key="item" style="height:6em;display:flex;font-color:#ddd;">
+
       <div style="  display: flex;justify-content: center;
                                   flex-direction: column;flex-grow:1;font-size:2em;color:#00AF63;text-align:center;
                                   border-right:1px solid #ddd;">{{item.name[0]}}</div>
       <div style="display:flex;flex-grow:1;padding-left:0.6em;font-size:0.9em;color:#444;
-                        flex-direction:column;justify-content:space-around;">
+                        flex-direction:column;justify-content:space-around;padding-top:0.7em;padding-bottom:0.7em;">
         <div style="justify-content:space-around;display:flex;">
           <el-tag v-for="tag in item.tags" :key="tag" type="success">{{tag}}</el-tag>
         </div>
