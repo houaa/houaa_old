@@ -2,14 +2,14 @@
   <div class="teach-container">
   
     <el-row :gutter="12">
-      <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers" v-on:click.native="showDetail(index, $event)">
+      <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
         <div style="width:25%;display:flex;justify-content: center;
-                    align-items: center;font-size:2em;color:#00AF63;text-align:center;">
+                    align-items: center;font-size:2em;color:#00AF63;text-align:center;"  v-on:click.native="showDetail(index, $event)">
           <!--<img width="60%;" style="" src="../assets/houaa-r.png">-->
   
           {{user.attributes.name[0]}}
         </div>
-        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;">
+        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;"  v-on:click.native="showDetail(index, $event)">
           <div style="padding:0.5rem 0 0.5rem 0;">
             <span style="font-size: 1.3rem;">{{user.attributes.name}}</span>
             <span style="color:#555;"> /{{user.attributes.selfIntro}}</span>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div>
-          <el-button>立刻预约</el-button>
+          <el-button @click="buy(index)">立刻预约</el-button>
         </div>
       </el-col>
     </el-row>
@@ -34,7 +34,6 @@
 <script>
 import AV from 'leancloud-storage'
 import { mapGetters, mapMutations } from 'vuex'
-import axios from 'axios'
 export default {
   name: 'teach',
   computed: {
@@ -53,7 +52,7 @@ export default {
       return value.toString(0)
     },
     toDate: function (value) {
-      console.log(value)
+      // console.log(value)
       let newDate = new Date(value)
       if (!newDate) return ''
       return newDate.getFullYear() + '年' + (parseInt(newDate.getMonth()) + 1) + '月'
@@ -86,33 +85,6 @@ export default {
         this.$router.push('teacher')
       }
     },
-    fetchTeachers: function () {
-      let self = this
-      if (!self.allTeachers) {
-        axios.get(self.teachURL).then(
-          response => {
-            console.log(response.data)
-            if (response.data.msg === 'OK') {
-              this.$message({
-                message: '成功获取数据',
-                showClose: true,
-                duration: 1000
-              })
-              self.allUsers = response.data.teachers.reverse().map(
-                item => {
-                  let newItem = item
-                  newItem.ratings = parseInt(newItem.ratings)
-                  return newItem
-                }
-              )
-              self.setAllTeachers(self.allUsers)
-            }
-          }
-        )
-      } else {
-        self.allUsers = self.allTeachers
-      }
-    },
     getTeachers: function () {
       let self = this
       let query = new AV.Query('TeacherList')
@@ -120,10 +92,18 @@ export default {
         // console.log('asdf', result)
         self.allUsers = result
         self.setAllTeachers(result)
-        console.log(self.allUsers)
+        // console.log(self.allUsers)
       }, error => {
         console.log(error)
       })
+    },
+    buy: async function (index) {
+      const teacherMapUser = new AV.Object('TeacherMapUser')
+
+      teacherMapUser.set('Teacher', this.allUsers[index])
+      teacherMapUser.set('User', AV.User.current())
+
+      await teacherMapUser.save()
     }
   }
 }
