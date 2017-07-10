@@ -3,7 +3,7 @@
   
     <el-row :gutter="12">
       <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
-        <div style="width:25%;display:flex;justify-content: center;
+        <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;
                     align-items: center;font-size:2em;color:#00AF63;text-align:center;"  v-on:click.native="showDetail(index, $event)">
           <!--<img width="60%;" style="" src="../assets/houaa-r.png">-->
   
@@ -23,7 +23,7 @@
             <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
           </div>
         </div>
-        <div>
+        <div style="display:flex;jusitfy-content:center;align-items:center;">
           <el-button @click="buy(index)">立刻预约</el-button>
         </div>
       </el-col>
