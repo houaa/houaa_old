@@ -19,7 +19,7 @@
       </el-tab-pane>
     </el-tabs>
   
-    <transition name="fade">
+    <!--<transition name="fade">
       <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
         <div class="float-content">
           <div class="float-text">
@@ -33,117 +33,7 @@
           </button>
         </div>
       </div>
-    </transition>
-  
-    <div v-show="searchModal" v-on:click="closeModal" class="float-container">
-      <div class="search-content">
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="who-teach">
-            谁在教
-          </el-col>
-          <el-col :span="16">
-            <el-input icon="search" placeholder="随便输入什么"></el-input>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
-            性别：
-          </el-col>
-          <el-col :span="16">
-            <span v-on:click="clickTag(otherTag[0])">
-              <el-tag type="gray" v-bind:color="otherTag[0].value" class="tag-font">
-                {{otherTag[0].key}}
-              </el-tag>
-            </span>
-            <span v-on:click="clickTag(otherTag[1])">
-              <el-tag type="gray" v-bind:color="otherTag[1].value" class="tag-font">
-                {{otherTag[1].key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            志愿科目：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col v-for="(sub,index) in subject" :span="8" :key="index" class="search-txt">
-            <span v-on:click="clickTag(sub)">
-              <el-tag type="gray" v-bind:color="sub.value" class="tag-font">
-                {{sub.key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            空余时间：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-time-picker is-range v-model="avaTime" placeholder="随便什么时候">
-          </el-time-picker>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            预期价位(每小时)：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[2])">
-              <el-tag type="gray" v-bind:color="otherTag[2].value" class="tag-font">
-                {{otherTag[2].key}}
-              </el-tag>
-            </span>
-          </el-col>
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[3])">
-              <el-tag type="gray" v-bind:color="otherTag[3].value" class="tag-font">
-                {{otherTag[3].key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            地点偏好：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[4])">
-              <el-tag type="gray" v-bind:color="otherTag[4].value" class="tag-font">
-                {{otherTag[4].key}}
-              </el-tag>
-            </span>
-          </el-col>
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[5])">
-              <el-tag type="gray" v-bind:color="otherTag[5].value" class="tag-font">
-                {{otherTag[5].key}}
-              </el-tag>
-            </span>
-          </el-col>
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[6])">
-              <el-tag type="gray" v-bind:color="otherTag[6].value" class="tag-font">
-                {{otherTag[6].key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
+    </transition>-->
   
     <transition name="fade">
   

@@ -1,24 +1,51 @@
 <template>
   <div class="main-contianer">
-    <el-row style="margin-top:50px; margin-bottom: 25px;">
-      <el-col :span="8" class="icons">
-        <i v-on:click="search" class="el-icon-search one-icon"></i>
-      </el-col>
-    </el-row>
-  
     <div v-show="searchModal" v-on:click="closeModal" class="float-container">
       <div class="search-content">
         <div class="search-section">
           <el-row class="search-margin">
-            <el-input icon="search" placeholder="猴啊家教"></el-input>
+            <el-input :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教"></el-input>
           </el-row>
         </div>
   
-        <div class="search-section">
-          <el-row>
-            <el-row class="search-title"># 阶段</el-row>
+        <div v-if="!searchResult">
+          <div class="search-section">
+            <el-row>
+              <el-row class="search-title"># 阶段</el-row>
+              <el-row :gutter="20" class="search-margin">
+                <el-col :span="6" v-for="(sub,index) in section" :key="index" class="search-txt">
+                  <span v-on:click="clickTag(sub)">
+                    <el-tag class="tag-font">
+                      {{sub.key}}
+                    </el-tag>
+                  </span>
+                </el-col>
+              </el-row>
+              </el-col>
+            </el-row>
+          </div>
+  
+          <div class="search-section">
+            <el-row>
+              <el-col :span="20">
+                <el-row class="search-title"># 课程</el-row>
+                <el-row :gutter="20" class="search-margin">
+                  <el-col :span="7" v-for="(sub,index) in course" :key="index" class="search-txt">
+                    <span v-on:click="clickTag(sub)">
+                      <el-tag class="tag-font course-tag">
+                        {{sub.key}}
+                      </el-tag>
+                    </span>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </div>
+  
+          <div class="search-section">
+            <el-row class="search-title"># 校区</el-row>
             <el-row :gutter="20" class="search-margin">
-              <el-col :span="6" v-for="(sub,index) in section" :key="index" class="search-txt">
+              <el-col :span="6" v-for="(sub,index) in campus" :key="index" class="search-txt">
                 <span v-on:click="clickTag(sub)">
                   <el-tag class="tag-font">
                     {{sub.key}}
@@ -26,66 +53,37 @@
                 </span>
               </el-col>
             </el-row>
-            </el-col>
-          </el-row>
-        </div>
+          </div>
   
-        <div class="search-section">
-          <el-row>
-            <el-col :span="20">
-              <el-row class="search-title"># 课程</el-row>
-              <el-row :gutter="20" class="search-margin">
-                <el-col :span="7" v-for="(sub,index) in course" :key="index" class="search-txt">
-                  <span v-on:click="clickTag(sub)">
-                    <el-tag class="tag-font course-tag">
-                      {{sub.key}}
-                    </el-tag>
-                  </span>
-                </el-col>
-              </el-row>
-            </el-col>
-          </el-row>
-        </div>
+          <div class="search-section">
+            <el-row class="search-title"># 价格</el-row>
+            <el-row class="search-margin">
+              <el-col :span="4" class="search-pay">
+                <el-input class="search-input" size="mini" placeholder="min"></el-input>
+              </el-col>
+              <el-col :span="2" style="color:#595959;text-align:center">一</el-col>
+              <el-col :span="4">
+                <el-input class="search-input" size="mini" placeholder="max"></el-input>
+              </el-col>
+            </el-row>
+          </div>
   
-        <div class="search-section">
-          <el-row class="search-title"># 校区</el-row>
-          <el-row :gutter="20" class="search-margin">
-            <el-col :span="6" v-for="(sub,index) in campus" :key="index" class="search-txt">
-              <span v-on:click="clickTag(sub)">
-                <el-tag class="tag-font">
-                  {{sub.key}}
-                </el-tag>
-              </span>
-            </el-col>
-          </el-row>
+          <div class="search-section" style="margin-top:30px;">
+            <el-row class="search-title">高级选项 -></el-row>
+          </div>
         </div>
-  
-        <div class="search-section">
-          <el-row class="search-title"># 价格</el-row>
-          <el-row class="search-margin">
-            <el-col :span="4" class="search-pay">
-              <el-input class="search-input" size="mini" placeholder="min"></el-input>
-            </el-col>
-            <el-col :span="2" style="color:#595959;text-align:center">一</el-col>
-            <el-col :span="4">
-              <el-input class="search-input" size="mini" placeholder="max"></el-input>
-            </el-col>
-          </el-row>
-        </div>
-  
-        <div class="search-section" style="margin-top:30px;">
-          <el-row class="search-title">高级选项 -></el-row>
+        <div v-else style="background-color:#fefefe; height:100%;overflow:hidden;">
+          <TeachList :all-users="searchResult"></TeachList>
         </div>
       </div>
     </div>
   
-    <transition name="fade">
-      <router-view></router-view>
-    </transition>
   </div>
 </template>
 
 <script>
+import AV from 'leancloud-storage'
+import TeachList from './Teacher/TeachList'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'search',
@@ -96,11 +94,16 @@ export default {
       'userInfo'
     ])
   },
+  components: {
+    TeachList
+  },
   data() {
     return {
       currentDate: new Date(),
       user_name: 'HLH',
       searchModal: true,
+      searchValue: '',
+      searchResult: '',
       course: [
         { 'key': ' 语 ' },
         { 'key': ' 数 ' },
@@ -145,7 +148,22 @@ export default {
       this.$router.push('/tereserve')
     },
     search: function (event) {
-      this.searchModal = true
+      let self = this
+      if (self.searchValue !== '') {
+        let queryName = new AV.Query('TeacherList')
+        queryName.contains('name', self.searchValue)
+
+        let queryIntro = new AV.Query('TeacherList')
+        queryIntro.contains('selfIntro', self.searchValue)
+
+        let query = new AV.Query.or(queryName, queryIntro)
+        query.find().then(result => {
+          self.searchResult = result
+          console.log(result)
+        })
+      } else {
+        self.searchResult = ''
+      }
     },
     clickTag: function (item) {
       if (item.value !== '#dddddd') {

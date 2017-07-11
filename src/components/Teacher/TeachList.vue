@@ -4,11 +4,11 @@
     <el-row :gutter="12">
       <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
         <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;
-                    align-items: center;font-size:2em;color:#00AF63;text-align:center;"  @click="showDetail(index, $event)">
+                      align-items: center;font-size:2em;color:#00AF63;text-align:center;" @click="showDetail(index, $event)">
           <!--<img width="60%;" style="" src="../assets/houaa-r.png">-->
           {{user.attributes.name[0]}}
         </div>
-        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;"  @click="showDetail(index, $event)">
+        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;" @click="showDetail(index, $event)">
           <div style="padding:0.5rem 0 0.5rem 0;">
             <span style="font-size: 1.3rem;">{{user.attributes.name}}</span>
             <span style="color:#555;"> /{{user.attributes.selfIntro}}</span>
@@ -57,15 +57,13 @@ export default {
       return newDate.getFullYear() + '年' + (parseInt(newDate.getMonth()) + 1) + '月'
     }
   },
+  props: [
+    'allUsers'
+  ],
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      allUsers: {}
+      msg: 'Welcome to Your Vue.js App'
     }
-  },
-  created: function () {
-    let self = this
-    self.getTeachers()
   },
   methods: {
     ...mapMutations([
@@ -83,18 +81,6 @@ export default {
         this.setCurrentTeacher(this.allUsers[index])
         this.$router.push('teacher')
       }
-    },
-    getTeachers: function () {
-      let self = this
-      let query = new AV.Query('TeacherList')
-      query.find().then((result) => {
-        // console.log('asdf', result)
-        self.allUsers = result
-        self.setAllTeachers(result)
-        // console.log(self.allUsers)
-      }, error => {
-        console.log(error)
-      })
     },
     buy: async function (index) {
       const teacherMapUser = new AV.Object('TeacherMapUser')
