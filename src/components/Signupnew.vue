@@ -59,7 +59,7 @@ export default {
         // console.log(this.nickname + 'quq')
         if (this.nickcname === '') {
           this.$message('请输入昵称')
-        } if (!(/^1[3|5][0-9]\d{4,8}$/.test(this.phoneNumber))) {
+        } if (!(/^1[3|5|8][0-9]\d{4,8}$/.test(this.phoneNumber))) {
           this.$message('请输入有效的手机号')
         } else {
           AV.Cloud.requestSmsCode({
