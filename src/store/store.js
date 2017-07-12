@@ -12,6 +12,8 @@ const state = {
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
   currentTeacher: {},
+  allReserve: '',
+  reserveIsDirty: true,
   superToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9ub3NzbC5ob3VhYS54eXoiLCJpcCI6IjEyNy4wLjAuMSIsImlkIjoiaGFvaGFvIiwicGhvbmUiOiIxMjM0NTY3ODkwMSIsImlhdCI6MTQ4ODEwNTkxOH0.2r47M-_GmiH591q4Yscp-Hbp8eWqN0k7eKlANlAtfg4',
   user: {
     name: '',
@@ -52,8 +54,15 @@ const mutations = {
       ...teacher
     }
   },
+  setReserveDirty(state, isDirty) {
+    state.reserveIsDirty = isDirty
+  },
   setAllTeachers(state, teachers) {
     state.allTeachers = teachers
+  },
+  setReserve(state, reserve) {
+    state.reserveIsDirty = false
+    state.allReserve = reserve
   },
   setUserInfo(state, info) {
     state.user = info
@@ -139,7 +148,9 @@ const getters = {
   allTeachers: state => state.allTeachers,
   teachURL: state => state.teachURL,
   currentTeacher: state => state.currentTeacher,
-  user: state => state.user
+  user: state => state.user,
+  reserveInfo: state => state.allReserve,
+  isReserveDirty: state => state.reserveIsDirty
 }
 
 export default new Vuex.Store({

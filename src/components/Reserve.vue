@@ -1,53 +1,68 @@
 <template>
   <div>
     <!--<el-button @click="query">查询</el-button>-->
-    <div v-for="item in reserveInfo" :key="item" style="height:6em;display:flex;font-color:#ddd;">
+    <div v-for="item in reserveInfos" :key="item" style="height:6em;display:flex;font-color:#ddd;">
   
       <div style="  display: flex;justify-content: center;
-          flex-direction: column;flex-grow:1;font-size:2em;color:#00AF63;text-align:center;
-          border-right:1px solid #ddd;">{{item.name[0]}}</div>
-      <div style="display:flex;flex-grow:1;padding-left:0.6em;font-size:0.9em;color:#444;
-                                                                        flex-direction:column;justify-content:space-around;padding-top:0.7em;padding-bottom:0.7em;">
+                                                        flex-direction: column;flex-grow:1;font-size:2em;color:#00AF63;text-align:center;
+                                                        border-right:1px solid #ddd;">{{item.name[0]}}</div>
+      <div style="display:flex;width:40%;padding-left:0.6em;font-size:0.9em;color:#444;flex-direction:column;justify-content:space-around;padding-top:0.7em;padding-bottom:0.7em;">
         <div style="justify-content:space-around;display:flex;">
           <el-tag v-for="tag in item.tags" :key="tag" type="success">{{tag}}</el-tag>
         </div>
         <div>{{item.grade}}</div>
         <div>￥{{item.salary}}/小时</div>
       </div>
-      <div style="display:flex;flex-grow:1;flex-direction: column;background-color:#fafafa;
-                                                                        text-align:center;justify-content: center;font-size:1.5em;color:#444;">
-        未查看</div>
+      <div style="display:flex;width:30%;flex-direction: column;background-color:#fafafa; text-align:center;justify-content: center;font-size:1.5em;color:#444;">
+        {{item.status}}</div>
     </div>
   </div>
 </template>
 
 <script>
 import AV from 'leancloud-storage'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'reverse',
   data() {
     return {
-      reserveInfo: [
-      ]
+      reserveInfos: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'reserveInfo',
+      'isReserveDirty'
+    ])
   },
   created: function () {
     this.query()
   },
   methods: {
+    ...mapMutations([
+      'setReserve'
+    ]),
     query: function () {
       let self = this
+      if (self.reserveInfo && !self.isReserveDirty) {
+        self.reserveInfos = self.reserveInfo
+        return
+      }
       let query = new AV.Query('TeacherMapUser')
+      query.include('Teacher')
       query.equalTo('User', AV.User.current())
       query.find().then(result => {
-        result.map(item => {
-          let eachTeacher = new AV.Query('TeacherList')
-          eachTeacher.get(item.attributes.Teacher.id).then(teacher => {
-            // console.log(item)
-            self.reserveInfo.push(teacher.attributes)
-            console.log(teacher)
-          })
+        // self.reserveInfo = result.map(item => {
+        //   item.get('Teacher').toJSON()
+        // })
+        self.reserveInfos = result.map(function (element) {
+          let item = element.get('Teacher').toJSON()
+          // console.log(element)
+          item.status = element.attributes.status
+          return item
         })
+        self.setReserve(self.reserveInfos)
+        console.log('[reserve] fetch from server...')
       })
     }
   }
