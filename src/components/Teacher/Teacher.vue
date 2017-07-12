@@ -7,7 +7,7 @@
 <script>
 import AV from 'leancloud-storage'
 import TeachList from './TeachList'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'teacher',
   data() {
@@ -16,11 +16,20 @@ export default {
       allUsers: {}
     }
   },
+  computed: {
+    ...mapGetters([
+      'allTeachers'
+    ])
+  },
   components: {
     TeachList
   },
   created: function () {
-    this.getTeachers()
+    if (!this.allTeachers) {
+      this.getTeachers()
+    } else {
+      this.allUsers = this.allTeachers
+    }
   },
   methods: {
     ...mapMutations([

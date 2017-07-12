@@ -4,7 +4,7 @@
     <el-row :gutter="12">
       <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
         <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;
-                      align-items: center;font-size:2em;color:#00AF63;text-align:center;" @click="showDetail(index, $event)">
+                        align-items: center;font-size:2em;color:#00AF63;text-align:center;" @click="showDetail(index, $event)">
           <!--<img width="60%;" style="" src="../assets/houaa-r.png">-->
           {{user.attributes.name[0]}}
         </div>
