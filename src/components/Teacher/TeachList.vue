@@ -10,8 +10,8 @@
         </div>
         <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;" @click="showDetail(index, $event)">
           <div style="padding:0.5rem 0 0.5rem 0;">
-            <span style="font-size: 1.3rem;">{{user.attributes.name}}</span>
-            <span style="color:#555;"> /{{user.attributes.selfIntro}}</span>
+            <!-- <span style="font-size: 1.3rem;">{{user.attributes.name}}</span>
+            <span style="color:#555;"> /{{user.attributes.selfIntro}}</span> -->
           </div>
           <div style="font-size: 14px; color: #555">
             <div>{{user.attributes.grade}}</div>
