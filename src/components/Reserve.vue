@@ -4,8 +4,8 @@
     <div v-for="item in reserveInfos" :key="item" style="height:6em;display:flex;font-color:#ddd;">
   
       <div style="  display: flex;justify-content: center;
-                                                        flex-direction: column;flex-grow:1;font-size:2em;color:#00AF63;text-align:center;
-                                                        border-right:1px solid #ddd;">{{item.name[0]}}</div>
+                                                          flex-direction: column;flex-grow:1;font-size:2em;color:#00AF63;text-align:center;
+                                                          border-right:1px solid #ddd;">{{item.name[0]}}</div>
       <div style="display:flex;width:40%;padding-left:0.6em;font-size:0.9em;color:#444;flex-direction:column;justify-content:space-around;padding-top:0.7em;padding-bottom:0.7em;">
         <div style="justify-content:space-around;display:flex;">
           <el-tag v-for="tag in item.tags" :key="tag" type="success">{{tag}}</el-tag>
@@ -36,6 +36,9 @@ export default {
     ])
   },
   created: function () {
+    if (!AV.User.current()) {
+      this.$router.push('/login')
+    }
     this.query()
   },
   methods: {

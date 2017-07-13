@@ -22,7 +22,7 @@ import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
 import Home from './components/Home'
 import TeachList from './components/Teacher/Teacher'
-import Learn from './components/Learn'
+// import Learn from './components/Learn'
 import Search from './components/Search'
 import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
@@ -45,7 +45,7 @@ const routes = [
     children: [
       { path: 'teacher', component: TeachList },
       { path: 'student', component: TeachList },
-      { path: 'learn', component: Learn },
+      // { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
       { path: 'self', component: SelfNew }
     ],
