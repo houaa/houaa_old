@@ -38,6 +38,7 @@ export default {
   created: function () {
     if (!AV.User.current()) {
       this.$router.push('/login')
+      return
     }
     this.query()
   },
