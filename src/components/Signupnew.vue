@@ -1,9 +1,7 @@
 <template>
   <div style="display:flex;width:100%;flex-direction:column;height:100%;">
-    <div style="height:40%;background-color:#00AF73;
-                                            flex-direction:column-reverse;display:flex;">
-      <div style="display:flex;align-items:center; padding-left:2rem;
-                                            height:30%; background-color: #009c66;color:#fff;">
+    <div style="height:40%;background-color:#00AF73;flex-direction:column-reverse;display:flex;">
+      <div style="display:flex;align-items:center; padding-left:2rem; height:30%; background-color: #009c66;color:#fff;">
         <span style="font-size:1.8rem;">{{title}}</span>
       </div>
       <img style="position:absolute;width:54%;right:0.3rem;top:1rem;" src="../assets/signupMask.svg"></img>
@@ -82,6 +80,7 @@ export default {
           AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
             // console.log(loggedInUser)
             // self.setLoggedInUser(loggedInUser)
+            // loggedInUser.set('type', self.teacherOrStudent)
             self.userLogin(loggedInUser)
             self.$message('登陆成功')
             this.$router.push('self')

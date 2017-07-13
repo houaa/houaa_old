@@ -15,10 +15,11 @@ AV.init({
 Vue.use(AV)
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import './assets/CustomTheme/index.css'
+// import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import SelfNew from './components/SelfNew'
-import Hello from './components/Hello'
+// import Hello from './components/Hello'
 import SignupNew from './components/Signupnew'
 import Home from './components/Home'
 import TeachList from './components/Teacher/Teacher'
@@ -31,9 +32,6 @@ import Leancloud from './components/leancloudDemo'
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 /* eslint-disable no-new */
-
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
 
 const routes = [
   { path: '/app', component: App },
@@ -51,16 +49,7 @@ const routes = [
     ],
     redirect: 'teacher'
   },
-  {
-    path: '/hello/:id',
-    component: Hello,
-    children: [
-      { path: '', component: Bar },
-      { path: 'bar', component: Foo }
-    ]
-  },
   { path: '/leancloud', component: Leancloud },
-  { path: '/bar', component: Bar },
   { path: '/search', component: Search }
 ]
 
