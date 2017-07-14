@@ -19,7 +19,7 @@ import './assets/CustomTheme/index.css'
 // import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import SelfNew from './components/SelfNew'
-// import Hello from './components/Hello'
+import Detail from './components/Detail'
 import SignupNew from './components/Signupnew'
 import Home from './components/Home'
 import TeachList from './components/Teacher/Teacher'
@@ -45,7 +45,8 @@ const routes = [
       { path: 'student', component: TeachList },
       // { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
-      { path: 'self', component: SelfNew }
+      { path: 'self', component: SelfNew },
+      { path: 'detail', component: Detail }
     ],
     redirect: 'teacher'
   },

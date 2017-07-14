@@ -19,22 +19,6 @@
       </el-tab-pane>
     </el-tabs>
   
-    <!--<transition name="fade">
-      <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
-        <div class="float-content">
-          <div class="float-text">
-            如需查看详细信息或进行筛选搜索，请您
-          </div>
-          <button @click="toLoginPage" class="btn gray" type="button">
-            <span>登录</span>
-          </button>
-          <button @click="toSignupPage" class="btn" type="button">
-            <span>注册</span>
-          </button>
-        </div>
-      </div>
-    </transition>-->
-  
     <transition name="fade">
   
     </transition>
@@ -59,6 +43,9 @@ export default {
       }
     },
     activeName: function () {
+      if (this.$route.path === '/detail') {
+        return 'teacher'
+      }
       return this.$route.path.substring(1)
     }
   },
@@ -68,28 +55,6 @@ export default {
       currentDate: new Date(),
       user_name: 'HLH',
       searchModal: false,
-      subject: [
-        { 'key': '小学', 'value': '#dddddd' },
-        { 'key': '初中', 'value': '#dddddd' },
-        { 'key': '高中', 'value': '#dddddd' },
-        { 'key': '语文', 'value': '#dddddd' },
-        { 'key': '数学', 'value': '#dddddd' },
-        { 'key': '英语', 'value': '#dddddd' },
-        { 'key': '物理', 'value': '#dddddd' },
-        { 'key': '化学', 'value': '#dddddd' },
-        { 'key': '生物', 'value': '#dddddd' },
-        { 'key': '地理', 'value': '#dddddd' },
-        { 'key': '政治', 'value': '#dddddd' },
-        { 'key': '历史', 'value': '#dddddd' }],
-      otherTag: [
-        { 'key': '男', 'value': '#dddddd' },
-        { 'key': '女', 'value': '#dddddd' },
-        { 'key': '0-100', 'value': '#dddddd' },
-        { 'key': '100-200', 'value': '#dddddd' },
-        { 'key': '紫金港', 'value': '#dddddd' },
-        { 'key': '西溪', 'value': '#dddddd' },
-        { 'key': '玉泉', 'value': '#dddddd' }
-      ],
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -196,6 +161,8 @@ export default {
 
 
 
+
+
 /*.el-input__inner {
   background: url(../assets/houaa-r.png) no-repeat scroll;
   padding-left: 30px;
@@ -248,40 +215,8 @@ export default {
   }
 }
 
-.float-container {
-  position: fixed;
-  z-index: 2;
-  left: 0;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
-}
 
-.float-content {
-  position: fixed;
-  z-index: 1;
-  /*padding-top: 60px;*/
-  /*padding-bottom: 30px;*/
-  padding: 3.5rem 1rem 2rem 1rem;
-  left: 50%;
-  /*right: 0;*/
-  transform: translateX(-50%);
-  top: 130px;
-  width: 70%;
-  height: 40%;
-  overflow: auto;
-  background-color: #fefefe;
-}
 
-.float-text {
-  font-size: 20px;
-  text-align: center;
-  color: #444444;
-  padding: 2.5%;
-  margin-bottom: 10%;
-}
 
 .login {
   color: orange;

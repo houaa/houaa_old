@@ -50,9 +50,7 @@ const mutations = {
     state.showLoginModal = false
   },
   setCurrentTeacher(state, teacher) {
-    state.currentTeacher = {
-      ...teacher
-    }
+    state.currentTeacher = teacher
   },
   setReserveDirty(state, isDirty) {
     state.reserveIsDirty = isDirty
