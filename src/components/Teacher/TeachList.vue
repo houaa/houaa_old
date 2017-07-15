@@ -1,95 +1,91 @@
 <template>
   <div class="teach-container">
   
-    <el-row :gutter="12" v-show="showList">
+    <el-row v-show="showList">
       <el-col v-on:click.native="showDetail" class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
-        <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;
-                                                                                                        align-items: center;font-size:2em;color:#00AF63;text-align:center;" @click="showDetail(index, $event)">
-          <!--<img width="60%;" style="" src="../assets/houaa-r.png">-->
-          {{user.attributes.name[0]}}
-        </div>
-        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;border-bottom:1px solid #eee;" @click="showDetail(index, $event)">
-          <div style="padding:0.5rem 0 0.5rem 0;">
-            <!-- <span style="font-size: 1.3rem;">{{user.attributes.name}}</span>
-                                                                                      <span style="color:#555;"> /{{user.attributes.selfIntro}}</span> -->
+        <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;" @click="showDetail(index, $event)">
+          <div style="width:2em;height:2em;color:#fff;font-size:2em;background-color:#00AF63;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
+            {{user.attributes.name[0]}}
           </div>
-          <div style="font-size: 14px; color: #555">
-            <div>{{user.attributes.grade}}</div>
+        </div>
+        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;" @click="showDetail(index, $event)">
+          <div style="font-size: 14px; color: #555;justify-content:space-around; ">
+            <div style="margin-bottom:0.4em;">{{user.attributes.grade}}</div>
+            <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
             <div>
               <el-tag v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
             </div>
-            <div>加入时间：{{user.createdAt|toDate}}</div>
-            <!--<el-button v-on:click="showDetail(index, $event)" type="text" class="button">了解详情</el-button>-->
           </div>
         </div>
-        <div style="display:flex;jusitfy-content:center;align-items:center;">
+        <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:1em;">
           <el-button @click="buy(index)">立刻预约</el-button>
         </div>
       </el-col>
     </el-row>
   
     <div v-if="!showList && currentTeacher">
-      <el-card>
-        <h2 id="title">
-          教师
-        </h2>
-        <div id="intro" class="part">
-          <div id="text">
-            <h3 id="name">{{currentTeacher.name}}</h3>
+      <div id="intro" class="part">
+        <div id="text" style="display:flex;justify-content:space-between;">
+          <div>
+            <h3>{{currentTeacher.name}}</h3>
             <el-rate v-model="currentTeacher.rate" disabled show-text text-template="{value}" text-color="#ff9900">
             </el-rate>
-            <el-button class="button" v-on:click="buy(currentIndex)" style="margin-top:20px;border-width:2px;color:#FFF;border-color:#00B074;background:#00B074;font-weight:600;" type="primary">预约</el-button>
-            <el-button class="button" v-on:click="showList=true" style="margin-top:20px;border-width:2px;color:#FFF;border-color:rgba(119, 141, 134, 1);background:rgba(119, 141, 134, 1);font-weight:600;" type="primary">返回</el-button>
+            <el-button class="button" v-on:click="buy(currentIndex)" style="margin-top:1em;" size="small" type="primary">预约</el-button>
+            <el-button class="button" v-on:click="showList=true" style="margin-top:1em;" size="small">返回</el-button>
           </div>
-          <!-- <img width="80px" src="../assets/logo.png" alt=""> -->
-        </div>
-        <div id="detail" class="part">
-          <h3>基础信息</h3>
-          <div id="sex">标签：
-            <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}}</el-tag>
-          </div>
-          <div id="major">年级：{{currentTeacher.grade}}</div>
-          <!-- <div id="available">可任课科目：{{available}}</div> -->
-          <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
-        </div>
-        <div id="self" class="part">
-          <h3>自我介绍</h3>
-          <div id="content">
-            {{currentTeacher.selfIntro}}
+          <div style="flex-shrink:0;display:flex;justify-content: center;align-items: center;">
+            <div style="width:2em;height:2em;color:#fff;font-size:2em;background-color:#00AF63;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
+              {{currentTeacher.name[0]}}
+            </div>
           </div>
         </div>
-        <div id="time" class="part">
-          <h3>空闲时间</h3>
+      </div>
   
-          <div id="Container">
-            <div class="week">
-              <div class="time">
-                <div>&nbsp;&nbsp;</div>
-                <div>
-                  上午
-                </div>
-                <div>
-                  下午
-                </div>
-                <div>
-                  晚上
-                </div>
+      <div id="detail" class="part">
+        <h3>基础信息</h3>
+        <div id="sex">标签：
+          <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}}</el-tag>
+        </div>
+        <div id="major">年级：{{currentTeacher.grade}}</div>
+        <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
+      </div>
+      <div id="self" class="part">
+        <h3>自我介绍</h3>
+        <div id="content">
+          {{currentTeacher.selfIntro}}
+        </div>
+      </div>
+      <div id="time" class="part">
+        <h3>空闲时间</h3>
+  
+        <div id="Container">
+          <div class="week">
+            <div class="time">
+              <div>&nbsp;&nbsp;</div>
+              <div>
+                上午
               </div>
-              <div v-for="i in [0,1,2,3,4,5,6]">
-                <div>
-                  {{days[i]}}
-                </div>
-                <div v-for="j in [0,1,2]">
-                  <!-- <div class="time okTime"></div> -->
-                  <div class="time" v-bind:class="currentTeacher.availableTime[i][j]?'okTime':'notTime'"></div>
+              <div>
+                下午
+              </div>
+              <div>
+                晚上
+              </div>
+            </div>
+            <div v-for="i in [0,1,2,3,4,5,6]">
+              <div>
+                {{days[i]}}
+              </div>
+              <div v-for="j in [0,1,2]">
+                <!-- <div class="time okTime"></div> -->
+                <div class="time" v-bind:class="currentTeacher.availableTime[i][j]?'okTime':'notTime'"></div>
   
-                </div>
               </div>
             </div>
           </div>
-  
         </div>
-      </el-card>
+  
+      </div>
     </div>
   
     <transition name="fade">
@@ -197,6 +193,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h3 {
+  margin-top: 0em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.part {
+  padding: 1.5em 2em 1.5em 2em;
+  border-bottom: 1px solid #eee;
+}
+
+.main-card {
+  /*margin-top: 20px;*/
+  /* margin-bottom: 0.5rem;  */
+  display: flex;
+  border-bottom: 1px solid #eee;
+  min-height: 5em;
+}
+
 .img-figure {
   display: block;
   position: relative;
@@ -313,11 +329,7 @@ export default {
   /*bottom: 0;*/
 }
 
-.main-card {
-  /*margin-top: 20px;*/
-  margin-bottom: 0.5rem;
-  display: flex;
-}
+
 
 .time {
   font-size: 13px;

@@ -1,6 +1,6 @@
 <template>
   <div class="main-contianer">
-    <div style="width:95%;margin:1rem auto 0.5rem auto;">
+    <div style="width:90%;margin:1rem auto 0.5rem auto;">
       <el-input @click.native="toSearch" placeholder="猴啊家教" size="large" icon="search">
       </el-input>
     </div>
