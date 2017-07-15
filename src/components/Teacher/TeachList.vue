@@ -2,25 +2,27 @@
   <div class="teach-container">
   
     <el-row v-show="showList">
-      <el-col v-on:click.native="showDetail" class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
-        <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;" @click="showDetail(index, $event)">
-          <div style="width:2em;height:2em;color:#fff;font-size:2em;background-color:#00AF63;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
-            {{user.attributes.name[0]}}
-          </div>
-        </div>
-        <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;" @click="showDetail(index, $event)">
-          <div style="font-size: 14px; color: #555;justify-content:space-around; ">
-            <div style="margin-bottom:0.4em;">{{user.attributes.grade}}</div>
-            <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
-            <div>
-              <el-tag v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
+      <transition-group name="el-fade-in-linear">
+        <el-col v-on:click.native="showDetail" class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
+          <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;" @click="showDetail(index, $event)">
+            <div style="width:2em;height:2em;color:#fff;font-size:2em;background-color:#00AF63;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
+              {{user.attributes.name[0]}}
             </div>
           </div>
-        </div>
-        <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:1em;">
-          <el-button @click="buy(index)">立刻预约</el-button>
-        </div>
-      </el-col>
+          <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;" @click="showDetail(index, $event)">
+            <div style="font-size: 14px; color: #555;justify-content:space-around; ">
+              <div style="margin-bottom:0.4em;">{{user.attributes.grade}}</div>
+              <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
+              <div>
+                <el-tag v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:1em;">
+            <el-button @click="buy(index)">立刻预约</el-button>
+          </div>
+        </el-col>
+      </transition-group>
     </el-row>
   
     <div v-if="!showList && currentTeacher">
@@ -44,10 +46,11 @@
       <div id="detail" class="part">
         <h3>基础信息</h3>
         <div id="sex">标签：
-          <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}}</el-tag>
+          <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
         </div>
         <div id="major">年级：{{currentTeacher.grade}}</div>
         <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
+        <div>性别：{{currentTeacher.sex|genderParse}}</div>
       </div>
       <div id="self" class="part">
         <h3>自我介绍</h3>
@@ -57,7 +60,6 @@
       </div>
       <div id="time" class="part">
         <h3>空闲时间</h3>
-  
         <div id="Container">
           <div class="week">
             <div class="time">
@@ -84,7 +86,6 @@
             </div>
           </div>
         </div>
-  
       </div>
     </div>
   
@@ -132,6 +133,9 @@ export default {
       let newDate = new Date(value)
       if (!newDate) return ''
       return newDate.getFullYear() + '年' + (parseInt(newDate.getMonth()) + 1) + '月'
+    },
+    genderParse: function (value) {
+      return value === 0 ? '男' : '女'
     }
   },
   props: [
@@ -210,7 +214,7 @@ h3 {
   /* margin-bottom: 0.5rem;  */
   display: flex;
   border-bottom: 1px solid #eee;
-  min-height: 5em;
+  min-height: 6em;
 }
 
 .img-figure {
