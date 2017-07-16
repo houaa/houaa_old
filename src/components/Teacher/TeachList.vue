@@ -32,7 +32,7 @@
             <h3>{{currentTeacher.name}}</h3>
             <el-rate v-model="currentTeacher.rate" disabled show-text text-template="{value}" text-color="#ff9900">
             </el-rate>
-            <el-button class="button" v-on:click="buy(currentIndex)" style="margin-top:1em;" size="small" type="primary">预约</el-button>
+            <el-button class="button" v-on:click="confimModal=true" style="margin-top:1em;" size="small" type="primary">预约</el-button>
             <el-button class="button" v-on:click="showList=true" style="margin-top:1em;" size="small">返回</el-button>
           </div>
           <div style="flex-shrink:0;display:flex;justify-content: center;align-items: center;">
@@ -89,6 +89,48 @@
       </div>
     </div>
   
+    <transition name="el-zoom-in-bottom">
+  
+      <div v-if="confimModal" v-on:click="closeModal" class="float-container2" style="padding-top:80%;">
+        <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff;">
+          <div style="padding:2em 2em 1em 2em;">
+            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee;">预约信息确认
+            </h3>
+  
+            <div class="section-line">
+              <div>教师姓名</div>
+              <div>
+                {{currentTeacher.name}}
+              </div>
+            </div>
+            <div class="section-line">
+              <div>薪资：</div>
+              <div>
+                {{currentTeacher.salary}} 元/小时
+              </div>
+            </div>
+            <div class="section-line">
+              <div>性别：</div>
+              <div>
+                {{currentTeacher.sex|genderParse}}
+              </div>
+            </div>
+  
+            <div class="section-line">
+              <div style="">留言</div>
+              <div>
+                <el-input type="textarea" :rows="3" placeholder="想说什么呢" v-model="extraMsg">
+                </el-input>
+              </div>
+            </div>
+            <div style="display:flex;margin-top:1em;justify-content:space-between;">
+              <el-button @click="confimModal=false" style="width:6em;" size="large" type="text">取消</el-button>
+              <el-button @click="buy(currentIndex)" size="large" style="width:6em;" type="primary">生成订单</el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
     <transition name="fade">
       <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
         <div class="float-content">
@@ -144,9 +186,11 @@ export default {
     return {
       loginModal: false,
       showList: true,
+      confimModal: false,
       currentTeacher: '',
       currentIndex: 0,
-      days: ['一', '二', '三', '四', '五', '六', '日']
+      days: ['一', '二', '三', '四', '五', '六', '日'],
+      extraMsg: ''
     }
   },
   methods: {
@@ -161,6 +205,8 @@ export default {
     closeModal: function (event) {
       if (event.target.className === 'float-container') {
         this.loginModal = false
+      } else if (event.target.className === 'float-container2') {
+        this.confimModal = false
       }
     },
     showDetail: function (index, event) {
@@ -177,26 +223,29 @@ export default {
       }
     },
     buy: async function (index) {
+      let self = this
       if (!AV.User.current()) {
-        this.$router.push('/login')
+        self.$router.push('/login')
         return
       }
       let query = new AV.Query('TeacherMapUser')
       query.equalTo('User', AV.User.current())
-      query.equalTo('Teacher', this.allUsers[index])
+      query.equalTo('Teacher', self.allUsers[index])
       query.find().then(result => {
         if (result.length > 0) {
           console.log(result)
-          this.$message('你已经预约过这个老师了')
+          self.$message('你已经预约过这个老师了')
         } else {
           const teacherMapUser = new AV.Object('TeacherMapUser')
 
-          teacherMapUser.set('Teacher', this.allUsers[index])
+          teacherMapUser.set('message', self.extraMsg)
+          teacherMapUser.set('Teacher', self.allUsers[index])
           teacherMapUser.set('User', AV.User.current())
           teacherMapUser.set('status', '未查看')
           teacherMapUser.save()
-          this.$message('预约成功！')
-          this.setReserveDirty(true)
+          self.$message('预约成功！')
+          self.setReserveDirty(true)
+          self.confimModal = false
         }
       })
     }
@@ -209,6 +258,25 @@ export default {
 .part {
   padding: 1.5em 2em 1.5em 2em;
   border-bottom: 1px solid #eee;
+}
+
+.section-line {
+  display: flex;
+  margin-bottom: 0.6em;
+  margin-top: 0.6em;
+  font-size: 16px;
+}
+
+.section-line>div:nth-child(1) {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* text-align: center; */
+}
+
+.section-line>div:nth-child(2) {
+  width: 70%;
 }
 
 .main-card {
@@ -248,6 +316,17 @@ export default {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+.float-container2 {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* background-color: rgba(0, 0, 0, 0.6); */
 }
 
 .float-content {
