@@ -19,7 +19,7 @@
             </div>
           </div>
           <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:1em;">
-            <el-button @click="buy(index)">立刻预约</el-button>
+            <el-button type="primary" @click="buy(index)">立刻预约</el-button>
           </div>
         </el-col>
       </transition-group>
@@ -116,7 +116,6 @@ export default {
   computed: {
     ...mapGetters([
       'loggedIn',
-      'loginModal',
       'allTeachers',
       'teachURL'
     ])
@@ -182,14 +181,24 @@ export default {
         this.$router.push('/login')
         return
       }
-      const teacherMapUser = new AV.Object('TeacherMapUser')
+      let query = new AV.Query('TeacherMapUser')
+      query.equalTo('User', AV.User.current())
+      query.equalTo('Teacher', this.allUsers[index])
+      query.find().then(result => {
+        if (result.length > 0) {
+          console.log(result)
+          this.$message('你已经预约过这个老师了')
+        } else {
+          const teacherMapUser = new AV.Object('TeacherMapUser')
 
-      teacherMapUser.set('Teacher', this.allUsers[index])
-      teacherMapUser.set('User', AV.User.current())
-      teacherMapUser.set('status', '未查看')
-      await teacherMapUser.save()
-      this.$message('预约成功！')
-      this.setReserveDirty(true)
+          teacherMapUser.set('Teacher', this.allUsers[index])
+          teacherMapUser.set('User', AV.User.current())
+          teacherMapUser.set('status', '未查看')
+          teacherMapUser.save()
+          this.$message('预约成功！')
+          this.setReserveDirty(true)
+        }
+      })
     }
   }
 }
@@ -197,13 +206,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin-top: 0em;
-  margin-bottom: 0.5em;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
 .part {
   padding: 1.5em 2em 1.5em 2em;
   border-bottom: 1px solid #eee;

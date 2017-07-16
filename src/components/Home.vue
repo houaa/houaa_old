@@ -18,10 +18,7 @@
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
-  
-    <transition name="fade">
-  
-    </transition>
+
   </div>
 </template>
 
