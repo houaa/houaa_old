@@ -8,6 +8,7 @@ const state = {
   showLoginModal: false,
   userInfo: '',
   allTeachers: '',
+  allStudents: '',
   loggedInUser: '',
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
@@ -27,7 +28,8 @@ const state = {
     availableTime: [],
     tags: [],
     selfIntro: '',
-    rankRate: 0
+    rankRate: 0,
+    role: ''
   }
 }
 
@@ -57,6 +59,9 @@ const mutations = {
   },
   setAllTeachers(state, teachers) {
     state.allTeachers = teachers
+  },
+  setAllStudents(state, students) {
+    state.allStudents = students
   },
   setReserve(state, reserve) {
     state.reserveIsDirty = false
@@ -102,27 +107,47 @@ const actions = {
       teach: AVuser.attributes.teach || [[1, 1], [1, 1, 1], [1, 1, 1]],
       availableTime: AVuser.attributes.availableTime || [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]],
       tags: AVuser.attributes.tags || [],
-      selfIntro: AVuser.attributes.selfIntro
+      selfIntro: AVuser.attributes.selfIntro,
+      role: AVuser.attributes.role
     })
   },
   async submitToAV(context) {
     const AVuser = AV.User.current()
 
-    const teacherQuery = new AV.Query('TeacherList')
-    const result = await teacherQuery.equalTo('id', AVuser.id).find()
-    if (result.length === 0) {
-      const TeacherList = AV.Object.extend('TeacherList')
-      const newTeacher = new TeacherList()
-      await newTeacher.save({
-        ...context.state.user,
-        id: AVuser.id
-      })
-    } else {
-      const TeacherUser = result[0]
-      for (const key in context.state.user) {
-        TeacherUser.set(key, context.state.user[key])
+    if (context.state.user['role']) {
+      const teacherQuery = new AV.Query('TeacherList')
+      const result = await teacherQuery.equalTo('id', AVuser.id).find()
+      if (result.length === 0) {
+        const TeacherList = AV.Object.extend('TeacherList')
+        const newTeacher = new TeacherList()
+        await newTeacher.save({
+          ...context.state.user,
+          id: AVuser.id
+        })
+      } else {
+        const TeacherUser = result[0]
+        for (const key in context.state.user) {
+          TeacherUser.set(key, context.state.user[key])
+        }
+        await TeacherUser.save()
       }
-      await TeacherUser.save()
+    } else if (context.state.user['role'] === false) {
+      const studentQuery = new AV.Query('StudentList')
+      const result = await studentQuery.equalTo('id', AVuser.id).find()
+      if (result.length === 0) {
+        const StudentList = AV.Object.extend('StudentList')
+        const newStudent = new StudentList()
+        await newStudent.save({
+          ...context.state.user,
+          id: AVuser.id
+        })
+      } else {
+        const StudentUser = result[0]
+        for (const key in context.state.user) {
+          StudentUser.set(key, context.state.user[key])
+        }
+        await StudentUser.save()
+      }
     }
 
     for (const key in context.state.user) {
@@ -144,6 +169,7 @@ const getters = {
   postProjectURL: state => state.postProjectURL,
   superToken: state => state.superToken,
   allTeachers: state => state.allTeachers,
+  allStudents: state => state.allStudents,
   teachURL: state => state.teachURL,
   currentTeacher: state => state.currentTeacher,
   user: state => state.user,

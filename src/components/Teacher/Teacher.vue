@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TeachList :all-users="allUsers"></TeachList>
+    <TeachList :all-users="realUser"></TeachList>
   </div>
 </template>
 
@@ -18,22 +18,30 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'allTeachers'
-    ])
+      'allTeachers',
+      'allStudents'
+    ]),
+    realUser: function () {
+      return this.$route.path === '/student' ? this.allStudents : this.allTeachers
+    }
   },
   components: {
     TeachList
   },
   created: function () {
-    if (!this.allTeachers) {
+    console.log(this.$route.path)
+    if (this.$route.path === '/student') {
+      this.getStudents()
+      this.allUsers = this.allTeachers
+    } else if (this.$route.path === '/teacher') {
       this.getTeachers()
-    } else {
       this.allUsers = this.allTeachers
     }
   },
   methods: {
     ...mapMutations([
-      'setAllTeachers'
+      'setAllTeachers',
+      'setAllStudents'
     ]),
     getTeachers: function () {
       let self = this
@@ -42,6 +50,19 @@ export default {
         // console.log('asdf', result)
         self.allUsers = result
         self.setAllTeachers(result)
+        // console.log(result)
+        // console.log(self.allUsers)
+      }, error => {
+        console.log(error)
+      })
+    },
+    getStudents: function () {
+      let self = this
+      let query = new AV.Query('StudentList')
+      query.find().then((result) => {
+        // console.log('asdf', result)
+        self.allUsers = result
+        self.setAllStudents(result)
         // console.log(result)
         // console.log(self.allUsers)
       }, error => {
