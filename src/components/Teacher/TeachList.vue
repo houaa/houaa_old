@@ -180,9 +180,6 @@ export default {
       return value === 0 ? '男' : '女'
     }
   },
-  created: function () {
-    console.log(this.allUsers[0].attributes.role)
-  },
   props: [
     'allUsers'
   ],

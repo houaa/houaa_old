@@ -7,8 +7,8 @@
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
-                                  {{user.auth?"认证教员":"非认证教员"}}
-                                </div> -->
+                                      {{user.auth?"认证教员":"非认证教员"}}
+                                    </div> -->
           <div id="grade" style="font-size: 14px;margin-left: 24px;">
             <input placeholder="修改年级" v-model="user.grade" style="outline: none;font-weight: 600;font-size: 14px;width: 100px;border: none; color: #7e7e7e">
           </div>
@@ -27,7 +27,7 @@
       <div>
         <el-switch v-if="user.role===''" v-model="teacherOrStudent" width=60 on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
         </el-switch>
-        <el-switch v-else disabled="true" v-model="user.role" width=60 on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
+        <el-switch v-else :disabled='true' v-model="user.role" :width='60' on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
         </el-switch>
       </div>
     </div>
