@@ -22,21 +22,27 @@ export default {
       'allStudents'
     ]),
     realUser: function () {
-      return this.$route.path === '/student' ? this.allStudents : this.allTeachers
+      if (this.$route.path === '/student') {
+        if (this.allStudents.length > 0) {
+          return this.allStudents
+        } else {
+          this.getStudents()
+          return this.allStudents
+        }
+      } else if (this.$route.path === '/teacher') {
+        if (this.allTeachers.length > 0) {
+          return this.allTeachers
+        } else {
+          this.getTeachers()
+          return this.allTeachers
+        }
+      }
     }
   },
   components: {
     TeachList
   },
   created: function () {
-    console.log(this.$route.path)
-    if (this.$route.path === '/student') {
-      this.getStudents()
-      this.allUsers = this.allTeachers
-    } else if (this.$route.path === '/teacher') {
-      this.getTeachers()
-      this.allUsers = this.allTeachers
-    }
   },
   methods: {
     ...mapMutations([

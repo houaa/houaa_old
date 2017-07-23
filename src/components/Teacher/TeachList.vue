@@ -3,13 +3,13 @@
   
     <el-row v-show="showList">
       <transition-group name="el-fade-in-linear">
-        <el-col v-on:click.native="showDetail" class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
-          <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;" @click="showDetail(index, $event)">
-            <div style="width:2em;height:2em;color:#fff;font-size:2em;background-color:#00AF63;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
+        <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
+          <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;">
+            <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
               {{user.attributes.name[0]}}
             </div>
           </div>
-          <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;" @click="showDetail(index, $event)">
+          <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;">
             <div style="font-size: 14px; color: #555;justify-content:space-around; ">
               <div style="margin-bottom:0.4em;">{{user.attributes.grade}}</div>
               <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
@@ -19,7 +19,7 @@
             </div>
           </div>
           <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:1em;">
-            <el-button type="primary" @click="buy(index)">立刻预约</el-button>
+            <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button>
           </div>
         </el-col>
       </transition-group>
@@ -32,11 +32,11 @@
             <h3>{{currentTeacher.name}}</h3>
             <el-rate v-model="currentTeacher.rate" disabled show-text text-template="{value}" text-color="#ff9900">
             </el-rate>
-            <el-button class="button" v-on:click="confimModal=true" style="margin-top:1em;" size="small" type="primary">预约</el-button>
+            <el-button :disabled="allUsers[0].attributes.role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;" size="small" type="primary">预约</el-button>
             <el-button class="button" v-on:click="showList=true" style="margin-top:1em;" size="small">返回</el-button>
           </div>
           <div style="flex-shrink:0;display:flex;justify-content: center;align-items: center;">
-            <div style="width:2em;height:2em;color:#fff;font-size:2em;background-color:#00AF63;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
+            <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
               {{currentTeacher.name[0]}}
             </div>
           </div>
@@ -159,7 +159,8 @@ export default {
     ...mapGetters([
       'loggedIn',
       'allTeachers',
-      'teachURL'
+      'teachURL',
+      'user'
     ])
   },
   filters: {
@@ -178,6 +179,9 @@ export default {
     genderParse: function (value) {
       return value === 0 ? '男' : '女'
     }
+  },
+  created: function () {
+    console.log(this.allUsers[0].attributes.role)
   },
   props: [
     'allUsers'
