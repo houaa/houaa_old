@@ -4,7 +4,9 @@
       <div class="search-content">
         <div class="search-section">
           <el-row class="search-margin">
-            <el-input :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教"></el-input>
+            <el-input :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教">
+              <el-button slot="prepend" icon="arrow-left" @click="toBack"></el-button>
+            </el-input>
           </el-row>
         </div>
   
@@ -135,6 +137,9 @@ export default {
       'hideLoginModal',
       'showLoginModal'
     ]),
+    toBack: function () {
+      this.$router.go(-1)
+    },
     closeModal: function (event) {
       if (event.target.className === 'float-container') {
         this.hideLoginModal()

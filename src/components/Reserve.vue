@@ -48,7 +48,7 @@
               </div>
               <div class="section-line">
                 <div>预约时间</div>
-                <div>{{currentReserve.createdAt}}</div>
+                <div>{{currentReserve.createdAt|parseDate}}</div>
               </div>
             </div>
             <div class="section">
@@ -95,6 +95,12 @@ export default {
     return {
       showDetail: false,
       currentReserve: ''
+    }
+  },
+  filters: {
+    parseDate: function (value) {
+      let result = new Date(value)
+      return result.getHours() + ':' + result.getMinutes() + ' ' + (result.getMonth() + 1).toString() + '-' + result.getDate() + '-' + result.getFullYear()
     }
   },
   computed: {
