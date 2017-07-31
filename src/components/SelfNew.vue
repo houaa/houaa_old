@@ -15,7 +15,9 @@
         </div>
       </div>
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
-        <el-rate style="min-width:126px" v-model="user.rate" disabled v-bind:colors="['#0bb279','#0bb279','#0bb279']"></el-rate>
+        <div style="color: #000;font-weight: 300;font-size:20px;padding-top: 5px;">
+          注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天</span>
+        </div>
         <div style="margin-top:27px;letter-spacing:2px;">
           {{user.rate}}
           <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>

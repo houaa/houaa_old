@@ -108,7 +108,8 @@ const actions = {
       availableTime: AVuser.attributes.availableTime || [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]],
       tags: AVuser.attributes.tags || [],
       selfIntro: AVuser.attributes.selfIntro,
-      role: AVuser.attributes.role
+      role: AVuser.attributes.role,
+      createdAt: AVuser.getCreatedAt()
     })
   },
   async submitToAV(context) {
@@ -174,7 +175,8 @@ const getters = {
   currentTeacher: state => state.currentTeacher,
   user: state => state.user,
   reserveInfo: state => state.allReserve,
-  isReserveDirty: state => state.reserveIsDirty
+  isReserveDirty: state => state.reserveIsDirty,
+  createTime: state => state.createdAt
 }
 
 export default new Vuex.Store({
