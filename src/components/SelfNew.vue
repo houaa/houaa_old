@@ -60,7 +60,7 @@
     <div class="Content1">
       <div>校区</div>
       <div>
-        <select id="campusSelector" v-model="user.campus">
+        <select id="campusSelector" v-model="user.campus"  v-on:change="preventWindow" >
           <option v-for="i in campus">
             {{i}}
           </option>
@@ -201,6 +201,7 @@ export default {
       })
     },
     handleNewTagConfirm() {
+      window.preventWindowClose = true
       if (this.newTag) {
         this.addTag(this.newTag)
       }

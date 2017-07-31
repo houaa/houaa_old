@@ -77,19 +77,23 @@ const mutations = {
     state.user.name = name
   },
   toggleTeach(state, [eduRank, classes]) {
+    window.preventWindowClose = true
     const newTeach = [...state.user.teach]
     newTeach[eduRank][classes] = !newTeach[eduRank][classes]
     state.user.teach = newTeach
   },
   toggleCalendar(state, [day, time]) {
+    window.preventWindowClose = true
     const newAvailableTime = [...state.user.availableTime]
     newAvailableTime[day][time] = !newAvailableTime[day][time]
     state.user.availableTime = newAvailableTime
   },
   deleteTag(state, tag) {
+    window.preventWindowClose = true
     state.user.tags.splice(state.user.tags.indexOf(tag), 1)
   },
   addTag(state, tag) {
+    window.preventWindowClose = true
     state.user.tags.push(tag)
   },
   inputText(state, [attr, content]) {
