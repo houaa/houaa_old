@@ -114,7 +114,7 @@
           {{days[i]}}
         </div>
         <div v-for="j in [0,1,2]" @click="toggleCalendar([i,j])">
-          <div class="time" v-bind:class="user.availableTime[i][j]?'okTime':'notTime'"></div>
+          <div class="time" v-bind:class="user.availableTime[i][j]?'okTime':'notTime'"><i v-if='user.availableTime[i][j]' style="color:#FFF;font-size: 12px;padding-top:10px;" class="el-icon-check"></i></div>
         </div>
       </div>
     </div>
