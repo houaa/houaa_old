@@ -9,8 +9,17 @@
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
                                       {{user.auth?"认证教员":"非认证教员"}}
                                     </div> -->
-          <div id="grade" style="font-size: 14px;margin-left: 24px;">
-            <input placeholder="修改年级" v-model="user.grade" style="outline: none;font-weight: 600;font-size: 14px;width: 100px;border: none; color: #7e7e7e">
+          <div id="grade" style="font-size: 14px;">
+            <select v-model="user.edu"  id="eduSelector" style="color: rgb(187, 187, 187);margin-right:5px;">
+              <option v-for="i in Array.from(Array(4).keys())" v-bind:value="i">
+                {{edu[i]}}
+              </option>
+            </select>
+            <select v-model="user.grade"  id="gradeSelector" style="color: #777">
+              <option v-for="i in Array.from(Array(grades[user.edu].length).keys())" v-bind:value="i">
+                {{grades[user.edu][i]}}
+              </option>
+            </select>
           </div>
         </div>
       </div>
@@ -18,7 +27,7 @@
         <div style="color: #000;font-weight: 300;font-size:20px;padding-top: 5px;">
           注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天</span>
         </div>
-        <div style="margin-top:27px;letter-spacing:2px;">
+        <div style="margin-top:15px;letter-spacing:2px;">
           {{user.rate}}
           <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
         </div>
@@ -123,6 +132,8 @@ export default {
   'name': 'Self',
   data() {
     return {
+      edu: ['小学', '初中', '高中', '本科'],
+      grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
       classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
       days: ['一', '二', '三', '四', '五', '六', '日'],
       newTag: '',
@@ -172,6 +183,7 @@ export default {
       this.inputText(['selfIntro', this.user.selfIntro])
       this.inputText(['grade', this.user.grade])
       this.inputText(['role', this.teacherOrStudent])
+      this.inputText(['edu', this.user.edu])
       await this.submitToAV()
       this.$message('修改已提交')
     }
@@ -312,6 +324,15 @@ div.notTime {
   height: 30px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#grade > select {
+  appearance: none;  
+  -moz-appearance: none;  
+  -webkit-appearance: none;
+  border: none;
+  background: #FFF;
+  font-size: 17px;
 }
 </style>
 <style>
