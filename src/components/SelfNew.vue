@@ -3,19 +3,19 @@
     <div style="justify-content: space-between;">
       <div id="Meta">
         <div id="Name">
-          <input placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"></input>
+          <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"></input>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
                                       {{user.auth?"认证教员":"非认证教员"}}
                                     </div> -->
           <div id="grade" style="font-size: 14px;">
-            <select v-model="user.edu"  id="eduSelector" style="color: rgb(187, 187, 187);margin-right:5px;">
+            <select v-on:change="preventWindow" v-model="user.edu"  id="eduSelector" style="color: rgb(187, 187, 187);margin-right:5px;">
               <option v-for="i in Array.from(Array(4).keys())" v-bind:value="i">
                 {{edu[i]}}
               </option>
             </select>
-            <select v-model="user.grade"  id="gradeSelector" style="color: #777">
+            <select v-on:change="preventWindow" v-model="user.grade"  id="gradeSelector" style="color: #777">
               <option v-for="i in Array.from(Array(grades[user.edu].length).keys())" v-bind:value="i">
                 {{grades[user.edu][i]}}
               </option>
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
-        <div style="color: #000;font-weight: 300;font-size:20px;padding-top: 5px;">
+        <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
           注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天</span>
         </div>
         <div style="margin-top:15px;letter-spacing:2px;">
@@ -36,9 +36,9 @@
     <div class="Content1">
       <div>我是：</div>
       <div>
-        <el-switch v-if="user.role===''" v-model="teacherOrStudent" width=60 on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
+        <el-switch v-on:change="preventWindow" v-if="user.role===''" v-model="teacherOrStudent" width=60 on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
         </el-switch>
-        <el-switch v-else :disabled='true' v-model="user.role" :width='60' on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
+        <el-switch v-on:change="preventWindow" v-else :disabled='true' v-model="user.role" :width='60' on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
         </el-switch>
       </div>
     </div>
@@ -46,7 +46,7 @@
       <div>薪资</div>
       <div style="font-size:16px">
         <i style="color: #0bb279;font-style: normal;">￥
-          <input class="salaryInput" type="number" v-model.number="user.salary"></input>
+          <input v-on:change="preventWindow" class="salaryInput" type="number" v-model.number="user.salary"></input>
         </i>/小时</div>
     </div>
     <div class="Content1">
@@ -108,7 +108,7 @@
         <el-tag :key="tag" v-for="tag in user.tags" :closable="true" :close-transition="false" @close="deleteTag(tag)" style="font-weight:600;font-size:14px;display: inline-block;border-radius: 5px;background:#0bb279;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
           {{tag}}
         </el-tag>
-        <el-input class="input-new-tag" v-if="newTagInputVisible" v-model="newTag" ref="saveTagInput" size="mini" @keyup.enter.native="handleNewTagConfirm" @blur="handleNewTagConfirm">
+        <el-input v-on:change="preventWindow" class="input-new-tag" v-if="newTagInputVisible" v-model="newTag" ref="saveTagInput" size="mini" @keyup.enter.native="handleNewTagConfirm" @blur="handleNewTagConfirm">
         </el-input>
         <el-button v-else class="button-new-tag" style="font-weight:600;font-size:14px;" size="small" @click="showNewTagInput">+ New Tag</el-button>
       </div>
@@ -117,7 +117,7 @@
       <div>
         个人宣言
       </div>
-      <el-input placeholder="输入个人宣言" autosize type="textarea" v-model="user.selfIntro" id="SelfIntro" style="font-size:14px;color:#7e7e7e">
+      <el-input v-on:change="preventWindow" placeholder="输入个人宣言" autosize type="textarea" v-model="user.selfIntro" id="SelfIntro" style="font-size:14px;color:#7e7e7e">
       </el-input>
     </div>
     <div style="width: 100%;">
@@ -128,6 +128,14 @@
 <script>
 import AV from 'leancloud-storage'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+
+window.addEventListener('beforeunload', function (e) {
+  if (window.preventWindowClose) {
+    e.returnValue = 'Changes you made may not be saved.'
+    return 'Changes you made may not be saved.'
+  }
+})
+
 export default {
   'name': 'Self',
   data() {
@@ -177,6 +185,9 @@ export default {
       this.newTag = ''
       this.newTagInputVisible = false
     },
+    preventWindow() {
+      window.preventWindowClose = true
+    },
     async submit() {
       this.inputText(['name', this.user.name])
       this.inputText(['salary', this.user.salary])
@@ -184,6 +195,7 @@ export default {
       this.inputText(['grade', this.user.grade])
       this.inputText(['role', this.teacherOrStudent])
       this.inputText(['edu', this.user.edu])
+      window.preventWindowClose = false
       await this.submitToAV()
       this.$message('修改已提交')
     }
