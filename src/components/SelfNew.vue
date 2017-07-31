@@ -4,8 +4,8 @@
       <div id="Meta">
         <div id="Name">
           <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 91.14px;border: none;"></input>
-          <div v-if="user.sex" style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">女</div>
-          <div v-else style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">男</div>
+          <div v-if="user.sex" style="display: inline-block;position:relative;top:4px;"><img width="25" src="../assets/woman.svg"></div>
+          <div v-else style="display: inline-block;position:relative;top:4px;"><img width="25" src="../assets/man.svg"></div>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
@@ -24,9 +24,9 @@
             </select>
           </div>
           <div v-if="user.auth" id="auth">
-            已认证
+            <img width="20" style="padding-top:3px;" src="../assets/auth.svg">
           </div>
-          <div v-else id="auth">
+          <div v-else id="auth" @click="handleAuthClick">
             未认证
           </div>
         </div>
@@ -191,6 +191,9 @@ export default {
       'addTag',
       'inputText'
     ]),
+    handleAuthClick() {
+      this.$alert('认证功能即将上线')
+    },
     showNewTagInput() {
       this.newTagInputVisible = true
       this.$nextTick(_ => {
