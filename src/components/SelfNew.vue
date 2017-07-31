@@ -3,7 +3,7 @@
     <div style="justify-content: space-between;">
       <div id="Meta">
         <div id="Name">
-          <input placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 600;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"></input>
+          <input placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"></input>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
