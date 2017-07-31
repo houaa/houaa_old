@@ -107,8 +107,8 @@ const actions = {
       name: AVuser.attributes.name,
       sex: AVuser.attributes.sex,
       auth: AVuser.attributes.auth,
-      grade: AVuser.attributes.newGrade || 1,
-      edu: AVuser.attributes.newEdu || 1,
+      grade: AVuser.attributes.grade || 1,
+      edu: AVuser.attributes.edu || 1,
       rate: AVuser.attributes.rate,
       salary: AVuser.attributes.salary,
       highestSalary: AVuser.attributes.highestSalary,
@@ -139,8 +139,8 @@ const actions = {
         const TeacherUser = result[0]
         const newUser = {
           name: context.state.user.name,
-          newGrade: parseInt(context.state.user.grade),
-          newEdu: context.state.user.edu,
+          grade: parseInt(context.state.user.grade),
+          edu: context.state.user.edu,
           salary: context.state.user.salary,
           teach: context.state.user.teach,
           availableTime: context.state.user.availableTime,
@@ -169,8 +169,8 @@ const actions = {
         const StudentUser = result[0]
         const newUser = {
           name: context.state.user.name,
-          newGrade: parseInt(context.state.user.grade),
-          newEdu: context.state.user.edu,
+          grade: parseInt(context.state.user.grade),
+          edu: context.state.user.edu,
           salary: context.state.user.salary,
           teach: context.state.user.teach,
           availableTime: context.state.user.availableTime,
@@ -187,8 +187,8 @@ const actions = {
 
     const newUser = {
       name: context.state.user.name,
-      newGrade: parseInt(context.state.user.grade),
-      newEdu: context.state.user.edu,
+      grade: parseInt(context.state.user.grade),
+      edu: context.state.user.edu,
       salary: context.state.user.salary,
       teach: context.state.user.teach,
       availableTime: context.state.user.availableTime,
