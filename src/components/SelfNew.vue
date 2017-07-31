@@ -277,7 +277,8 @@ export default {
 }
 
 .eduRank> :first-child {
-  font-size: 18px;
+  font-size: 15px;
+  line-height: 30px;
   margin-left: 20px;
 }
 
@@ -293,14 +294,14 @@ export default {
 .eduRank>#classes>i.ok {
   background: #0bb279;
   color: #FFF;
-  border: #0bb279 2px solid;
+  border: #0bb279 1px solid;
   margin-bottom: 5px;
   font-size: 14px;
   font-weight: 600;
 }
 
 .eduRank>#classes>i.not {
-  border: #0bb279 2px solid;
+  border: #0bb279 1px solid;
   margin-bottom: 5px;
   color: #0bb279;
   font-weight: 600;
