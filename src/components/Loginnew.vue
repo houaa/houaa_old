@@ -1,24 +1,40 @@
 <template>
-  <div id="container">
-    <div id="logo">
-      <img src="../assets/houaa-r.png" alt="">
-      <h1>猴啊家教</h1>
+  <div class="main-contianer">
+    <div style="width:90%;margin:1rem auto 0.5rem auto;">
+      <el-input @click.native="toSearch" placeholder="猴啊家教" size="large" icon="search">
+      </el-input>
     </div>
-    <div id="form">
-      <el-input class="input" placeholder="手机号码" v-model="phone" />
-      <el-input class="input" placeholder="验证码" v-model="recaptcha" />
-    </div>
-    <div id="button">
-      <div>
-        <el-button @click="logInPhone" class="button" style="border-width:2px;color:#FFF;border-color:#00B074;background:#00B074;" type="primary">登录</el-button>
-      </div>
-      <div>
-        <el-button @click="sendSMS" class="button" style="border-width:2px;color:#00B074;border-color:#00B074">发送验证码</el-button>
-      </div>
-      <div>
-        <el-button @click="toSignUp" class="button" style="border-width:2px;color:#00B074;border-color:#00B074">注册</el-button>
-      </div>
-    </div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="教师" name="teacher">
+      </el-tab-pane>
+      <el-tab-pane label="学生" name="student">
+      </el-tab-pane>
+      <el-tab-pane label="订单" name="reserve">
+      </el-tab-pane>
+      <el-tab-pane label="我" name="self">
+        <div id="container">
+          <div id="logo">
+            <img src="../assets/houaa-r.png" alt="">
+            <h1>猴啊家教</h1>
+          </div>
+          <div id="form">
+            <el-input class="input" placeholder="手机号码" v-model="phone" />
+            <el-input class="input" placeholder="验证码" v-model="recaptcha" />
+          </div>
+          <div id="button">
+            <div>
+              <el-button @click="logInPhone" class="button" style="border-width:2px;color:#FFF;border-color:#00B074;background:#00B074;" type="primary">登录</el-button>
+            </div>
+            <div>
+              <el-button @click="sendSMS" class="button" style="border-width:2px;color:#00B074;border-color:#00B074">发送验证码</el-button>
+            </div>
+            <div>
+              <el-button @click="toSignUp" class="button" style="border-width:2px;color:#00B074;border-color:#00B074">注册</el-button>
+            </div>
+          </div>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -30,7 +46,8 @@ export default {
   data() {
     return {
       phone: '',
-      recaptcha: ''
+      recaptcha: '',
+      activeName: 'self'
     }
   },
   methods: {
@@ -48,6 +65,9 @@ export default {
         self.$message('各种错误')
         console.log(error)
       })
+    },
+    handleClick: function (tab, event) {
+      this.$router.push(tab.name)
     },
     logInPhone: function () {
       let self = this
