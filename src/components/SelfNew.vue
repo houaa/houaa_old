@@ -4,7 +4,7 @@
       <div id="Meta">
         <div id="Name">
           <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 91.14px;border: none;"></input>
-          <div v-if="sex" style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">女</div>
+          <div v-if="user.sex" style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">女</div>
           <div v-else style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">男</div>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
@@ -56,6 +56,16 @@
         <i style="color: #0bb279;font-style: normal;">￥
           <input v-on:change="preventWindow" class="salaryInput" type="number" v-model.number="user.salary"></input>
         </i>/小时</div>
+    </div>
+    <div class="Content1">
+      <div>校区</div>
+      <div>
+        <select id="campusSelector" v-model="user.campus">
+          <option v-for="i in campus">
+            {{i}}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="Content1">
       <div>科目</div>
@@ -148,6 +158,7 @@ export default {
   'name': 'Self',
   data() {
     return {
+      campus: [ '紫金港', '玉泉', '西溪', '华家池', '之江' ],
       edu: ['小学', '初中', '高中', '本科'],
       grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
       classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
@@ -364,6 +375,18 @@ div.notTime {
   padding-left: 15px;
   font-size: 17px;
   color: rgb(11, 178, 121);
+}
+
+#campusSelector {
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background: #FFF;
+  outline: none;
+  font-size: 18px;
+  font-weight: 100;
 }
 </style>
 <style>

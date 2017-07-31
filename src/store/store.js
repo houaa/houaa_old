@@ -31,7 +31,8 @@ const state = {
     selfIntro: '',
     rankRate: 0,
     role: '',
-    createdAt: {}
+    createdAt: {},
+    campus: ''
   }
 }
 
@@ -112,7 +113,8 @@ const actions = {
       tags: AVuser.attributes.tags || [],
       selfIntro: AVuser.attributes.selfIntro,
       role: AVuser.attributes.role,
-      createdAt: AVuser.getCreatedAt()
+      createdAt: AVuser.getCreatedAt(),
+      campus: AVuser.attributes.campus
     })
   },
   async submitToAV(context) {
@@ -139,7 +141,8 @@ const actions = {
           teach: context.state.user.teach,
           availableTime: context.state.user.availableTime,
           tags: context.state.user.tags,
-          selfIntro: context.state.user.selfIntro
+          selfIntro: context.state.user.selfIntro,
+          campus: context.state.user.campus
         }
         for (const key in newUser) {
           if (key !== 'createdAt') {
@@ -168,7 +171,8 @@ const actions = {
           teach: context.state.user.teach,
           availableTime: context.state.user.availableTime,
           tags: context.state.user.tags,
-          selfIntro: context.state.user.selfIntro
+          selfIntro: context.state.user.selfIntro,
+          campus: context.state.user.campus
         }
         for (const key in newUser) {
           StudentUser.set(key, newUser[key])
@@ -185,7 +189,8 @@ const actions = {
       teach: context.state.user.teach,
       availableTime: context.state.user.availableTime,
       tags: context.state.user.tags,
-      selfIntro: context.state.user.selfIntro
+      selfIntro: context.state.user.selfIntro,
+      campus: context.state.user.campus
     }
     for (const key in newUser) {
       AVuser.set(key, newUser[key])
