@@ -4,7 +4,7 @@
       <el-input @click.native="toSearch" placeholder="猴啊家教" size="large" icon="search">
       </el-input>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" @tab-click="handleClick" style="position: fixed;width: 100%;overflow: scroll;    height: 100%;">
       <el-tab-pane label="教师" name="teacher">
         <router-view></router-view>
       </el-tab-pane>
@@ -137,26 +137,26 @@ export default {
   height: 4px;
 }
 
-.el-tabs__header {
-  margin-bottom: 0px;
-}
-
 .el-tabs__item.is-active {
   color: #00AF63;
 }
 
 
+.el-tabs__header {
+  margin-bottom: 0px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background: #FFF;
+}
 
 
-
-
-
-
-
-
-
-
-
+.el-tabs__content {
+  margin-top: 42px;
+  height: 100%;
+  height: calc(100% - 42px);
+  overflow: scroll;
+}
 
 
 
