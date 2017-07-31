@@ -3,23 +3,31 @@
     <div style="justify-content: space-between;">
       <div id="Meta">
         <div id="Name">
-          <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 100px;border: none;"></input>
+          <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 91.14px;border: none;"></input>
+          <div v-if="sex" style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">女</div>
+          <div v-else style="display: inline-block;font-size: 15px;font-weight: 800;color:rgb(11, 178, 121)">男</div>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
                                       {{user.auth?"认证教员":"非认证教员"}}
                                     </div> -->
           <div id="grade" style="font-size: 14px;">
-            <select v-on:change="preventWindow" v-model="user.edu"  id="eduSelector" style="color: rgb(187, 187, 187);margin-right:5px;">
-              <option v-for="i in Array.from(Array(4).keys())" v-bind:value="i">
+            <select v-on:change="preventWindow" v-model="user.edu"  id="eduSelector" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;">
+              <option v-for="i in Array.from(Array(4).keys())" v-bind:value="i" style="outline:none;">
                 {{edu[i]}}
               </option>
             </select>
-            <select v-on:change="preventWindow" v-model="user.grade"  id="gradeSelector" style="color: #777">
-              <option v-for="i in Array.from(Array(grades[user.edu].length).keys())" v-bind:value="i">
+            <select v-on:change="preventWindow" v-model="user.grade"  id="gradeSelector" style="color: #777;outline:none;">
+              <option v-for="i in Array.from(Array(grades[user.edu].length).keys())" v-bind:value="i" style="ouotline:none">
                 {{grades[user.edu][i]}}
               </option>
             </select>
+          </div>
+          <div v-if="user.auth" id="auth">
+            已认证
+          </div>
+          <div v-else id="auth">
+            未认证
           </div>
         </div>
       </div>
@@ -189,15 +197,19 @@ export default {
       window.preventWindowClose = true
     },
     async submit() {
-      this.inputText(['name', this.user.name])
-      this.inputText(['salary', this.user.salary])
-      this.inputText(['selfIntro', this.user.selfIntro])
-      this.inputText(['grade', this.user.grade])
-      this.inputText(['role', this.teacherOrStudent])
-      this.inputText(['edu', this.user.edu])
-      window.preventWindowClose = false
-      await this.submitToAV()
-      this.$message('修改已提交')
+      if (this.user.salary <= 300 && this.user.salary >= 60) {
+        this.inputText(['name', this.user.name])
+        this.inputText(['salary', this.user.salary])
+        this.inputText(['selfIntro', this.user.selfIntro])
+        this.inputText(['grade', this.user.grade])
+        this.inputText(['role', this.teacherOrStudent])
+        this.inputText(['edu', this.user.edu])
+        window.preventWindowClose = false
+        await this.submitToAV()
+        this.$message('修改已提交')
+      } else {
+        this.$message('薪水应当大于60并小于300')
+      }
     }
   }
 }
@@ -346,6 +358,12 @@ div.notTime {
   border: none;
   background: #FFF;
   font-size: 17px;
+}
+
+#auth {
+  padding-left: 15px;
+  font-size: 17px;
+  color: rgb(11, 178, 121);
 }
 </style>
 <style>
