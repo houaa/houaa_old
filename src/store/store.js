@@ -20,7 +20,8 @@ const state = {
     name: '',
     sex: 1,
     auth: true,
-    grade: '',
+    grade: 1,
+    edu: 1,
     rate: 0,
     salary: 0,
     highestSalary: 0,
@@ -29,7 +30,9 @@ const state = {
     tags: [],
     selfIntro: '',
     rankRate: 0,
-    role: ''
+    role: '',
+    createdAt: {},
+    campus: ''
   }
 }
 
@@ -74,19 +77,23 @@ const mutations = {
     state.user.name = name
   },
   toggleTeach(state, [eduRank, classes]) {
+    window.preventWindowClose = true
     const newTeach = [...state.user.teach]
     newTeach[eduRank][classes] = !newTeach[eduRank][classes]
     state.user.teach = newTeach
   },
   toggleCalendar(state, [day, time]) {
+    window.preventWindowClose = true
     const newAvailableTime = [...state.user.availableTime]
     newAvailableTime[day][time] = !newAvailableTime[day][time]
     state.user.availableTime = newAvailableTime
   },
   deleteTag(state, tag) {
+    window.preventWindowClose = true
     state.user.tags.splice(state.user.tags.indexOf(tag), 1)
   },
   addTag(state, tag) {
+    window.preventWindowClose = true
     state.user.tags.push(tag)
   },
   inputText(state, [attr, content]) {
@@ -100,7 +107,8 @@ const actions = {
       name: AVuser.attributes.name,
       sex: AVuser.attributes.sex,
       auth: AVuser.attributes.auth,
-      grade: AVuser.attributes.grade || '本科一年级',
+      grade: AVuser.attributes.grade || 1,
+      edu: AVuser.attributes.edu || 1,
       rate: AVuser.attributes.rate,
       salary: AVuser.attributes.salary,
       highestSalary: AVuser.attributes.highestSalary,
@@ -108,26 +116,42 @@ const actions = {
       availableTime: AVuser.attributes.availableTime || [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]],
       tags: AVuser.attributes.tags || [],
       selfIntro: AVuser.attributes.selfIntro,
-      role: AVuser.attributes.role
+      role: AVuser.attributes.role,
+      createdAt: AVuser.getCreatedAt(),
+      campus: AVuser.attributes.campus
     })
   },
   async submitToAV(context) {
     const AVuser = AV.User.current()
-
     if (context.state.user['role']) {
       const teacherQuery = new AV.Query('TeacherList')
       const result = await teacherQuery.equalTo('id', AVuser.id).find()
       if (result.length === 0) {
         const TeacherList = AV.Object.extend('TeacherList')
         const newTeacher = new TeacherList()
-        await newTeacher.save({
+        const newInfo = {
           ...context.state.user,
           id: AVuser.id
-        })
+        }
+        delete newInfo.createdAt
+        await newTeacher.save(newInfo)
       } else {
         const TeacherUser = result[0]
-        for (const key in context.state.user) {
-          TeacherUser.set(key, context.state.user[key])
+        const newUser = {
+          name: context.state.user.name,
+          grade: parseInt(context.state.user.grade),
+          edu: context.state.user.edu,
+          salary: context.state.user.salary,
+          teach: context.state.user.teach,
+          availableTime: context.state.user.availableTime,
+          tags: context.state.user.tags,
+          selfIntro: context.state.user.selfIntro,
+          campus: context.state.user.campus
+        }
+        for (const key in newUser) {
+          if (key !== 'createdAt') {
+            TeacherUser.set(key, newUser[key])
+          }
         }
         await TeacherUser.save()
       }
@@ -143,15 +167,37 @@ const actions = {
         })
       } else {
         const StudentUser = result[0]
-        for (const key in context.state.user) {
-          StudentUser.set(key, context.state.user[key])
+        const newUser = {
+          name: context.state.user.name,
+          grade: parseInt(context.state.user.grade),
+          edu: context.state.user.edu,
+          salary: context.state.user.salary,
+          teach: context.state.user.teach,
+          availableTime: context.state.user.availableTime,
+          tags: context.state.user.tags,
+          selfIntro: context.state.user.selfIntro,
+          campus: context.state.user.campus
+        }
+        for (const key in newUser) {
+          StudentUser.set(key, newUser[key])
         }
         await StudentUser.save()
       }
     }
 
-    for (const key in context.state.user) {
-      AVuser.set(key, context.state.user[key])
+    const newUser = {
+      name: context.state.user.name,
+      grade: parseInt(context.state.user.grade),
+      edu: context.state.user.edu,
+      salary: context.state.user.salary,
+      teach: context.state.user.teach,
+      availableTime: context.state.user.availableTime,
+      tags: context.state.user.tags,
+      selfIntro: context.state.user.selfIntro,
+      campus: context.state.user.campus
+    }
+    for (const key in newUser) {
+      AVuser.set(key, newUser[key])
     }
     await AVuser.save()
   }
@@ -174,7 +220,8 @@ const getters = {
   currentTeacher: state => state.currentTeacher,
   user: state => state.user,
   reserveInfo: state => state.allReserve,
-  isReserveDirty: state => state.reserveIsDirty
+  isReserveDirty: state => state.reserveIsDirty,
+  createTime: state => state.createdAt
 }
 
 export default new Vuex.Store({

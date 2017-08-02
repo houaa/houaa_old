@@ -11,7 +11,7 @@
           </div>
           <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;">
             <div style="font-size: 14px; color: #555;justify-content:space-around; ">
-              <div style="margin-bottom:0.4em;">{{user.attributes.grade}}</div>
+              <div style="margin-bottom:0.4em;">{{edu[user.attributes.edu]}} {{grades[user.attributes.edu][user.attributes.grade]}}</div>
               <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
               <div>
                 <el-tag v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
@@ -48,7 +48,7 @@
         <div id="sex">标签：
           <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
         </div>
-        <div id="major">年级：{{currentTeacher.grade}}</div>
+        <div id="major">年级：{{edu[currentTeacher.edu]}} {{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
         <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
         <div>性别：{{currentTeacher.sex|genderParse}}</div>
       </div>
@@ -188,6 +188,8 @@ export default {
       loginModal: false,
       showList: true,
       confimModal: false,
+      edu: ['小学', '初中', '高中', '本科'],
+      grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
       currentTeacher: '',
       currentIndex: 0,
       days: ['一', '二', '三', '四', '五', '六', '日'],
