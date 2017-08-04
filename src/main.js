@@ -15,14 +15,16 @@ AV.init({
 Vue.use(AV)
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import './assets/CustomTheme/index.css'
+// import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import SelfNew from './components/SelfNew'
-import Hello from './components/Hello'
+import Detail from './components/Detail'
 import SignupNew from './components/Signupnew'
 import Home from './components/Home'
-import TeachList from './components/TeachList'
-import Learn from './components/Learn'
+import TeachList from './components/Teacher/Teacher'
+// import Learn from './components/Learn'
+import Search from './components/Search'
 import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
 import Leancloud from './components/leancloudDemo'
@@ -30,9 +32,6 @@ import Leancloud from './components/leancloudDemo'
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 /* eslint-disable no-new */
-
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
 
 const routes = [
   { path: '/app', component: App },
@@ -44,22 +43,15 @@ const routes = [
     children: [
       { path: 'teacher', component: TeachList },
       { path: 'student', component: TeachList },
-      { path: 'learn', component: Learn },
+      // { path: 'learn', component: Learn },
       { path: 'reserve', component: Reserve },
-      { path: 'self', component: SelfNew }
+      { path: 'self', component: SelfNew },
+      { path: 'detail', component: Detail }
     ],
     redirect: 'teacher'
   },
-  {
-    path: '/hello/:id',
-    component: Hello,
-    children: [
-      { path: '', component: Bar },
-      { path: 'bar', component: Foo }
-    ]
-  },
   { path: '/leancloud', component: Leancloud },
-  { path: '/bar', component: Bar }
+  { path: '/search', component: Search }
 ]
 
 const router = new VueRouter({

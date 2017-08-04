@@ -23,4 +23,11 @@
     background-color: #21B046;
     overflow: hidden;*/
 }
+h3 {
+  margin-top: 0em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 </style>

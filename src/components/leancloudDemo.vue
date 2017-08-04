@@ -22,7 +22,8 @@
     <el-card v-for="(item, index) in queryResult" :key="index">
       用户名:{{item.attributes.name}},密码:{{item.attributes.password}},邮箱:{{item.attributes.email}} 生成日期:{{item.createdAt}}
     </el-card>
-    <el-button @click="query">query</el-button>  
+    <el-button @click="query">query</el-button>
+    <el-button @click="search0">testSearch</el-button>
     <!--<div v-for="item in queryResult">{{item}}</div>-->
   </div>
 </template>
@@ -45,6 +46,15 @@ export default {
     }
   },
   methods: {
+    search0: function () {
+      console.log('aa')
+      let query = new AV.SearchQuery('TeacherList')
+      query.queryString('庄男')
+      query.find().then(function (result) {
+        console.log(query.hits())
+        console.log(result)
+      })
+    },
     testAddUser: function () {
       let self = this
       var UserList = AV.Object.extend('UserList')

@@ -1,10 +1,10 @@
 <template>
   <div class="main-contianer">
-    <div style="width:95%;margin:1rem auto 0.5rem auto;">
-      <el-input placeholder="猴啊家教" size="large" icon="search">
+    <div style="width:90%;margin:1rem auto 0.5rem auto;">
+      <el-input @click.native="toSearch" placeholder="猴啊家教" size="large" icon="search">
       </el-input>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" @tab-click="handleClick" style="position: fixed;width: 100%;overflow: scroll;    height: 100%;">
       <el-tab-pane label="教师" name="teacher">
         <router-view></router-view>
       </el-tab-pane>
@@ -18,136 +18,7 @@
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
-  
-    <transition name="fade">
-      <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
-        <div class="float-content">
-          <div class="float-text">
-            如需查看详细信息或进行筛选搜索，请您
-          </div>
-          <button @click="toLoginPage" class="btn gray" type="button">
-            <span>登录</span>
-          </button>
-          <button @click="toSignupPage" class="btn" type="button">
-            <span>注册</span>
-          </button>
-        </div>
-      </div>
-    </transition>
-  
-    <div v-show="searchModal" v-on:click="closeModal" class="float-container">
-      <div class="search-content">
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="who-teach">
-            谁在教
-          </el-col>
-          <el-col :span="16">
-            <el-input icon="search" placeholder="随便输入什么"></el-input>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
-            性别：
-          </el-col>
-          <el-col :span="16">
-            <span v-on:click="clickTag(otherTag[0])">
-              <el-tag type="gray" v-bind:color="otherTag[0].value" class="tag-font">
-                {{otherTag[0].key}}
-              </el-tag>
-            </span>
-            <span v-on:click="clickTag(otherTag[1])">
-              <el-tag type="gray" v-bind:color="otherTag[1].value" class="tag-font">
-                {{otherTag[1].key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            志愿科目：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col v-for="(sub,index) in subject" :span="8" :key="index" class="search-txt">
-            <span v-on:click="clickTag(sub)">
-              <el-tag type="gray" v-bind:color="sub.value" class="tag-font">
-                {{sub.key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            空余时间：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-time-picker is-range v-model="avaTime" placeholder="随便什么时候">
-          </el-time-picker>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            预期价位(每小时)：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[2])">
-              <el-tag type="gray" v-bind:color="otherTag[2].value" class="tag-font">
-                {{otherTag[2].key}}
-              </el-tag>
-            </span>
-          </el-col>
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[3])">
-              <el-tag type="gray" v-bind:color="otherTag[3].value" class="tag-font">
-                {{otherTag[3].key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="24" class="search-txt">
-            地点偏好：
-          </el-col>
-        </el-row>
-  
-        <el-row :gutter="10" class="search-margin">
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[4])">
-              <el-tag type="gray" v-bind:color="otherTag[4].value" class="tag-font">
-                {{otherTag[4].key}}
-              </el-tag>
-            </span>
-          </el-col>
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[5])">
-              <el-tag type="gray" v-bind:color="otherTag[5].value" class="tag-font">
-                {{otherTag[5].key}}
-              </el-tag>
-            </span>
-          </el-col>
-          <el-col :span="8" class="search-txt">
-            <span v-on:click="clickTag(otherTag[6])">
-              <el-tag type="gray" v-bind:color="otherTag[6].value" class="tag-font">
-                {{otherTag[6].key}}
-              </el-tag>
-            </span>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-  
-    <transition name="fade">
-  
-    </transition>
+
   </div>
 </template>
 
@@ -169,6 +40,9 @@ export default {
       }
     },
     activeName: function () {
+      if (this.$route.path === '/detail') {
+        return 'teacher'
+      }
       return this.$route.path.substring(1)
     }
   },
@@ -178,28 +52,6 @@ export default {
       currentDate: new Date(),
       user_name: 'HLH',
       searchModal: false,
-      subject: [
-        { 'key': '小学', 'value': '#dddddd' },
-        { 'key': '初中', 'value': '#dddddd' },
-        { 'key': '高中', 'value': '#dddddd' },
-        { 'key': '语文', 'value': '#dddddd' },
-        { 'key': '数学', 'value': '#dddddd' },
-        { 'key': '英语', 'value': '#dddddd' },
-        { 'key': '物理', 'value': '#dddddd' },
-        { 'key': '化学', 'value': '#dddddd' },
-        { 'key': '生物', 'value': '#dddddd' },
-        { 'key': '地理', 'value': '#dddddd' },
-        { 'key': '政治', 'value': '#dddddd' },
-        { 'key': '历史', 'value': '#dddddd' }],
-      otherTag: [
-        { 'key': '男', 'value': '#dddddd' },
-        { 'key': '女', 'value': '#dddddd' },
-        { 'key': '0-100', 'value': '#dddddd' },
-        { 'key': '100-200', 'value': '#dddddd' },
-        { 'key': '紫金港', 'value': '#dddddd' },
-        { 'key': '西溪', 'value': '#dddddd' },
-        { 'key': '玉泉', 'value': '#dddddd' }
-      ],
       avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
     }
   },
@@ -210,6 +62,9 @@ export default {
       'hideLoginModal',
       'showLoginModal'
     ]),
+    toSearch: function () {
+      this.$router.push('/search')
+    },
     closeModal: function (event) {
       if (event.target.className === 'float-container') {
         this.hideLoginModal()
@@ -282,22 +137,26 @@ export default {
   height: 4px;
 }
 
-.el-tabs__header {
-  margin-bottom: 0px;
-}
-
 .el-tabs__item.is-active {
   color: #00AF63;
 }
 
 
+.el-tabs__header {
+  margin-bottom: 0px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background: #FFF;
+}
 
 
-
-
-
-
-
+.el-tabs__content {
+  margin-top: 42px;
+  height: 100%;
+  height: calc(100% - 42px);
+  overflow: scroll;
+}
 
 
 
@@ -353,40 +212,8 @@ export default {
   }
 }
 
-.float-container {
-  position: fixed;
-  z-index: 2;
-  left: 0;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
-}
 
-.float-content {
-  position: fixed;
-  z-index: 1;
-  /*padding-top: 60px;*/
-  /*padding-bottom: 30px;*/
-  padding: 3.5rem 1rem 2rem 1rem;
-  left: 50%;
-  /*right: 0;*/
-  transform: translateX(-50%);
-  top: 130px;
-  width: 70%;
-  height: 40%;
-  overflow: auto;
-  background-color: #fefefe;
-}
 
-.float-text {
-  font-size: 20px;
-  text-align: center;
-  color: #444444;
-  padding: 2.5%;
-  margin-bottom: 10%;
-}
 
 .login {
   color: orange;
