@@ -151,7 +151,7 @@
 </template>
 
 <script>
-import AV from 'leancloud-storage'
+import AV from 'leancloud-storage'  // 数据库对象
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'teach',
@@ -217,8 +217,7 @@ export default {
         this.loginModal = true
       } else {
         // this.loginModal = true
-        // console.log(this.allUsers[index].toJSON())
-
+        console.log(this.allUsers[index].toJSON()) // log检查用户
         this.currentTeacher = this.allUsers[index].toJSON()
         this.currentIndex = index
         this.showList = false
@@ -238,9 +237,9 @@ export default {
         if (result.length > 0) {
           console.log(result)
           self.$message('你已经预约过这个老师了')
+          self.toOrder()
         } else {
           const teacherMapUser = new AV.Object('TeacherMapUser')
-
           teacherMapUser.set('message', self.extraMsg)
           teacherMapUser.set('Teacher', self.allUsers[index])
           teacherMapUser.set('User', AV.User.current())
@@ -248,9 +247,13 @@ export default {
           teacherMapUser.save()
           self.$message('预约成功！')
           self.setReserveDirty(true)
-          self.confimModal = false
+          self.confimModal = false // new router
+          self.toOrder()
         }
       })
+    },
+    toOrder: function () {
+      this.$router.push('/order')
     }
   }
 }
