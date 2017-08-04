@@ -217,7 +217,7 @@ export default {
         this.loginModal = true
       } else {
         // this.loginModal = true
-        console.log(this.allUsers[index].toJSON()) // log检查用户
+        // console.log(this.allUsers[index].toJSON()) // log检查用户
         this.currentTeacher = this.allUsers[index].toJSON()
         this.currentIndex = index
         this.showList = false
@@ -248,11 +248,11 @@ export default {
           self.$message('预约成功！')
           self.setReserveDirty(true)
           self.confimModal = false // new router
-          self.toOrder()
+          self.toOrder(this.currentTeacher)
         }
       })
     },
-    toOrder: function () {
+    toOrder: function (currentTeacher) {
       this.$router.push('/order')
     }
   }
