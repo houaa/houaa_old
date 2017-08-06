@@ -25,6 +25,7 @@ import Home from './components/Home'
 import TeachList from './components/Teacher/Teacher'
 // import Learn from './components/Learn'
 import Search from './components/Search'
+import Order from './components/Order'
 import LoginNew from './components/Loginnew'
 import Reserve from './components/Reserve'
 import Leancloud from './components/leancloudDemo'
@@ -51,6 +52,7 @@ const routes = [
     redirect: 'teacher'
   },
   { path: '/leancloud', component: Leancloud },
+  { path: '/order', component: Order },
   { path: '/search', component: Search }
 ]
 
