@@ -4,7 +4,7 @@
       <el-input @click.native="toSearch" placeholder="猴啊家教" size="large" icon="search">
       </el-input>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick" style="position: fixed;width: 100%;overflow: scroll;    height: 100%;">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="教师" name="teacher">
         <router-view></router-view>
       </el-tab-pane>
@@ -18,7 +18,7 @@
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
-
+  
   </div>
 </template>
 
@@ -141,29 +141,25 @@ export default {
   color: #00AF63;
 }
 
-
-.el-tabs__header {
-  margin-bottom: 0px;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
-  background: #FFF;
+.el-tabs {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
+.el-tabs__header {
+  margin-bottom: 0;
+}
 
 .el-tabs__content {
-  margin-top: 42px;
-  height: 100%;
-  height: calc(100% - 42px);
   overflow: scroll;
 }
 
+.el-tabs__content::-webkit-scrollbar {
+  display: none;
+}
 
 
-/*.el-input__inner {
-  background: url(../assets/houaa-r.png) no-repeat scroll;
-  padding-left: 30px;
-}*/
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -220,9 +216,11 @@ export default {
 }
 
 .main-contianer {
-  padding-top: 0.3rem;
-  overflow: scroll;
+  /* padding-top: 0.3rem; */
+  /* overflow: scroll; */
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 ::-webkit-scrollbar {
