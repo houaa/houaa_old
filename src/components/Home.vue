@@ -46,6 +46,11 @@ export default {
       return this.$route.path.substring(1)
     }
   },
+  created: function () {
+    if (window.innerWidth > 500) {
+      this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
+    }
+  },
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
