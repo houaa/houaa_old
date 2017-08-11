@@ -18,15 +18,19 @@
             <h1>猴啊家教</h1>
           </div>
           <div id="form">
-            <el-input class="input" placeholder="手机号码" v-model="phone" />
-            <el-input class="input" placeholder="验证码" v-model="recaptcha" />
+            <div style="margin-bottom:1.4em;">
+              <el-input class="input" placeholder="手机号码" v-model="phone" />
+            </div>
+            <div style="display:flex;">
+              <el-input style="margin-right:1em;" placeholder="验证码" v-model="recaptcha" />
+              <el-button @click="sendSMS" size="small" type="primary">发送验证码</el-button>
+            </div>
           </div>
           <div id="button">
             <div>
               <el-button @click="logInPhone" class="button" style="border-width:2px;color:#FFF;border-color:#00B074;background:#00B074;" type="primary">登录</el-button>
             </div>
             <div>
-              <el-button @click="sendSMS" class="button" style="border-width:2px;color:#00B074;border-color:#00B074">发送验证码</el-button>
             </div>
             <div>
               <el-button @click="toSignUp" class="button" style="border-width:2px;color:#00B074;border-color:#00B074">注册</el-button>

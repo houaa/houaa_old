@@ -3,7 +3,7 @@
   
     <el-row v-show="showList">
       <transition-group name="el-fade-in-linear">
-        <el-col class="main-card" :xs="24" :sm="8" :lg="6" :key="index" v-for="(user,index) in allUsers">
+        <el-col class="main-card" :xs="24" :sm="8" :lg="6" @click.native="showDetail(index, $event)" :key="index" v-for="(user,index) in allUsers">
           <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;">
             <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
               {{user.attributes.name[0]}}
@@ -18,8 +18,10 @@
               </div>
             </div>
           </div>
-          <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:1em;">
-            <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button>
+  
+          <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:2em;">
+            <div class="teacher-salary" :style="{color: allUsers[0].attributes.role?'#00AF63':'#e67e22'}">￥{{user.attributes.salary}}</div>
+            <!-- <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button> -->
           </div>
         </el-col>
       </transition-group>
@@ -62,8 +64,8 @@
         <h3>空闲时间</h3>
         <div id="Container">
           <div class="week">
-            <div class="time">
-              <div>&nbsp;&nbsp;</div>
+            <div style="border-right:solid 1px #ccc;" class="time">
+              <div style="border-bottom:solid 1px #ccc;margin-bottom:0.6em;">&nbsp;&nbsp;</div>
               <div>
                 上午
               </div>
@@ -74,13 +76,13 @@
                 晚上
               </div>
             </div>
-            <div v-for="i in [0,1,2,3,4,5,6]">
-              <div>
+            <div v-for="i in [0,1,2,3,4,5,6]" :key="i">
+              <div style="border-bottom:solid 1px #ccc;">
                 {{days[i]}}
               </div>
-              <div v-for="j in [0,1,2]">
-                <!-- <div class="time okTime"></div> -->
-                <div class="time" v-bind:class="currentTeacher.availableTime[i][j]?'okTime':'notTime'"></div>
+              <div v-for="j in [0,1,2]" :key="j">
+                <!-- <div class=" time okTime "></div> -->
+                <div class="time " v-bind:class="currentTeacher.availableTime[i][j]? 'okTime': 'notTime' "></div>
   
               </div>
             </div>
@@ -89,58 +91,58 @@
       </div>
     </div>
   
-    <transition name="el-zoom-in-bottom">
+    <transition name="el-zoom-in-bottom ">
   
-      <div v-if="confimModal" v-on:click="closeModal" class="float-container2" style="padding-top:80%;">
-        <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff;">
-          <div style="padding:2em 2em 1em 2em;">
-            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee;">预约信息确认
+      <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="padding-top:80%; ">
+        <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff; ">
+          <div style="padding:2em 2em 1em 2em; ">
+            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">预约信息确认
             </h3>
   
-            <div class="section-line">
+            <div class="section-line ">
               <div>教师姓名</div>
               <div>
                 {{currentTeacher.name}}
               </div>
             </div>
-            <div class="section-line">
+            <div class="section-line ">
               <div>薪资：</div>
               <div>
                 {{currentTeacher.salary}} 元/小时
               </div>
             </div>
-            <div class="section-line">
+            <div class="section-line ">
               <div>性别：</div>
               <div>
                 {{currentTeacher.sex|genderParse}}
               </div>
             </div>
   
-            <div class="section-line">
-              <div style="">留言</div>
+            <div class="section-line ">
+              <div style=" ">留言</div>
               <div>
-                <el-input type="textarea" :rows="3" placeholder="想说什么呢" v-model="extraMsg">
+                <el-input type="textarea " :rows="3 " placeholder="想说什么呢 " v-model="extraMsg ">
                 </el-input>
               </div>
             </div>
-            <div style="display:flex;margin-top:1em;justify-content:space-between;">
-              <el-button @click="confimModal=false" style="width:6em;" size="large" type="text">取消</el-button>
-              <el-button @click="buy(currentIndex)" size="large" style="width:6em;" type="primary">生成订单</el-button>
+            <div style="display:flex;margin-top:1em;justify-content:space-between; ">
+              <el-button @click="confimModal=false " style="width:6em; " size="large " type="text ">取消</el-button>
+              <el-button @click="buy(currentIndex) " size="large " style="width:6em; " type="primary ">生成订单</el-button>
             </div>
           </div>
         </div>
       </div>
     </transition>
-    <transition name="fade">
-      <div v-if="loginModal" v-on:click="closeModal" class="float-container" :body-style="{padding: '0px'}">
-        <div class="float-content">
-          <div class="float-text">
+    <transition name="fade ">
+      <div v-if="loginModal " v-on:click="closeModal " class="float-container " :body-style="{padding: '0px'} ">
+        <div class="float-content ">
+          <div class="float-text ">
             如需查看详细信息或进行筛选搜索，请您
           </div>
-          <button class="btn gray" type="button">
+          <button class="btn gray " type="button ">
             <span>登录</span>
           </button>
-          <button class="btn" type="button">
+          <button class="btn " type="button ">
             <span>注册</span>
           </button>
         </div>
@@ -261,6 +263,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.teacher-salary {
+  font-size: 1.5em;
+}
+
+
 .part {
   padding: 1.5em 2em 1.5em 2em;
   border-bottom: 1px solid #eee;
