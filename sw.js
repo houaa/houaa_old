@@ -1,7 +1,7 @@
 importScripts('serviceworker-cache-polyfill.js');
 
 
-var CACHE_NAME = 'houaa-8-4-10-16-21';
+var CACHE_NAME = 'houaa-8-11-11-29-12';
 
 
 var urlsToCache = [
