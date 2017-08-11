@@ -14,7 +14,7 @@
               <div style="margin-bottom:0.4em;">{{edu[user.attributes.edu]}} {{grades[user.attributes.edu][user.attributes.grade]}}</div>
               <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
               <div>
-                <el-tag v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
+                <el-tag style="margin-right:0.5em;" v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
               </div>
             </div>
           </div>
@@ -290,7 +290,7 @@ export default {
   /* margin-bottom: 0.5rem;  */
   display: flex;
   border-bottom: 1px solid #eee;
-  min-height: 6em;
+  min-height: 7.5em;
 }
 
 .img-figure {

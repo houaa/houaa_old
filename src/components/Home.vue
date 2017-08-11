@@ -18,7 +18,7 @@
         <router-view></router-view>
       </el-tab-pane>
     </el-tabs>
-
+  
   </div>
 </template>
 
@@ -44,6 +44,11 @@ export default {
         return 'teacher'
       }
       return this.$route.path.substring(1)
+    }
+  },
+  created: function () {
+    if (window.innerWidth > 500) {
+      this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
     }
   },
   data() {
@@ -157,6 +162,12 @@ export default {
   height: calc(100% - 42px);
   overflow: scroll;
 }
+
+
+
+
+
+
 
 
 
