@@ -26,7 +26,7 @@ const state = {
     salary: 0,
     highestSalary: 0,
     teach: [],
-    availableTime: [],
+    availableTime: [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 1, 1], [0, 1, 1]], // 默认空闲时间为周末下午和晚上
     tags: [],
     selfIntro: '',
     rankRate: 0,
