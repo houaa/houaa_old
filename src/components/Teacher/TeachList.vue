@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <transition name="el-zoom-in-bottom ">
+    <transition name="el-zoom-in-bottom">
 
       <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="padding-top:80%; ">
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff; ">
