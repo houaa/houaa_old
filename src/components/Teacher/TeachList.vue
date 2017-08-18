@@ -1,12 +1,13 @@
 <template>
   <div class="teach-container">
-  
+
     <el-row v-show="showList">
       <transition-group name="el-fade-in-linear">
         <el-col class="main-card" :xs="24" :sm="8" :lg="6" @click.native="showDetail(index, $event)" :key="index" v-for="(user,index) in allUsers">
           <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;">
             <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
-              {{user.attributes.name[0]}}
+              <!-- {{user.attributes.name[0]}} -->
+              {{user.attributes.name?user.attributes.name[0]:'未'}}
             </div>
           </div>
           <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;">
@@ -18,7 +19,7 @@
               </div>
             </div>
           </div>
-  
+
           <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:2em;">
             <div class="teacher-salary" :style="{color: allUsers[0].attributes.role?'#00AF63':'#e67e22'}">￥{{user.attributes.salary}}</div>
             <!-- <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button> -->
@@ -26,7 +27,7 @@
         </el-col>
       </transition-group>
     </el-row>
-  
+
     <div v-if="!showList && currentTeacher">
       <div id="intro" class="part">
         <div id="text" style="display:flex;justify-content:space-between;">
@@ -44,7 +45,7 @@
           </div>
         </div>
       </div>
-  
+
       <div id="detail" class="part">
         <h3>基础信息</h3>
         <div id="sex">标签：
@@ -83,22 +84,22 @@
               <div v-for="j in [0,1,2]" :key="j">
                 <!-- <div class=" time okTime "></div> -->
                 <div class="time " v-bind:class="currentTeacher.availableTime[i][j]? 'okTime': 'notTime' "></div>
-  
+
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
+
     <transition name="el-zoom-in-bottom ">
-  
+
       <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="padding-top:80%; ">
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff; ">
           <div style="padding:2em 2em 1em 2em; ">
             <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">预约信息确认
             </h3>
-  
+
             <div class="section-line ">
               <div>教师姓名</div>
               <div>
@@ -117,7 +118,7 @@
                 {{currentTeacher.sex|genderParse}}
               </div>
             </div>
-  
+
             <div class="section-line ">
               <div style=" ">留言</div>
               <div>
@@ -148,7 +149,7 @@
         </div>
       </div>
     </transition>
-  
+
   </div>
 </template>
 
