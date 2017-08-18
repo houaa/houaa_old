@@ -9,6 +9,7 @@ const state = {
   userInfo: '',
   allTeachers: '',
   allStudents: '',
+  orderedOne: '',
   loggedInUser: '',
   postProjectURL: 'https://api.houaa.xyz/index.php/api/teacher',
   teachURL: 'https://api.houaa.xyz/index.php/api/teachers',
@@ -44,6 +45,9 @@ const mutations = {
         username: '临时用户'
       }
     }
+  },
+  setOrdered(state, person) {
+    state.orderedOne = person
   },
   userLogout(state) {
     state.login = false
@@ -221,7 +225,8 @@ const getters = {
   user: state => state.user,
   reserveInfo: state => state.allReserve,
   isReserveDirty: state => state.reserveIsDirty,
-  createTime: state => state.createdAt
+  createTime: state => state.createdAt,
+  orderedOne: state => state.orderedOne
 }
 
 export default new Vuex.Store({

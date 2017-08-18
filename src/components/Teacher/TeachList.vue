@@ -204,7 +204,8 @@ export default {
       'showLoginModal',
       'hideLoginModal',
       'setAllTeachers',
-      'setReserveDirty'
+      'setReserveDirty',
+      'setOrdered'
     ]),
     handleValue: function (value) {
     },
@@ -240,8 +241,10 @@ export default {
         if (result.length > 0) {
           console.log(result)
           self.$message('你已经预约过这个老师了')
+          self.setOrdered(this.currentTeacher)
           self.toOrder()
         } else {
+          /* 预约的代码，与后端交互
           const teacherMapUser = new AV.Object('TeacherMapUser')
           teacherMapUser.set('message', self.extraMsg)
           teacherMapUser.set('Teacher', self.allUsers[index])
@@ -249,9 +252,12 @@ export default {
           teacherMapUser.set('status', '未查看')
           teacherMapUser.save()
           self.$message('预约成功！')
+          */
+
           self.setReserveDirty(true)
           self.confimModal = false // new router
-          self.toOrder(this.currentTeacher)
+          self.setOrdered(this.currentTeacher)
+          self.toOrder()
         }
       })
     },

@@ -11,6 +11,7 @@
       </div>
     </div>
     <div v-show="showTeacher" class="contents">
+      {{orderedOne}}
       <div class="Content1">
         <div>薪资</div>
       </div>
@@ -26,8 +27,14 @@
 
     <div v-show="showPay" class="contents">
       <div class="pay">
-        <div><span>本次交易，猴啊家教</span><span style="color:#33BF8F">不收取任何费用</span></div>
-        <div><span style="color:#888;font-size:16px">¥ </span><span style="color:#33BF8F;font-size:40px">0</span></div>
+        <div>
+          <span>本次交易，猴啊家教</span>
+          <span style="color:#33BF8F">不收取任何费用</span>
+        </div>
+        <div>
+          <span style="color:#888;font-size:16px">¥ </span>
+          <span style="color:#33BF8F;font-size:40px">0</span>
+        </div>
       </div>
     </div>
 
@@ -35,8 +42,11 @@
       <div class="Done">
         <div class="Cong">恭喜您！订单已经生效！</div>
         <div class="Notes">
-          <p>您可以在<span style="color:#33BF8F;font-weight:500">订单管理界面</span>管理和查看本订单。</p>
-          <p>我们已为您通知了对方家长，您应该在近期接到家长的联系，<span style="color:#33BF8F;font-weight:500">请留意您登机在猴啊的联系方式。</span></p>
+          <p>您可以在
+            <span style="color:#33BF8F;font-weight:500">订单管理界面</span>管理和查看本订单。</p>
+          <p>我们已为您通知了对方家长，您应该在近期接到家长的联系，
+            <span style="color:#33BF8F;font-weight:500">请留意您登机在猴啊的联系方式。</span>
+          </p>
         </div>
       </div>
     </div>
@@ -48,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -58,8 +69,13 @@ export default {
       buttonText: '下一步'
     }
   },
+  computed: {
+    ...mapGetters([
+      'orderedOne'
+    ])
+  },
   methods: {
-    gonext: function() {
+    gonext: function () {
       if (this.showTeacher) {
         this.showTeacher = false
         this.showPay = true
@@ -95,33 +111,32 @@ export default {
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.order-container{
+.order-container {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
   color: #7e7e7e;
 }
 
-.head{
+.head {
   text-align: center;
-  font-size:18px;
-  font-weight:500;
+  font-size: 18px;
+  font-weight: 500;
   color: #000;
 }
 
-.order-head{
-  height:70px;
+.order-head {
+  height: 70px;
   display: -webkit-flex;
-  display:         flex;
+  display: flex;
   -webkit-align-items: center;
-          align-items: center;
+  align-items: center;
   -webkit-justify-content: center;
-          justify-content: center;
+  justify-content: center;
   border-bottom: 1px solid #eee;
 }
 
-.contents{
+.contents {
   margin: 0 10px;
 }
 
@@ -150,39 +165,39 @@ export default {
   font-weight: 600;
 }
 
-.next{
-  margin-top:50px;
+.next {
+  margin-top: 50px;
   text-align: center;
 }
 
-.pay{
-  margin-top:200px;
+.pay {
+  margin-top: 200px;
   text-align: center;
 }
 
 .pay>:first-child {
-  margin-bottom:20px;
+  margin-bottom: 20px;
   font-size: 16px;
   font-weight: 400;
   color: #888;
 }
 
-.cost{
-  display:block;
-  font-size:40px;
+.cost {
+  display: block;
+  font-size: 40px;
 }
 
-.Cong{
-  margin-top:150px;
-  margin-bottom:100px;
-  font-size:20px;
+.Cong {
+  margin-top: 150px;
+  margin-bottom: 100px;
+  font-size: 20px;
   color: #000;
   text-align: center;
 }
 
-.Notes{
-  text-align:center;
-  margin:15px;
+.Notes {
+  text-align: center;
+  margin: 15px;
   font-size: 13px;
 }
 </style>
