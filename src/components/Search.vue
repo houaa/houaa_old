@@ -4,18 +4,18 @@
       <div class="search-content">
         <div class="search-section">
           <el-row class="search-margin">
-            <el-input :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教">
+            <el-input :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教" size="large">
               <el-button slot="prepend" icon="arrow-left" @click="toBack"></el-button>
             </el-input>
           </el-row>
         </div>
-  
+
+    <transition name="fade">
         <div v-if="!searchResult">
           <div style="text-align:center" class="search-title">热门搜索</div>
           <div :key="index" v-for="(item,index) in searchSuggestion" class="tagwrapper">
             <el-tag @click.native="searchValue=item" type="success">{{item}}</el-tag>
           </div>
-  
           <!-- <div class="search-section">
                         <el-row>
                           <el-row class="search-title"># 阶段</el-row>
@@ -78,9 +78,11 @@
         <div v-else style="background-color:#fefefe; height:100%;overflow:hidden;">
           <TeachList :all-users="searchResult"></TeachList>
         </div>
+    </transition>
+
       </div>
     </div>
-  
+    
   </div>
 </template>
 
@@ -222,6 +224,13 @@ export default {
 
 .el-tag {
   cursor: pointer;
+  padding: 4px 10px;
+  margin: 1px 0;
+  height: 100%;
+  font-size: 1.1em;
+  font-weight: 300;
+  border-color:#0BB279;
+  color:#0BB279;
 }
 
 .search-margin {
@@ -269,16 +278,16 @@ export default {
   z-index: 1;
   width: 100%;
   height: 100%;
-  background-color: #262626;
+  background-color: #eee;
   animation-name: fromLef;
   animation-duration: 0.4s;
 }
 
 .search-title {
-  color: white;
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: 400;
+  color: #888;
+  margin: 20px 0;
+  font-size: 1.3em;
+  font-weight: 200; 
 }
 
 @keyframes fromLef {
@@ -298,7 +307,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: #262626;
+  background-color: #eee;
 }
 
 .float-content {

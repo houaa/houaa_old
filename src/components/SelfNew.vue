@@ -41,15 +41,13 @@
         </div>
       </div>
     </div>
-    <div class="Content1">
-      <div>我是：</div>
-      <div>
-        <el-switch v-on:change="preventWindow" v-if="user.role===''" v-model="teacherOrStudent" width=60 on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
-        </el-switch>
-        <el-switch v-on:change="preventWindow" v-else :disabled='true' v-model="user.role" :width='60' on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
-        </el-switch>
+    <!-- <div class="Content1">
+      <div>我是</div>
+      <div style="font-size: 15px; font-weight: 400;color: #0bb279;">
+        {{user.role}}
+        老师
       </div>
-    </div>
+    </div> -->
     <div class="Content1">
       <div>薪资</div>
       <div style="font-size:16px">
@@ -255,7 +253,7 @@ export default {
 }
 
 .Content1>:first-child {
-  font-size: 18px;
+  font-size: 1.2em;
   font-weight: 600;
   color: #000;
 }
@@ -278,7 +276,7 @@ export default {
   border: none;
   outline: none;
   width: 30px;
-  text-align: right;
+  text-align: left;
   font-size: 17px;
   margin-right: 5px;
   color: #0bb279;
@@ -328,9 +326,9 @@ export default {
 }
 
 .eduRank>#classes>i.not {
-  border: #0bb279 1px solid;
+  border: #bbb 1px solid;
   margin-bottom: 5px;
-  color: #0bb279;
+  color: #bbb;
   font-weight: 600;
   font-size: 14px;
 }
