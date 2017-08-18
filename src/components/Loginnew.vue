@@ -130,6 +130,7 @@ export default {
 }
 
 #button {
+  margin-top:25px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
