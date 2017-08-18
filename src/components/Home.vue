@@ -5,20 +5,13 @@
       </el-input>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="教师" name="teacher">
-        <router-view></router-view>
-      </el-tab-pane>
-      <el-tab-pane label="学生" name="student">
-        <router-view></router-view>
-      </el-tab-pane>
-      <el-tab-pane label="订单" name="reserve">
-        <router-view></router-view>
-      </el-tab-pane>
-      <el-tab-pane label="我" name="self">
-        <router-view></router-view>
+      <el-tab-pane :label="item.label" :name="item.name" v-for="(item,index) in tabs" :key="index">
+        <v-touch v-on:swipeleft="onSwipeLeft(index)" v-on:swiperight="onSwipeRight(index)">
+          <router-view></router-view>
+        </v-touch>
       </el-tab-pane>
     </el-tabs>
-  
+
   </div>
 </template>
 
@@ -57,7 +50,13 @@ export default {
       currentDate: new Date(),
       user_name: 'HLH',
       searchModal: false,
-      avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)]
+      avaTime: [new Date(), new Date().setHours(new Date().getHours + 4)],
+      tabs: [
+        { label: '教师', name: 'teacher' },
+        { label: '学生', name: 'student' },
+        { label: '订单', name: 'reserve' },
+        { label: '我', name: 'self' }
+      ]
     }
   },
   methods: {
@@ -67,6 +66,18 @@ export default {
       'hideLoginModal',
       'showLoginModal'
     ]),
+    onSwipeLeft: function (index) {
+      console.log('swipe left', index)
+      if (index + 1 < this.tabs.length) {
+        this.$router.push(this.tabs[index + 1].name)
+      }
+    },
+    onSwipeRight: function (index) {
+      console.log('swipe right', index)
+      if (index > 0) {
+        this.$router.push(this.tabs[index - 1].name)
+      }
+    },
     toSearch: function () {
       this.$router.push('/search')
     },
@@ -163,8 +174,6 @@ export default {
 .el-tabs__content::-webkit-scrollbar {
   display: none;
 }
-
-
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
