@@ -41,15 +41,13 @@
         </div>
       </div>
     </div>
-    <div class="Content1">
+    <!-- <div class="Content1">
       <div>我是</div>
-      <div>
-        <el-switch v-on:change="preventWindow" v-if="user.role===''" v-model="teacherOrStudent" width=60 on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
-        </el-switch>
-        <el-switch v-on:change="preventWindow" v-else :disabled='true' v-model="user.role" :width='60' on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
-        </el-switch>
+      <div style="font-size: 15px; font-weight: 400;color: #0bb279;">
+        {{user.role}}
+        老师
       </div>
-    </div>
+    </div> -->
     <div class="Content1">
       <div>薪资</div>
       <div style="font-size:16px">
