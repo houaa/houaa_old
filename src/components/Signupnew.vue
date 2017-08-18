@@ -6,15 +6,22 @@
       </div>
       <img style="position:absolute;width:54%;right:0.3rem;top:1rem;" src="../assets/signupMask.svg"></img>
     </div>
-  
+
     <div style="height:60%;background-color:#fff;display:flex;justify-content:space-between;flex-direction:column;">
       <div style="padding:2rem;width:100%;">
         {{caption}}
         <p v-if="state===1&&phoneNumber">{{phoneNumber}}</p>
       </div>
       <div style="width:70%;margin-left:2rem;">
-        <el-input v-show="state==0" v-model="nickname" placeholder="请输入昵称"></el-input>
+        <!-- <el-input v-show="state==0" v-model="nickname" placeholder="请输入昵称"></el-input> -->
         <el-input v-show="state==0" placeholder="请输入手机号" icon="phone" v-model="phoneNumber"></el-input>
+        <div v-show="state==0" style="display:flex;margin-top:1em;">
+          <div style="margin-right:2em;">我是:</div>
+          <div>
+            <el-switch v-model="teacherOrStudent" :width="60" on-text="老师" off-text="学生" on-color="#13ce66" off-color="#e67e22">
+            </el-switch>
+          </div>
+        </div>
         <el-input v-show="state==1" v-model="veri" placeholder="请输入验证码"></el-input>
         </el-input>
       </div>
@@ -42,7 +49,8 @@ export default {
       phoneNumber: '',
       state: 0,
       nickname: '',
-      veri: ''
+      veri: '',
+      teacherOrStudent: true
     }
   },
   methods: {
@@ -55,10 +63,14 @@ export default {
       if (this.state === 0) {
         // console.log('qwq')
         // console.log(this.nickname + 'quq')
-        if (this.nickcname === '') {
-          this.$message('请输入昵称')
-        } if (!(/^1[3|5|8][0-9]\d{4,8}$/.test(this.phoneNumber))) {
+        // if (this.nickcname === '') {
+        //   this.$message('请输入昵称')
+        // }
+        if (!(/^1[3|5|8][0-9]\d{4,8}$/.test(this.phoneNumber))) {
           this.$message('请输入有效的手机号')
+        } else if (window.location.href.includes('localhost')) {
+          console.log('debug')
+          this.state = 1
         } else {
           AV.Cloud.requestSmsCode({
             mobilePhoneNumber: self.phoneNumber,
@@ -78,9 +90,11 @@ export default {
           this.$message('请输入验证码')
         } else {
           AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
-            // console.log(loggedInUser)
+            console.log(loggedInUser)
             // self.setLoggedInUser(loggedInUser)
-            // loggedInUser.set('type', self.teacherOrStudent)
+            // debug code: 543499
+            loggedInUser.set('role', self.teacherOrStudent)
+            loggedInUser.save()
             self.userLogin(loggedInUser)
             self.$message('登陆成功')
             this.$router.push('self')
