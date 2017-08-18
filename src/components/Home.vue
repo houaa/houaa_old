@@ -6,7 +6,7 @@
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane :label="item.label" :name="item.name" v-for="(item,index) in tabs" :key="index">
-        <v-touch v-on:swipeleft="onSwipeLeft(index)" v-on:swiperight="onSwipeRight(index)">
+        <v-touch :options="{ touchAction: 'pan' }" v-on:swipeleft="onSwipeLeft(index)" v-on:swiperight="onSwipeRight(index)">
           <router-view></router-view>
         </v-touch>
       </el-tab-pane>
