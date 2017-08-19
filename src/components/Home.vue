@@ -5,10 +5,10 @@
       </el-input>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane :label="item.label" :name="item.name" v-for="(item,index) in tabs" :key="index">
-        <v-touch :options="{ touchAction: 'pan' }" v-on:swipeleft="onSwipeLeft(index)" v-on:swiperight="onSwipeRight(index)">
-          <router-view></router-view>
-        </v-touch>
+      <el-tab-pane :id="'pane'+index" :label="item.label" :name="item.name" v-for="(item,index) in tabs" :key="index">
+        <!-- <v-touch v-on:swipeleft="onSwipeLeft(index)" v-on:swiperight="onSwipeRight(index)"> -->
+        <router-view></router-view>
+        <!-- </v-touch> -->
       </el-tab-pane>
     </el-tabs>
 
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import Hammer from 'hammerjs'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'home',
@@ -44,6 +45,20 @@ export default {
       this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
     }
   },
+  mounted: function () {
+    let self = this
+
+    // Swipe Action
+    for (let index = 0; index < 4; index++) {
+      let hammertime = new Hammer(document.getElementById('pane' + index))
+      hammertime.on('swipeleft', function (ev) {
+        self.onSwipeLeft(index)
+      })
+      hammertime.on('swiperight', function () {
+        self.onSwipeRight(index)
+      })
+    }
+  },
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -66,6 +81,9 @@ export default {
       'hideLoginModal',
       'showLoginModal'
     ]),
+    testPan: function (e) {
+      document.getElementsByClassName('el-tab-pane').scrollTop += 10
+    },
     onSwipeLeft: function (index) {
       console.log('swipe left', index)
       if (index + 1 < this.tabs.length) {

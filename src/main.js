@@ -4,8 +4,6 @@ import Vue from 'vue'
 
 import store from './store/store'
 import App from './App'
-import VueTouch from 'vue-touch'
-Vue.use(VueTouch)
 
 import AV from 'leancloud-storage'
 var APP_ID = 'bbuNR4JPyRBbqYTFkPIripnW-gzGzoHsz'
