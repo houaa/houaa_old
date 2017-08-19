@@ -4,7 +4,7 @@
       <div class="order-section">
         <el-row class="order-head">
           <el-col :span="4">
-            <el-button type="primary" icon="arrow-left" @click="toBack"></el-button>
+            <el-button type="primary" icon="arrow-left" @click="toBack()"></el-button>
           </el-col>
           <el-col :span="16" class="head">{{prompts}}</el-col>
         </el-row>
@@ -75,6 +75,18 @@ export default {
     ])
   },
   methods: {
+    toBack: function () {
+      if (this.showTeacher) {
+        this.showTeacher = false
+        this.$router.push('/reserve')
+      } else if (this.showPay) {
+        this.showPay = false
+        this.showTeacher = true
+      } else if (this.showDone) {
+        this.showDone = false
+        this.showPay = true
+      }
+    },
     gonext: function () {
       if (this.showTeacher) {
         this.showTeacher = false

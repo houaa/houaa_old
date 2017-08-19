@@ -3,9 +3,9 @@
     <div style="justify-content: space-between;">
       <div id="Meta">
         <div id="Name">
-          <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 91.14px;border: none;"></input>
-          <div v-if="user.sex" style="display: inline-block;position:relative;top:4px;"><img width="25" src="../assets/woman.svg"></div>
-          <div v-else style="display: inline-block;position:relative;top:4px;"><img width="25" src="../assets/man.svg"></div>
+          <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;"></input>
+          <div v-if="user.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/female.svg"></div>
+          <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/male.svg"></div>
         </div>
         <div id="DetailMeta" style="margin-top: 20px;">
           <!-- <div id="auth" style="color: #0bb279;font-size: 14px;text-align:center">
@@ -18,7 +18,7 @@
               </option>
             </select>
             <select v-on:change="preventWindow" v-model="user.grade"  id="gradeSelector" style="color: #777;outline:none;">
-              <option v-for="i in Array.from(Array(grades[user.edu].length).keys())" v-bind:value="i" style="ouotline:none">
+              <option v-for="i in Array.from(Array(grades[user.edu].length).keys())" v-bind:value="i" style="outline:none">
                 {{grades[user.edu][i]}}
               </option>
             </select>
@@ -41,13 +41,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="Content1">
-      <div>我是</div>
-      <div style="font-size: 15px; font-weight: 400;color: #0bb279;">
-        {{user.role}}
-        老师
-      </div>
-    </div> -->
     <div class="Content1">
       <div>薪资</div>
       <div style="font-size:16px">
@@ -308,7 +301,7 @@ export default {
 }
 
 .eduRank>#classes>i {
-  border-radius: 10px;
+  border-radius: 7px;
   font-style: normal;
   margin-left: 20px;
   text-align: center;
