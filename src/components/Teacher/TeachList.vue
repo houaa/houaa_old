@@ -112,7 +112,7 @@
               </div>
               <div v-for="j in [0,1,2]" :key="j">
                 <div class="time" v-bind:class="currentTeacher.availableTime[i][j]?'okTime':'notTime'">
-                  <i v-if='user.availableTime[i][j]' style="color:#FFF;font-size: 10px;padding-top:8px;" class="el-icon-check"></i>
+                  <!-- <i v-if='user.availableTime[i][j]' style="color:#FFF;font-size: 10px;padding-top:8px;" class="el-icon-check"></i> -->
                 </div>
               </div>
             </div>
@@ -502,7 +502,7 @@ div.notTime {
   display: flex;
   justify-content: space-between;
   display: flex;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
   padding-bottom: 20px;
   padding-top: 20px;
 }

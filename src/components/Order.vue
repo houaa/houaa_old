@@ -12,16 +12,18 @@
     </div>
 
     <div v-show="showTeacher" class="contents">
-      <!-- {{orderedOne}} -->
-      <div id="Meta" class="Content1">
-        <div id="Name">
+
+    <div style="justify-content: space-between;" id="Main" class="Content1">
+      <div id="Meta">
+        <div id="Name" style="display:flex;">
           <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{orderedOne.name}}</div>
           <div v-if="orderedOne.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/female.svg"></div>
           <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/male.svg"></div>
         </div>
         
         <div id="DetailMeta" style="margin-top: 20px;">
-          <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;">{{edu[orderedOne.edu]}}</div>
+          <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[orderedOne.edu]}}</div>
+          <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[orderedOne.edu][orderedOne.grade]}}</div>
           <div v-if="orderedOne.auth" id="auth">
             <img width="20" style="padding-top:3px;" src="../assets/auth.svg">
           </div>
@@ -29,6 +31,7 @@
             未认证
           </div>
         </div>
+      </div>
 
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
         <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
@@ -41,22 +44,56 @@
       </div>
     </div>
 
+    <div id="detail">
       <div class="Content1">
         <div>薪资</div>
-        <div style="font-size:16px">{{orderedOne.salary}}/小时</div>
+        <div>
+          <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{orderedOne.salary}}</span>
+          <span style="font-size:16px; font-weight:200;">/小时</span></div>
       </div>
 
       <div class="Content1">
         <div>地点</div>
-        <div style="font-size:16px">{{orderedOne.campus}}</div>
+        <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap"> <!--TODO:store中新建数据存储信息-->
+        <div style="font-size:16px; font-weight:200;text-align:right;">输入新地点:</div>
+        <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 40px;border: none;text-align:right;"></input>
+        </div>
       </div>
 
       <div class="Content1">
         <div>科目</div>
         <div style="font-size:16px">{{edu[orderedOne.edu]}}</div>
-        <div style="font-size:16px">{{getClass()}}</div>
+      </div> 
+
+      <div class="week">
+      <div class="time">
+        <div>&nbsp;&nbsp;</div>
+        <div>
+          上午
+        </div>
+        <div>
+          下午
+        </div>
+        <div>
+          晚上
+        </div>
+      </div>
+      <div v-for="i in [0,1,2,3,4,5,6]">
+        <div>
+          {{days[i]}}
+        </div>
+        <div v-for="j in [0,1,2]" @click="toggleCalendar([i,j])">
+          <div class="time" v-bind:class="orderedOne.availableTime[i][j]?'okTime':'notTime'">
+          </div>
+        </div>
       </div>
     </div>
+    </div>
+
+    </div>
+
+
+    
 
     <div v-show="showPay" class="contents">
       <div class="pay">
@@ -91,7 +128,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -102,12 +139,16 @@ export default {
       buttonText: '下一步',
       edu: ['小学', '初中', '高中', '本科'],
       grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
-      classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']]
+      classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
+      days: ['一', '二', '三', '四', '五', '六', '日']
     }
   },
   computed: {
     ...mapGetters([
       'orderedOne'
+    ]),
+    ...mapMutations([
+      'toggleCalendar'
     ])
   },
   methods: {
@@ -141,18 +182,24 @@ export default {
         this.showPay = true
         this.showDone = false
         this.prompts = '正 在 准 备 付 款'
+        console.log(this.orderedOne)
       } else if (this.showPay) {
         this.prompts = '完 成'
         this.showTeacher = false
         this.showPay = false
         this.showDone = true
         this.buttonText = '去查看'
+        console.log(this.orderedOne)
       } else if (this.showDone) {
         this.$router.push('/reserve')
         this.showTeacher = false
         this.showPay = false
         this.showDone = false
+        console.log(this.orderedOne)
       }
+    },
+    preventWindow() {
+      window.preventWindowClose = true
     }
   }
 }
@@ -203,7 +250,6 @@ export default {
 .Content1 {
   display: flex;
   justify-content: space-between;
-  display: flex;
   border-bottom: 1px solid #d8d8d8;
   padding-bottom: 20px;
   padding-top: 20px;
@@ -250,5 +296,47 @@ export default {
   margin: 15px;
   font-size: 13px;
 }
+
+#DetailMeta {
+  display: flex;
+  flex-direction: row;
+}
+
+div.week{
+  margin-top:20px;
+  display: flex;
+}
+
+div.week>div {
+  flex-grow: 1;
+}
+
+div.week>div>div {
+  flex-grow: 1;
+  text-align: center;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+div.week>div.time>div {
+  font-size: 16px;
+}
+
+div.okTime {
+  background: #0bb279;
+  border-radius: 15px;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.notTime {
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
 
