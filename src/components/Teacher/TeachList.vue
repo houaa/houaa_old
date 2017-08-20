@@ -28,45 +28,74 @@
       </transition-group>
     </el-row>
 
-    <div v-if="!showList && currentTeacher">
-      <div id="intro" class="part">
-        <div id="text" style="display:flex;justify-content:space-between;">
-          <div>
-            <h3>{{currentTeacher.name}}</h3>
-            <el-rate v-model="currentTeacher.rate" disabled show-text text-template="{value}" text-color="#ff9900">
-            </el-rate>
-            <el-button :disabled="allUsers[0].attributes.role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;" size="small" type="primary">预约</el-button>
-            <el-button class="button" v-on:click="showList=true" style="margin-top:1em;" size="small">返回</el-button>
+    <div v-if="!showList && currentTeacher" >
+    <div style="justify-content: space-between;" id="Main" class="Content1">
+      <div id="Meta">
+        <div id="Name" style="display:flex;">
+          <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{currentTeacher.name}}</div>
+          <div v-if="currentTeacher.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/female.svg"></div>
+          <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/male.svg"></div>
+        </div>
+        
+        <div id="DetailMeta" style="margin-top: 20px;">
+          <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[currentTeacher.edu]}}</div>
+          <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
+          <div v-if="currentTeacher.auth" id="auth">
+            <img width="20" style="padding-top:3px;" src="../../assets/auth.svg">
           </div>
-          <div style="flex-shrink:0;display:flex;justify-content: center;align-items: center;">
-            <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
-              {{currentTeacher.name[0]}}
-            </div>
+          <div v-else id="auth" @click="handleAuthClick">
+            未认证
           </div>
         </div>
       </div>
 
-      <div id="detail" class="part">
-        <h3>基础信息</h3>
-        <div id="sex">标签：
-          <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
+      <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
+        <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
+          注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - currentTeacher.createdAt)/3600000/24)}}天</span>
         </div>
-        <div id="major">年级：{{edu[currentTeacher.edu]}} {{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
-        <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
-        <div>性别：{{currentTeacher.sex|genderParse}}</div>
+        <div style="margin-top:15px;letter-spacing:2px;">
+          {{currentTeacher.rate}}
+          <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
+        </div>
       </div>
-      <div id="self" class="part">
+    </div>
+
+      <div id="detail" class="part">
+        <div class="Content1">
+        <div>薪资</div>
+        <div>
+          <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{currentTeacher.salary}}</span>
+          <span style="font-size:16px; font-weight:200;">/小时</span></div>
+      </div>
+
+      <div class="Content1">
+        <div>地点</div>
+        <div style="font-size:16px;font-weight:200;">{{currentTeacher.campus}}</div>
+      </div>
+
+      <div class="Content1">
+        <div>科目</div>
+        <div style="font-size:16px">{{edu[currentTeacher.edu]}}</div>
+      </div>
+      <!-- <h3>基础信息</h3>
+      <div id="sex">标签：
+        <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
+      </div>
+      <div id="major">年级：{{edu[currentTeacher.edu]}} {{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
+      <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
+      <div>性别：{{currentTeacher.sex|genderParse}}</div> -->
+    </div>
+      <!-- <div id="self" class="part">
         <h3>自我介绍</h3>
         <div id="content">
           {{currentTeacher.selfIntro}}
         </div>
-      </div>
+      </div> -->
       <div id="time" class="part">
-        <h3>空闲时间</h3>
         <div id="Container">
           <div class="week">
-            <div style="border-right:solid 1px #ccc;" class="time">
-              <div style="border-bottom:solid 1px #ccc;margin-bottom:0.6em;">&nbsp;&nbsp;</div>
+            <div class="time" style="margin-right:0.6em;">
+              <div style="margin-bottom:0.6em;">&nbsp;&nbsp;</div>
               <div>
                 上午
               </div>
@@ -78,29 +107,33 @@
               </div>
             </div>
             <div v-for="i in [0,1,2,3,4,5,6]" :key="i">
-              <div style="border-bottom:solid 1px #ccc;">
+              <div>
                 {{days[i]}}
               </div>
               <div v-for="j in [0,1,2]" :key="j">
-                <!-- <div class=" time okTime "></div> -->
-                <div class="time " v-bind:class="currentTeacher.availableTime[i][j]? 'okTime': 'notTime' "></div>
-
+                <div class="time" v-bind:class="currentTeacher.availableTime[i][j]?'okTime':'notTime'">
+                  <i v-if='user.availableTime[i][j]' style="color:#FFF;font-size: 10px;padding-top:8px;" class="el-icon-check"></i>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+        <div style="text-align:center;">
+        <el-button class="button" v-on:click="showList=true" style="margin:1em 1em;color:#0BB179;border:1px solid #0BB179;">返回</el-button> 
+        <el-button :disabled="allUsers[0].attributes.role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;" type="primary">预约</el-button>
         </div>
       </div>
     </div>
 
     <transition name="el-zoom-in-bottom">
 
-      <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="padding-top:80%; ">
+      <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="padding-top:140%; ">
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff; ">
           <div style="padding:2em 2em 1em 2em; ">
-            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">预约信息确认
+            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">是否确认预约这位教师？
             </h3>
 
-            <div class="section-line ">
+            <!-- <div class="section-line ">
               <div>教师姓名</div>
               <div>
                 {{currentTeacher.name}}
@@ -125,9 +158,9 @@
                 <el-input type="textarea " :rows="3 " placeholder="想说什么呢 " v-model="extraMsg ">
                 </el-input>
               </div>
-            </div>
+            </div> -->
             <div style="display:flex;margin-top:1em;justify-content:space-between; ">
-              <el-button @click="confimModal=false " style="width:6em; " size="large " type="text ">取消</el-button>
+              <el-button @click="confimModal=false " style="width:6em; border: 1px solid #0BB179" size="large " type="text ">取消</el-button>
               <el-button @click="buy(currentIndex) " size="large " style="width:6em; " type="primary ">生成订单</el-button>
             </div>
           </div>
@@ -274,10 +307,8 @@ export default {
   font-size: 1.5em;
 }
 
-
 .part {
-  padding: 1.5em 2em 1.5em 2em;
-  border-bottom: 1px solid #eee;
+  padding: 0 2em 0 2em;
 }
 
 .section-line {
@@ -314,17 +345,13 @@ export default {
 }
 
 #Container {
-  /* width: 80%; */
   margin-left: auto;
   margin-right: auto;
-  color: #7e7e7e;
 }
 
 #Container>div {
   display: flex;
-  /* border-bottom: 1px solid #d8d8d8; */
   padding-bottom: 20px;
-  /* padding-top: 20px; */
 }
 
 .float-container {
@@ -339,12 +366,12 @@ export default {
 }
 
 .float-container2 {
-  position: fixed;
+  position: fixed; 
   z-index: 2;
   left: 0;
-  top: 0px;
+  top: 0px; 
   width: 100%;
-  height: 100%;
+  height: 100%; 
   overflow: auto;
   /* background-color: rgba(0, 0, 0, 0.6); */
 }
@@ -418,11 +445,7 @@ export default {
   color: white;
   width: 100%;
   padding: 3px 0 3px 0;
-  /*padding: 10px 20px;*/
   text-align: center;
-  /*width: 100%;*/
-  /*opacity: 0;*/
-  /*bottom: -30%;*/
   bottom: 0;
   opacity: 0.4;
   left: 0;
@@ -434,18 +457,10 @@ export default {
   /*bottom: 0;*/
 }
 
-
-
-.time {
-  font-size: 13px;
-  color: #999;
-}
-
 .image {
   width: 100%;
   display: block;
 }
-
 
 .Content1 {
   display: flex;
@@ -464,22 +479,53 @@ div.week>div>div {
 }
 
 div.week>div.time>div {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 div.okTime {
   background: #0bb279;
-  border-radius: 15px;
-  width: 30px;
-  height: 30px;
+  border-radius: 12.5px;
+  width: 25px;
+  height: 25px;
   margin-left: auto;
   margin-right: auto;
 }
 
 div.notTime {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.Content1 {
+  display: flex;
+  justify-content: space-between;
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.Content1>:first-child {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #000;
+}
+
+#DetailMeta {
+  display: flex;
+  flex-direction: row;
+}
+
+#Main {
+  width: 85%; 
+  margin-left: auto;
+  margin-right: auto;
+  color: #7e7e7e;
+}
+
+#time{
+  margin-top:20px;
 }
 </style>
