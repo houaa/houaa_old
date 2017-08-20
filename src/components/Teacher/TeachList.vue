@@ -1,9 +1,32 @@
 <template>
   <div class="teach-container">
-
+    <div v-show="showList" style="border-bottom:1px solid #eee;">
+      <div style="width:100%;display:flex;height:3em;">
+        <div :style="{color: (index+1===Math.abs(filterSelected) && filterSelected!=='')?'#00AF63':'#444444'}" v-for="(item,index) in filterKeywords" :key="index" @click="filterIt(index)" class="section-filter">
+          {{item}}
+          <i v-if="-filterSelected===index+1" style="margin-left:0.5em;" class="el-icon-arrow-up"></i>
+          <i v-else style="margin-left:0.5em;" class="el-icon-arrow-down"></i>
+        </div>
+      </div>
+      <div v-show="filterSelected===3" style="height:6em;width:100%;margin:0.5em 2em 0 2em;">
+        <div>
+          <span>选择性别：</span>
+          <el-checkbox v-model="g_male">男</el-checkbox>
+          <el-checkbox v-model="g_female">女</el-checkbox>
+          <el-button @click="resetFilter" style="margin-left:3em;" type="text">重置筛选</el-button>
+        </div>
+        <div style="margin-top:0.3em;">
+          <span>选择每小时价格：</span>
+          <el-select size="mini" v-model="s_salary" placeholder="选择价格">
+            <el-option v-for="item in salaryOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+    </div>
     <el-row v-show="showList">
       <transition-group name="el-fade-in-linear">
-        <el-col class="main-card" :xs="24" :sm="8" :lg="6" @click.native="showDetail(index, $event)" :key="index" v-for="(user,index) in allUsers">
+        <el-col class="main-card" :xs="24" :sm="8" :lg="6" @click.native="showDetail(index, $event)" :key="index" v-for="(user,index) in filteredUsers">
           <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;">
             <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
               <!-- {{user.attributes.name[0]}} -->
@@ -84,7 +107,6 @@
               <div v-for="j in [0,1,2]" :key="j">
                 <!-- <div class=" time okTime "></div> -->
                 <div class="time " v-bind:class="currentTeacher.availableTime[i][j]? 'okTime': 'notTime' "></div>
-
               </div>
             </div>
           </div>
@@ -134,7 +156,7 @@
         </div>
       </div>
     </transition>
-    <transition name="fade ">
+    <transition name="fade">
       <div v-if="loginModal " v-on:click="closeModal " class="float-container " :body-style="{padding: '0px'} ">
         <div class="float-content ">
           <div class="float-text ">
@@ -149,7 +171,6 @@
         </div>
       </div>
     </transition>
-
   </div>
 </template>
 
@@ -164,7 +185,37 @@ export default {
       'allTeachers',
       'teachURL',
       'user'
-    ])
+    ]),
+    filteredUsers: function () {
+      let filtered = this.allUsers
+      let selected = this.filterSelected
+      let self = this
+      if (Math.abs(selected) === 1) {
+        filtered = filtered.sort((a, b) => {
+          return (a.createdAt - b.createdAt) * selected
+        })
+      } else if (Math.abs(selected) === 2) {
+        filtered = filtered.sort((a, b) => {
+          return (b.attributes.salary - a.attributes.salary) * selected
+        })
+      }
+      if (!this.g_female) {
+        filtered = filtered.filter(a => {
+          return a.attributes.sex !== 1
+        })
+      }
+      if (!this.g_male) {
+        filtered = filtered.filter(a => {
+          return a.attributes.sex !== 0
+        })
+      }
+      if (this.s_salary) {
+        filtered = filtered.filter(a => {
+          return a.attributes.salary < self.s_salary && a.attributes.salary > self.s_salary - 50
+        })
+      }
+      return filtered
+    }
   },
   filters: {
     toInt: function (value) {
@@ -196,7 +247,25 @@ export default {
       currentTeacher: '',
       currentIndex: 0,
       days: ['一', '二', '三', '四', '五', '六', '日'],
-      extraMsg: ''
+      extraMsg: '',
+      filterSelected: '',
+      filterKeywords: ['按时间', '按价格', '筛选'],
+      g_male: true,
+      g_female: true,
+      s_salary: '',
+      salaryOptions: [{
+        value: 50,
+        label: '小于50'
+      }, {
+        value: 100,
+        label: '50-100'
+      }, {
+        value: 150,
+        label: '100-150'
+      }, {
+        value: 200,
+        label: '大于200'
+      }]
     }
   },
   methods: {
@@ -207,6 +276,19 @@ export default {
       'setReserveDirty',
       'setOrdered'
     ]),
+    resetFilter: function () {
+      this.g_female = true
+      this.g_male = true
+      this.s_salary = ''
+    },
+    filterIt: function (index) {
+      index = index + 1
+      if (index === this.filterSelected) {
+        this.filterSelected = -index
+      } else {
+        this.filterSelected = index
+      }
+    },
     handleValue: function (value) {
     },
     closeModal: function (event) {
@@ -272,6 +354,20 @@ export default {
 <style scoped>
 .teacher-salary {
   font-size: 1.5em;
+}
+
+.section-filter {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #444444;
+  /* border-right: 1px solid #eee; */
+}
+
+.section-filter:nth-of-type(3) {
+  border-right: none;
 }
 
 

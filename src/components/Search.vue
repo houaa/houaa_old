@@ -4,85 +4,27 @@
       <div class="search-content">
         <div class="search-section">
           <el-row class="search-margin">
-            <el-input :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教" size="large">
+            <el-input :autofocus="true" id="searchInput" :on-icon-click="search" v-model="searchValue" icon="search" placeholder="猴啊家教" size="large">
               <el-button slot="prepend" icon="arrow-left" @click="toBack"></el-button>
             </el-input>
           </el-row>
         </div>
 
-    <transition name="fade">
-        <div v-if="!searchResult">
-          <div style="text-align:center" class="search-title">热门搜索</div>
-          <div :key="index" v-for="(item,index) in searchSuggestion" class="tagwrapper">
-            <el-tag @click.native="searchValue=item" type="success">{{item}}</el-tag>
+        <transition name="fade">
+          <div v-if="!searchResult">
+            <div style="text-align:center" class="search-title">热门搜索</div>
+            <div :key="index" v-for="(item,index) in searchSuggestion" class="tagwrapper">
+              <el-tag @click.native="searchValue=item" type="success">{{item}}</el-tag>
+            </div>
           </div>
-          <!-- <div class="search-section">
-                        <el-row>
-                          <el-row class="search-title"># 阶段</el-row>
-                          <el-row :gutter="20" class="search-margin">
-                            <el-col :span="6" v-for="(sub,index) in section" :key="index" class="search-txt">
-                              <span v-on:click="clickTag(sub)">
-                                <el-tag class="tag-font">
-                                  {{sub.key}}
-                                </el-tag>
-                              </span>
-                            </el-col>
-                          </el-row>
-                          </el-col>
-                        </el-row>
-                      </div>
-              
-                      <div class="search-section">
-                        <el-row>
-                          <el-col :span="20">
-                            <el-row class="search-title"># 课程</el-row>
-                            <el-row :gutter="20" class="search-margin">
-                              <el-col :span="7" v-for="(sub,index) in course" :key="index" class="search-txt">
-                                <span v-on:click="clickTag(sub)">
-                                  <el-tag class="tag-font course-tag">
-                                    {{sub.key}}
-                                  </el-tag>
-                                </span>
-                              </el-col>
-                            </el-row>
-                          </el-col>
-                        </el-row>
-                      </div>
-              
-                      <div class="search-section">
-                        <el-row class="search-title"># 校区</el-row>
-                        <el-row :gutter="20" class="search-margin">
-                          <el-col :span="6" v-for="(sub,index) in campus" :key="index" class="search-txt">
-                            <span v-on:click="clickTag(sub)">
-                              <el-tag class="tag-font">
-                                {{sub.key}}
-                              </el-tag>
-                            </span>
-                          </el-col>
-                        </el-row>
-                      </div>
-              
-                      <div class="search-section">
-                        <el-row class="search-title"># 价格</el-row>
-                        <el-row class="search-margin">
-                          <el-col :span="4" class="search-pay">
-                            <el-input class="search-input" size="mini" placeholder="min"></el-input>
-                          </el-col>
-                          <el-col :span="2" style="color:#595959;text-align:center">一</el-col>
-                          <el-col :span="4">
-                            <el-input class="search-input" size="mini" placeholder="max"></el-input>
-                          </el-col>
-                        </el-row>
-                      </div> -->
-        </div>
-        <div v-else style="background-color:#fefefe; height:100%;overflow:hidden;">
-          <TeachList :all-users="searchResult"></TeachList>
-        </div>
-    </transition>
+          <div v-else style="background-color:#fefefe; height:100%;overflow:hidden;">
+            <TeachList :all-users="searchResult"></TeachList>
+          </div>
+        </transition>
 
       </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -101,6 +43,10 @@ export default {
   },
   components: {
     TeachList
+  },
+  mounted: function () {
+    // document.getElementById('searchInput').focus()
+    document.getElementsByTagName('input')[0].focus()
   },
   data() {
     return {
@@ -229,8 +175,8 @@ export default {
   height: 100%;
   font-size: 1.1em;
   font-weight: 300;
-  border-color:#0BB279;
-  color:#0BB279;
+  border-color: #0BB279;
+  color: #0BB279;
 }
 
 .search-margin {
@@ -287,7 +233,7 @@ export default {
   color: #888;
   margin: 20px 0;
   font-size: 1.3em;
-  font-weight: 200; 
+  font-weight: 200;
 }
 
 @keyframes fromLef {
