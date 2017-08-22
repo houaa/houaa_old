@@ -6,9 +6,7 @@
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane :id="'pane'+index" :label="item.label" :name="item.name" v-for="(item,index) in tabs" :key="index">
-        <!-- <v-touch v-on:swipeleft="onSwipeLeft(index)" v-on:swiperight="onSwipeRight(index)"> -->
         <router-view></router-view>
-        <!-- </v-touch> -->
       </el-tab-pane>
     </el-tabs>
 
@@ -41,9 +39,10 @@ export default {
     }
   },
   created: function () {
-    if (window.innerWidth > 500) {
-      this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
-    }
+    // if (window.innerWidth > 500) {
+    //   window.location.href = 'https://error.houaa.xyz/tomobile.html?source=' + window.location.href
+    //   // this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
+    // }
   },
   mounted: function () {
     let self = this
@@ -85,13 +84,11 @@ export default {
       document.getElementsByClassName('el-tab-pane').scrollTop += 10
     },
     onSwipeLeft: function (index) {
-      console.log('swipe left', index)
       if (index + 1 < this.tabs.length) {
         this.$router.push(this.tabs[index + 1].name)
       }
     },
     onSwipeRight: function (index) {
-      console.log('swipe right', index)
       if (index > 0) {
         this.$router.push(this.tabs[index - 1].name)
       }

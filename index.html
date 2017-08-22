@@ -10,16 +10,22 @@
       font-size: 14px;
       font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     }
-    
+
     #app {
       height: 100%;
       position: absolute;
       width: 100%;
       /*background-color: #21B046;*/
-      overflow: hidden; 
+      overflow: hidden;
       overflow-x: hidden;
     }
   </style>
+  <script>
+    if (window.innerWidth > 500) {
+      window.location.href = 'https://error.houaa.xyz/tomobile.html?source=' + window.location.href
+      // this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
+    }
+  </script>
   <meta name="theme-color" content="#00AF63">
   <link rel="shortcut icon" type="image/png" href="static/favicon.png" />
   <link rel="manifest" href="static/manifest.json">
