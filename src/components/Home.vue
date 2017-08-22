@@ -39,9 +39,10 @@ export default {
     }
   },
   created: function () {
-    if (window.innerWidth > 500) {
-      this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
-    }
+    // if (window.innerWidth > 500) {
+    //   window.location.href = 'https://error.houaa.xyz/tomobile.html?source=' + window.location.href
+    //   // this.$message({ message: '电脑版还在紧张适配中噢，敬请期待！', type: 'warning' })
+    // }
   },
   mounted: function () {
     let self = this
