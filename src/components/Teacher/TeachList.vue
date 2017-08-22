@@ -51,69 +51,71 @@
       </transition-group>
     </el-row>
 
-    <div v-if="!showList && currentTeacher" >
-    <div style="justify-content: space-between;" id="Main" class="Content1">
-      <div id="Meta">
-        <div id="Name" style="display:flex;">
-          <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{currentTeacher.name}}</div>
-          <div v-if="currentTeacher.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/female.svg"></div>
-          <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/male.svg"></div>
-        </div>
-        
-        <div id="DetailMeta" style="margin-top: 20px;">
-          <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[currentTeacher.edu]}}</div>
-          <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
-          <div v-if="currentTeacher.auth" id="auth">
-            <img width="20" style="padding-top:3px;" src="../../assets/auth.svg">
+    <div v-if="!showList && currentTeacher">
+      <div style="justify-content: space-between;" id="Main" class="Content1">
+        <div id="Meta">
+          <div id="Name" style="display:flex;">
+            <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{currentTeacher.name}}</div>
+            <div v-if="currentTeacher.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/female.svg"></div>
+            <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/male.svg"></div>
           </div>
-          <div v-else id="auth" @click="handleAuthClick">
-            未认证
-          </div>
-        </div>
-      </div>
 
-      <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
-        <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
-          注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - currentTeacher.createdAt)/3600000/24)}}天</span>
+          <div id="DetailMeta" style="margin-top: 20px;">
+            <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[currentTeacher.edu]}}</div>
+            <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
+            <div v-if="currentTeacher.auth" id="auth">
+              <img width="20" style="padding-top:3px;" src="../../assets/auth.svg">
+            </div>
+            <div v-else id="auth" @click="handleAuthClick">
+              未认证
+            </div>
+          </div>
         </div>
-        <div style="margin-top:15px;letter-spacing:2px;">
-          {{currentTeacher.rate}}
-          <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
+
+        <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
+          <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
+            注册“猴啊”
+            <span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - currentTeacher.createdAt)/3600000/24)}}天</span>
+          </div>
+          <div style="margin-top:15px;letter-spacing:2px;">
+            {{currentTeacher.rate}}
+            <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
+          </div>
         </div>
       </div>
-    </div>
 
       <div id="detail" class="part">
         <div class="Content1">
-        <div>薪资</div>
-        <div>
-          <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{currentTeacher.salary}}</span>
-          <span style="font-size:16px; font-weight:200;">/小时</span></div>
-      </div>
-
-      <div class="Content1">
-        <div>地点</div>
-        <div style="font-size:16px;font-weight:200;">{{currentTeacher.campus}}</div>
-      </div>
-
-      <div class="Content1">
-        <div>科目</div>
-        <div style="font-size:16px">{{edu[currentTeacher.edu]}}</div>
-      </div>
-      <!-- <h3>基础信息</h3>
-      <div id="sex">标签：
-        <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
-      </div>
-      <div id="major">年级：{{edu[currentTeacher.edu]}} {{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
-      <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
-      <div>性别：{{currentTeacher.sex|genderParse}}</div> -->
-    </div>
-      <!-- <div id="self" class="part">
-        <h3>自我介绍</h3>
-        <div id="content">
-          {{currentTeacher.selfIntro}}
+          <div>薪资</div>
+          <div>
+            <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{currentTeacher.salary}}</span>
+            <span style="font-size:16px; font-weight:200;">/小时</span>
+          </div>
         </div>
-      </div> -->
+
+        <div class="Content1">
+          <div>地点</div>
+          <div style="font-size:16px;font-weight:200;">{{currentTeacher.campus}}</div>
+        </div>
+
+        <div class="Content1">
+          <div>科目</div>
+          <div style="font-size:16px">{{edu[currentTeacher.edu]}}</div>
+        </div>
+        <!-- <h3>基础信息</h3>
+        <div id="sex">标签：
+          <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
+        </div>
+        <div id="major">年级：{{edu[currentTeacher.edu]}} {{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
+        <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
+        <div>性别：{{currentTeacher.sex|genderParse}}</div> -->
+      </div>
+      <!-- <div id="self" class="part">
+          <h3>自我介绍</h3>
+          <div id="content">
+            {{currentTeacher.selfIntro}}
+          </div>
+        </div> -->
       <div id="time" class="part">
         <div id="Container">
           <div class="week">
@@ -141,8 +143,8 @@
           </div>
         </div>
         <div style="text-align:center;">
-        <el-button class="button" v-on:click="showList=true" style="margin:1em 1em;color:#0BB179;border:1px solid #0BB179;">返回</el-button> 
-        <el-button :disabled="allUsers[0].attributes.role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;" type="primary">预约</el-button>
+          <el-button class="button" v-on:click="showList=true" style="margin:1em 1em;color:#0BB179;border:1px solid #0BB179;">返回</el-button>
+          <el-button :disabled="allUsers[0].attributes.role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;" type="primary">预约</el-button>
         </div>
       </div>
     </div>
@@ -156,31 +158,31 @@
             </h3>
 
             <!-- <div class="section-line ">
-              <div>教师姓名</div>
-              <div>
-                {{currentTeacher.name}}
+                <div>教师姓名</div>
+                <div>
+                  {{currentTeacher.name}}
+                </div>
               </div>
-            </div>
-            <div class="section-line ">
-              <div>薪资：</div>
-              <div>
-                {{currentTeacher.salary}} 元/小时
+              <div class="section-line ">
+                <div>薪资：</div>
+                <div>
+                  {{currentTeacher.salary}} 元/小时
+                </div>
               </div>
-            </div>
-            <div class="section-line ">
-              <div>性别：</div>
-              <div>
-                {{currentTeacher.sex|genderParse}}
+              <div class="section-line ">
+                <div>性别：</div>
+                <div>
+                  {{currentTeacher.sex|genderParse}}
+                </div>
               </div>
-            </div>
 
-            <div class="section-line ">
-              <div style=" ">留言</div>
-              <div>
-                <el-input type="textarea " :rows="3 " placeholder="想说什么呢 " v-model="extraMsg ">
-                </el-input>
-              </div>
-            </div> -->
+              <div class="section-line ">
+                <div style=" ">留言</div>
+                <div>
+                  <el-input type="textarea " :rows="3 " placeholder="想说什么呢 " v-model="extraMsg ">
+                  </el-input>
+                </div>
+              </div> -->
             <div style="display:flex;margin-top:1em;justify-content:space-between; ">
               <el-button @click="confimModal=false " style="width:6em; border: 1px solid #0BB179" size="large " type="text ">取消</el-button>
               <el-button @click="buy(currentIndex) " size="large " style="width:6em; " type="primary ">生成订单</el-button>
@@ -389,6 +391,21 @@ export default {
   font-size: 1.5em;
 }
 
+
+.section-filter {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #444444;
+  /* border-right: 1px solid #eee; */
+}
+
+.section-filter:nth-of-type(3) {
+  border-right: none;
+}
+
 .part {
   padding: 0 2em 0 2em;
 }
@@ -448,12 +465,12 @@ export default {
 }
 
 .float-container2 {
-  position: fixed; 
+  position: fixed;
   z-index: 2;
   left: 0;
-  top: 0px; 
+  top: 0px;
   width: 100%;
-  height: 100%; 
+  height: 100%;
   overflow: auto;
   /* background-color: rgba(0, 0, 0, 0.6); */
 }
@@ -601,13 +618,13 @@ div.notTime {
 }
 
 #Main {
-  width: 85%; 
+  width: 85%;
   margin-left: auto;
   margin-right: auto;
   color: #7e7e7e;
 }
 
-#time{
-  margin-top:20px;
+#time {
+  margin-top: 20px;
 }
 </style>
