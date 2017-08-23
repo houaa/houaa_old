@@ -151,12 +151,10 @@
 
     <transition name="el-zoom-in-bottom">
 
-      <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="padding-top:140%; ">
-        <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff; ">
+      <div v-if="confimModal " v-on:click="closeModal " class="float-container2 " style="display:flex;flex-direction:column;justify-content:flex-end;">
+        <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:25%;background-color:#fff; ">
           <div style="padding:2em 2em 1em 2em; ">
-            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">是否确认预约这位教师？
-            </h3>
-
+            <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">是否确认预约这位教师？</h3>
             <!-- <div class="section-line ">
                 <div>教师姓名</div>
                 <div>
@@ -183,7 +181,7 @@
                   </el-input>
                 </div>
               </div> -->
-            <div style="display:flex;margin-top:1em;justify-content:space-between; ">
+            <div style="display:flex;margin-top:1em;justify-content:space-between; padding: 0 20px;">
               <el-button @click="confimModal=false " style="width:6em; border: 1px solid #0BB179" size="large " type="text ">取消</el-button>
               <el-button @click="buy(currentIndex) " size="large " style="width:6em; " type="primary ">生成订单</el-button>
             </div>
@@ -191,6 +189,7 @@
         </div>
       </div>
     </transition>
+
     <transition name="fade">
       <div v-if="loginModal " v-on:click="closeModal " class="float-container " :body-style="{padding: '0px'} ">
         <div class="float-content ">
