@@ -13,122 +13,128 @@
 
     <div v-show="showTeacher" class="contents">
 
-    <div style="justify-content: space-between;" id="Main" class="Content1">
-      <div id="Meta">
-        <div id="Name" style="display:flex;">
-          <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{orderedOne.name}}</div>
-          <div v-if="orderedOne.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/female.svg"></div>
-          <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/male.svg"></div>
-        </div>
-        
-        <div id="DetailMeta" style="margin-top: 20px;">
-          <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[orderedOne.edu]}}</div>
-          <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[orderedOne.edu][orderedOne.grade]}}</div>
-          <div v-if="orderedOne.auth" id="auth">
-            <img width="20" style="padding-top:3px;" src="../assets/auth.svg">
+      <div style="justify-content: space-between;" id="Main" class="Content1">
+        <div id="Meta">
+          <div id="Name" style="display:flex;">
+            <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{orderedOne.name}}</div>
+            <div v-if="orderedOne.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/female.svg"></div>
+            <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/male.svg"></div>
           </div>
-          <div v-else id="auth" @click="handleAuthClick">
-            未认证
+
+          <div id="DetailMeta" style="margin-top: 20px;">
+            <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[orderedOne.edu]}}</div>
+            <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[orderedOne.edu][orderedOne.grade]}}</div>
+            <div v-if="orderedOne.auth" id="auth">
+              <img width="20" style="padding-top:3px;" src="../assets/auth.svg">
+            </div>
+            <div v-else id="auth">
+              未认证
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
-        <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
-          注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - orderedOne.createdAt)/3600000/24)}}天</span>
-        </div>
-        <div style="margin-top:15px;letter-spacing:2px;">
-          {{orderedOne.rate}}
-          <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
-        </div>
-      </div>
-    </div>
-
-    <div id="detail">
-      <div class="Content1">
-        <div>薪资</div>
-        <div>
-          <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{orderedOne.salary}}</span>
-          <span style="font-size:16px; font-weight:200;">/小时</span></div>
-      </div>
-
-      <div class="Content1">
-        <div>地点</div>
-        <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap"> <!--TODO:store中新建数据存储信息-->
-        <div style="font-size:16px; font-weight:200;text-align:right;">输入新地点:</div>
-        <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 40px;border: none;text-align:right;"></input>
-        </div>
-      </div>
-
-      <div class="Content1">
-        <div>科目</div>
-        <div style="font-size:16px">{{edu[orderedOne.edu]}}</div>
-      </div> 
-
-      <div class="week">
-      <div class="time">
-        <div>&nbsp;&nbsp;</div>
-        <div>
-          上午
-        </div>
-        <div>
-          下午
-        </div>
-        <div>
-          晚上
-        </div>
-      </div>
-      <div v-for="i in [0,1,2,3,4,5,6]">
-        <div>
-          {{days[i]}}
-        </div>
-        <div v-for="j in [0,1,2]" @click="toggleCalendar([i,j])">
-          <div class="time" v-bind:class="orderedOne.availableTime[i][j]?'okTime':'notTime'">
+        <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
+          <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
+            注册“猴啊”
+            <span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - orderedOne.createdAt)/3600000/24)}}天</span>
+          </div>
+          <div style="margin-top:15px;letter-spacing:2px;">
+            {{orderedOne.rate}}
+            <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
           </div>
         </div>
       </div>
-    </div>
-    </div>
+
+      <div id="detail">
+        <div class="Content1">
+          <div>薪资</div>
+          <div>
+            <!-- <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{orderedOne.salary}}</span> -->
+
+            <el-input-number size="small" :min="0" :step="20" v-model="orderedOne.salary"></el-input-number>
+            <span style="font-size:16px; font-weight:200;"></span>
+          </div>
+        </div>
+
+        <div class="Content1">
+          <div>地点</div>
+          <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap">
+            <!--TODO:store中新建数据存储信息-->
+            <div style="font-size:16px; font-weight:200;text-align:right;">请确认校区:</div>
+            <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 40px;border: none;text-align:right;"></input>
+          </div>
+        </div>
+
+        <div class="Content1">
+          <div>年级</div>
+          <el-select size="small" v-model="orderedOne.edu" :placeholder="edu[orderedOne.edu]">
+            <el-option v-for="(item,index) in edu" :key="index" :label="item" :value="index">
+            </el-option>
+          </el-select>
+        </div>
+
+        <div class="week">
+          <div class="time">
+            <div>&nbsp;&nbsp;</div>
+            <div>
+              上午
+            </div>
+            <div>
+              下午
+            </div>
+            <div>
+              晚上
+            </div>
+          </div>
+          <div v-for="i in [0,1,2,3,4,5,6]" :key="i">
+            <div>
+              {{days[i]}}
+            </div>
+            <div v-for="j in [0,1,2]" :key="j">
+              <div class=" time " v-bind:class="orderedOne.availableTime[i][j]? 'okTime': 'notTime' ">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
-
-    
-
-    <div v-show="showPay" class="contents">
-      <div class="pay">
+    <div v-show="showPay " class="contents ">
+      <div class="pay ">
         <div>
           <span>本次交易，猴啊家教</span>
-          <span style="color:#33BF8F">不收取任何费用</span>
+          <span style="color:#33BF8F ">不收取任何费用</span>
         </div>
         <div>
-          <span style="color:#888;font-size:16px">¥ </span>
-          <span style="color:#33BF8F;font-size:40px">0</span>
+          <span style="color:#888;font-size:16px ">¥ </span>
+          <span style="color:#33BF8F;font-size:40px ">0</span>
         </div>
       </div>
     </div>
 
-    <div v-show="showDone" class="contents">
-      <div class="Done">
-        <div class="Cong">恭喜您！订单已经生效！</div>
-        <div class="Notes">
+    <div v-show="showDone " class="contents ">
+      <div class="Done ">
+        <div class="Cong ">恭喜您！订单已经生效！</div>
+        <div class="Notes ">
           <p>您可以在
-            <span style="color:#33BF8F;font-weight:500">订单管理界面</span>管理和查看本订单。</p>
+            <span style="color:#33BF8F;font-weight:500 ">订单管理界面</span>管理和查看本订单。</p>
           <p>我们已为您通知了对方家长，您应该在近期接到家长的联系，
-            <span style="color:#33BF8F;font-weight:500">请留意您登记在猴啊的联系方式。</span>
+            <span style="color:#33BF8F;font-weight:500 ">请留意您登记在猴啊的联系方式。</span>
           </p>
         </div>
       </div>
     </div>
 
-    <div class="next">
-      <el-button @click="gonext()" size="large" style="width:6em;" type="primary">{{buttonText}}</el-button>
+    <div class="next ">
+      <el-button @click="gonext() " size="large " style="width:6em; " type="primary ">{{buttonText}}</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
+import AV from 'leancloud-storage'  // 数据库对象
 export default {
   data() {
     return {
@@ -140,19 +146,20 @@ export default {
       edu: ['小学', '初中', '高中', '本科'],
       grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
       classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
-      days: ['一', '二', '三', '四', '五', '六', '日']
+      days: ['一', '二', '三', '四', '五', '六', '日'],
+      rawUser: ''
     }
   },
   computed: {
     ...mapGetters([
       'orderedOne'
-    ]),
-    ...mapMutations([
-      'toggleCalendar'
     ])
   },
+  mounted: function() {
+    // this.rawUser = this.orderedOne
+  },
   methods: {
-    toBack: function () {
+    toBack: function() {
       if (this.showTeacher) {
         this.showTeacher = false
         this.$router.push('/reserve')
@@ -166,7 +173,7 @@ export default {
         this.prompts = '正 在 准 备 付 款'
       }
     },
-    getClass: function () {
+    getClass: function() {
       switch (this.orderedOne.grade) {
         case 0:
           return 0
@@ -176,7 +183,8 @@ export default {
           return 2
       }
     },
-    gonext: function () {
+    gonext: function() {
+      let self = this
       if (this.showTeacher) {
         this.showTeacher = false
         this.showPay = true
@@ -184,6 +192,16 @@ export default {
         this.prompts = '正 在 准 备 付 款'
         console.log(this.orderedOne)
       } else if (this.showPay) {
+        // 预约的代码，与后端交互
+        const teacherMapUser = new AV.Object('TeacherMapUser')
+        const targetUser = new AV.Object.createWithoutData('TeacherList', self.orderedOne.objectId)
+        teacherMapUser.set('Teacher', targetUser)
+        teacherMapUser.set('User', AV.User.current())
+        teacherMapUser.set('status', '未查看')
+        teacherMapUser.set('salary', self.orderedOne.salary)
+        teacherMapUser.set('campus', self.orderedOne.campus)
+        teacherMapUser.save()
+        self.$message('预约成功！')
         this.prompts = '完 成'
         this.showTeacher = false
         this.showPay = false
@@ -302,8 +320,8 @@ export default {
   flex-direction: row;
 }
 
-div.week{
-  margin-top:20px;
+div.week {
+  margin-top: 20px;
   display: flex;
 }
 
@@ -337,6 +355,5 @@ div.notTime {
   margin-left: auto;
   margin-right: auto;
 }
-
 </style>
 
