@@ -99,38 +99,8 @@
         </div>
 
         <div class="Content1">
-          <div>年级</div>
-          <div style="font-size:16px">{{edu[currentTeacher.edu]}}</div>
-        </div>
-
-        <div class="Content1">
           <div>科目</div>
-          <div id="class">
-            <div class="eduRank">
-              <div>小学</div>
-              <div id="classes">
-                <i v-for="i in [0,1]" v-bind:class="currentTeacher.teach[0][i]?'ok':'not'">
-                  {{classes[0][i]}}
-                </i>
-              </div>
-            </div>
-            <div class="eduRank">
-              <div>初中</div>
-              <div id="classes">
-                <i v-for="i in [0,1,2]" v-bind:class="currentTeacher.teach[1][i]?'ok':'not'">
-                  {{classes[1][i]}}
-                </i>
-              </div>
-            </div>
-            <div class="eduRank">
-              <div>高中</div>
-              <div id="classes">
-                <i v-for="i in [0,1,2]" v-bind:class="currentTeacher.teach[2][i]?'ok':'not'">
-                  {{classes[2][i]}}
-                </i>
-              </div>
-            </div>
-          </div>
+          <div style="font-size:16px">{{edu[currentTeacher.edu]}}</div>
         </div>
       </div>
       <!-- <div id="self" class="part">
@@ -275,7 +245,6 @@ export default {
       confimModal: false,
       edu: ['小学', '初中', '高中', '本科'],
       grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
-      classes: [['全科', '陪读'], ['数学', '科学', '英语'], ['数学', '理综', '英语']],
       currentTeacher: '',
       currentIndex: 0,
       days: ['一', '二', '三', '四', '五', '六', '日'],
@@ -437,7 +406,7 @@ export default {
 
 #Container>div {
   display: flex;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 .float-container {
@@ -588,7 +557,7 @@ div.notTime {
   display: flex;
   justify-content: space-between;
   display: flex;
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid #eee;
   padding-bottom: 20px;
   padding-top: 20px;
 }
@@ -613,42 +582,5 @@ div.notTime {
 
 #time {
   margin-top: 20px;
-}
-
-.eduRank {
-  display: flex;
-  flex-direction: row;
-}
-
-.eduRank> :first-child {
-  font-size: 15px;
-  line-height: 30px;
-  margin-left: 20px;
-}
-
-.eduRank>#classes>i {
-  border-radius: 7px;
-  font-style: normal;
-  margin-left: 20px;
-  text-align: center;
-  display: inline-block;
-  padding: 2px 5px;
-}
-
-.eduRank>#classes>i.ok {
-  background: #0bb279;
-  color: #FFF;
-  border: #0bb279 1px solid;
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.eduRank>#classes>i.not {
-  border: #bbb 1px solid;
-  margin-bottom: 5px;
-  color: #bbb;
-  font-weight: 600;
-  font-size: 14px;
 }
 </style>

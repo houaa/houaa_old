@@ -49,6 +49,8 @@
         <div class="Content1">
           <div>薪资</div>
           <div>
+            <!-- <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{orderedOne.salary}}</span> -->
+
             <el-input-number size="small" :min="0" :step="20" v-model="orderedOne.salary"></el-input-number>
             <span style="font-size:16px; font-weight:200;"></span>
           </div>
@@ -58,46 +60,17 @@
           <div>地点</div>
           <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap">
             <!--TODO:store中新建数据存储信息-->
-            <div style="font-size:16px; font-weight:200;text-align:right;">请确认地点:</div>
+            <div style="font-size:16px; font-weight:200;text-align:right;">请确认校区:</div>
             <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 40px;border: none;text-align:right;"></input>
           </div>
         </div>
 
-        <!-- <div class="Content1">
+        <div class="Content1">
           <div>年级</div>
           <el-select size="small" v-model="orderedOne.edu" :placeholder="edu[orderedOne.edu]">
             <el-option v-for="(item,index) in edu" :key="index" :label="item" :value="index">
             </el-option>
           </el-select>
-        </div> -->
-        <div class="Content1">
-          <div>科目</div>
-          <div id="class">
-            <div class="eduRank">
-              <div>小学</div>
-              <div id="classes">
-                <i v-for="i in [0,1]" v-bind:class="orderedOne.teach[0][i]?'ok':'not'">
-                  {{classes[0][i]}}
-                </i>
-              </div>
-            </div>
-            <div class="eduRank">
-              <div>初中</div>
-              <div id="classes">
-                <i v-for="i in [0,1,2]" v-bind:class="orderedOne.teach[1][i]?'ok':'not'">
-                  {{classes[1][i]}}
-                </i>
-              </div>
-            </div>
-            <div class="eduRank">
-              <div>高中</div>
-              <div id="classes">
-                <i v-for="i in [0,1,2]" v-bind:class="orderedOne.teach[2][i]?'ok':'not'">
-                  {{classes[2][i]}}
-                </i>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="week">
@@ -160,7 +133,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import AV from 'leancloud-storage'  // 数据库对象
 export default {
   data() {
@@ -172,7 +145,7 @@ export default {
       buttonText: '下一步',
       edu: ['小学', '初中', '高中', '本科'],
       grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
-      classes: [['全科', '陪读'], ['数学', '科学', '英语'], ['数学', '理综', '英语']],
+      classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
       days: ['一', '二', '三', '四', '五', '六', '日'],
       rawUser: ''
     }
@@ -182,9 +155,6 @@ export default {
       'orderedOne'
     ])
   },
-  ...mapMutations([
-    'toggleTeach'
-  ]),
   mounted: function() {
     // this.rawUser = this.orderedOne
   },
@@ -194,7 +164,6 @@ export default {
         this.showTeacher = false
         this.$router.push('/reserve')
         this.prompts = '正 在 生 成 订 单'
-        console.log(this.orderedOne)
       } else if (this.showPay) {
         this.showPay = false
         this.showTeacher = true
@@ -267,15 +236,7 @@ export default {
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.order-container::-webkit-scrollbar {
-  display:none
-}
-
 .order-container {
-  overflow-x:hidden;
-  overflow-y:scroll;
-  height: 100%;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
@@ -290,14 +251,14 @@ export default {
 }
 
 .order-head {
-  height: 60px;
+  height: 70px;
   display: -webkit-flex;
   display: flex;
   -webkit-align-items: center;
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid #eee;
 }
 
 .contents {
@@ -307,7 +268,7 @@ export default {
 .Content1 {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid #d8d8d8;
   padding-bottom: 20px;
   padding-top: 20px;
 }
@@ -319,7 +280,7 @@ export default {
 }
 
 .next {
-  margin: 20px 0 30px 0;
+  margin-top: 50px;
   text-align: center;
 }
 
@@ -394,43 +355,5 @@ div.notTime {
   margin-left: auto;
   margin-right: auto;
 }
-
-.eduRank {
-  display: flex;
-  flex-direction: row;
-}
-
-.eduRank> :first-child {
-  font-size: 15px;
-  line-height: 30px;
-  margin-left: 20px;
-}
-
-.eduRank>#classes>i {
-  border-radius: 7px;
-  font-style: normal;
-  margin-left: 20px;
-  text-align: center;
-  display: inline-block;
-  padding: 2px 5px;
-}
-
-.eduRank>#classes>i.ok {
-  background: #0bb279;
-  color: #FFF;
-  border: #0bb279 1px solid;
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.eduRank>#classes>i.not {
-  border: #bbb 1px solid;
-  margin-bottom: 5px;
-  color: #bbb;
-  font-weight: 600;
-  font-size: 14px;
-}
-
 </style>
 
