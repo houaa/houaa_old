@@ -152,7 +152,7 @@ export default {
       campus: [ '紫金港', '玉泉', '西溪', '华家池', '之江' ],
       edu: ['小学', '初中', '高中', '本科'],
       grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
-      classes: [['全科', '陪读'], ['数学', '科学', '英语', '文科'], ['数学', '理综', '英语', '文综']],
+      classes: [['全科', '陪读'], ['数学', '科学', '英语'], ['数学', '理综', '英语']],
       days: ['一', '二', '三', '四', '五', '六', '日'],
       newTag: '',
       newTagInputVisible: false,
@@ -230,7 +230,7 @@ export default {
 
 #Container>div {
   display: flex;
-  border-bottom: 1px solid #d8d8d8;
+  border-bottom: 1px solid rgb(238, 238, 238);
   padding-bottom: 20px;
   padding-top: 20px;
 }
@@ -383,6 +383,7 @@ div.notTime {
   font-size: 18px;
   font-weight: 100;
 }
+
 </style>
 <style>
 #SelfIntro>textarea {
