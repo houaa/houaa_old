@@ -190,15 +190,11 @@
     <transition name="fade">
       <div v-if="loginModal " v-on:click="closeModal " class="float-container " :body-style="{padding: '0px'} ">
         <div class="float-content ">
-          <div class="float-text ">
-            如需查看详细信息或进行筛选搜索，请您
+          <div class="float-text ">如需查看详细信息或进行筛选搜索，请您</div>
+          <div style="display:flex;margin-top:1em;justify-content:space-between; padding: 0 20px;">
+              <el-button  @click="toLoginPage()" style="width:6em; border: 1px solid #0BB179" size="large " type="text ">登录</el-button>
+              <el-button  @click="toSignUp()" size="large " style="width:6em; " type="primary ">注册</el-button>
           </div>
-          <button class="btn gray " type="button ">
-            <span>登录</span>
-          </button>
-          <button class="btn " type="button ">
-            <span>注册</span>
-          </button>
         </div>
       </div>
     </transition>
@@ -367,6 +363,12 @@ export default {
     },
     toOrder: function (currentTeacher) {
       this.$router.push('/order')
+    },
+    toLoginPage: function () {
+      this.$router.push('/login')
+    },
+    toSignUp: function () {
+      this.$router.push('signup')
     }
   }
 }
@@ -465,21 +467,20 @@ export default {
 .float-content {
   position: fixed;
   z-index: 1;
-  /*padding-top: 60px;*/
-  /*padding-bottom: 30px;*/
   padding: 3.5rem 1rem 2rem 1rem;
   left: 50%;
   /*right: 0;*/
   transform: translateX(-50%);
-  top: 130px;
+  top: 160px;
   width: 70%;
-  height: 40%;
+  height: 30%;
   overflow: auto;
   background-color: #fefefe;
 }
 
 .float-text {
   font-size: 20px;
+  font-weight: 200;
   text-align: center;
   color: #444444;
   padding: 2.5%;
