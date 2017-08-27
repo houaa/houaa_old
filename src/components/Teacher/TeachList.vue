@@ -102,13 +102,6 @@
           <div>科目</div>
           <div style="font-size:16px">{{edu[currentTeacher.edu]}}</div>
         </div>
-        <!-- <h3>基础信息</h3>
-        <div id="sex">标签：
-          <el-tag v-for="(tag,index) in currentTeacher.tags" :key="index" type="success">{{tag}} </el-tag>
-        </div>
-        <div id="major">年级：{{edu[currentTeacher.edu]}} {{grades[currentTeacher.edu][currentTeacher.grade]}}</div>
-        <div id="GPA">薪资：{{currentTeacher.salary}} 元/小时</div>
-        <div>性别：{{currentTeacher.sex|genderParse}}</div> -->
       </div>
       <!-- <div id="self" class="part">
           <h3>自我介绍</h3>
@@ -155,32 +148,6 @@
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:25%;background-color:#fff; ">
           <div style="padding:2em 2em 1em 2em; ">
             <h3 style="padding-bottom:0.8em;margin-bottom:1em;border-bottom:1px solid #eee; ">是否确认预约这位教师？</h3>
-            <!-- <div class="section-line ">
-                <div>教师姓名</div>
-                <div>
-                  {{currentTeacher.name}}
-                </div>
-              </div>
-              <div class="section-line ">
-                <div>薪资：</div>
-                <div>
-                  {{currentTeacher.salary}} 元/小时
-                </div>
-              </div>
-              <div class="section-line ">
-                <div>性别：</div>
-                <div>
-                  {{currentTeacher.sex|genderParse}}
-                </div>
-              </div>
-
-              <div class="section-line ">
-                <div style=" ">留言</div>
-                <div>
-                  <el-input type="textarea " :rows="3 " placeholder="想说什么呢 " v-model="extraMsg ">
-                  </el-input>
-                </div>
-              </div> -->
             <div style="display:flex;margin-top:1em;justify-content:space-between; padding: 0 20px;">
               <el-button @click="confimModal=false " style="width:6em; border: 1px solid #0BB179" size="large " type="text ">取消</el-button>
               <el-button @click="buy(currentIndex) " size="large " style="width:6em; " type="primary ">生成订单</el-button>
@@ -360,16 +327,6 @@ export default {
           self.setOrdered(this.currentTeacher)
           self.toOrder()
         } else {
-          /* 预约的代码，与后端交互
-          const teacherMapUser = new AV.Object('TeacherMapUser')
-          teacherMapUser.set('message', self.extraMsg)
-          teacherMapUser.set('Teacher', self.allUsers[index])
-          teacherMapUser.set('User', AV.User.current())
-          teacherMapUser.set('status', '未查看')
-          teacherMapUser.save()
-          self.$message('预约成功！')
-          */
-
           self.setReserveDirty(true)
           self.confimModal = false // new router
           self.setOrdered(this.currentTeacher)
