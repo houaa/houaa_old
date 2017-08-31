@@ -13,10 +13,10 @@
         </div>
       </div>
     </div>
-    <div v-else style="margin-left=2.5em;">
+    <div v-else style="margin-left:2.5em;">
       所有的订单都看过啦！
     </div>
-  
+
     <h3 style="margin-left:2em;margin-top:1em;">已处理的订单</h3>
     <div style="margin-top:1em;">
       <div v-if="alreadyRead.length!==0">
