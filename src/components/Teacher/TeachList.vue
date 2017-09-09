@@ -28,15 +28,48 @@
       <transition-group name="el-fade-in-linear">
         <el-col class="main-card" :xs="24" :sm="8" :lg="6" @click.native="showDetail(index, $event)" :key="index" v-for="(user,index) in filteredUsers">
           <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;">
-            <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#e67e22'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
-              <!-- {{user.attributes.name[0]}} -->
+            <div :style="{backgroundColor: allUsers[0].attributes.role?'#00AF63':'#0271C9'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
               {{user.attributes.name?user.attributes.name[0]:'未'}}
             </div>
           </div>
           <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;">
             <div style="font-size: 14px; color: #555;justify-content:space-around; ">
-              <div style="margin-bottom:0.4em;">{{edu[user.attributes.edu]}} {{grades[user.attributes.edu][user.attributes.grade]}}</div>
-              <div style="margin-bottom:0.4em;">加入时间：{{user.createdAt|toDate}}</div>
+              <div style="margin-bottom:0.4em;">学科</div>
+              <!-- <div style="margin-bottom:0.4em;">{{edu[user.attributes.edu]}} {{grades[user.attributes.edu][user.attributes.grade]}}</div> -->
+              <!-- <div style="margin-bottom:0.4em;">地点：{{user.attributes.campus}}</div> -->
+          <div>
+          <div id="class">
+            <div class="eduRankShow">
+              <div id="classes">
+                <i v-for="i in [0,1]" v-bind:class="user.attributes.teach[0][i]?'ok':'not'">
+                  {{classes[0][i]}}
+                </i>
+                <i v-for="i in [0,1,2]" v-bind:class="user.attributes.teach[1][i]?'ok':'not'">
+                  {{classes[1][i]}}
+                </i>
+                <i v-for="i in [0,1,2]" v-bind:class="user.attributes.teach[2][i]?'ok':'not'">
+                  {{classes[2][i]}}
+                </i>
+              </div>
+            </div>
+            <!-- <div class="eduRankShow">
+              <div>初中</div>
+              <div id="classes">
+                <i v-for="i in [0,1,2]" v-bind:class="user.attributes.teach[1][i]?'ok':'not'">
+                  {{classes[1][i]}}
+                </i>
+              </div>
+            </div>
+            <div class="eduRankShow">
+              <div>高中</div>
+              <div id="classes">
+                <i v-for="i in [0,1,2]" v-bind:class="user.attributes.teach[2][i]?'ok':'not'">
+                  {{classes[2][i]}}
+                </i>
+              </div>
+            </div> -->
+          </div>
+        </div>
               <div>
                 <el-tag style="margin-right:0.5em;" v-for="(tag,index) in user.attributes.tags" :key="index" type="success">{{tag}}</el-tag>
               </div>
@@ -44,7 +77,7 @@
           </div>
 
           <div style="display:flex;jusitfy-content:center;align-items:center;margin-right:2em;">
-            <div class="teacher-salary" :style="{color: allUsers[0].attributes.role?'#00AF63':'#e67e22'}">￥{{user.attributes.salary}}</div>
+            <div class="teacher-salary" :style="{color: allUsers[0].attributes.role?'#00AF63':'#0271C9'}">￥{{user.attributes.salary}}</div>
             <!-- <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button> -->
           </div>
         </el-col>
@@ -55,7 +88,7 @@
       <div style="justify-content: space-between;" id="Main" class="Content1">
         <div id="Meta">
           <div id="Name" style="display:flex;">
-            <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{currentTeacher.name}}</div>
+            <div style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{currentTeacher.name[0]}}同学</div>
             <div v-if="currentTeacher.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/female.svg"></div>
             <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../../assets/male.svg"></div>
           </div>
@@ -75,7 +108,12 @@
         <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
           <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
             注册“猴啊”
-            <span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - currentTeacher.createdAt)/3600000/24)}}天</span>
+            <span style="font-weight: 400;color:rgb(11, 178, 121)">
+              <!-- {{((new Date()) - currentTeacher.createdAt)/3600000/24}}天 -->
+              </span>
+            <span style="font-weight: 400;color:rgb(11, 178, 121)">
+              {{Math.floor((new Date()|UTC-currentTeacher.createdAt|UTC)/3600000/24)}}天
+              </span>
           </div>
           <div style="margin-top:15px;letter-spacing:2px;">
             {{currentTeacher.rate}}
@@ -651,5 +689,28 @@ div.notTime {
   color: #bbb;
   font-weight: 600;
   font-size: 14px;
+}
+
+
+.eduRankShow>#classes>i.ok {
+  /* background: #0bb279; */
+  color: #0bb279;
+  border: #0bb279 1px solid;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.eduRankShow>#classes>i.not {
+  display: none;
+}
+
+.eduRankShow>#classes>i {
+  border-radius: 7px;
+  font-style: normal;
+  text-align: center;
+  display: inline-block;
+  padding: 2px 5px;
+  margin: 0 2px;
 }
 </style>

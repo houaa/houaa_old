@@ -59,7 +59,7 @@
           <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap">
             <!--TODO:store中新建数据存储信息-->
             <div style="font-size:16px; font-weight:200;text-align:right;">请确认地点:</div>
-            <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 40px;border: none;text-align:right;"></input>
+            <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 60px;border: none;text-align:right;"></input>
           </div>
         </div>
 
@@ -74,29 +74,29 @@
           <div>科目</div>
           <div id="class">
             <div class="eduRank">
-              <div>小学</div>
-              <div id="classes">
-                <i v-for="i in [0,1]" v-bind:class="orderedOne.teach[0][i]?'ok':'not'">
-                  {{classes[0][i]}}
-                </i>
-              </div>
-            </div>
-            <div class="eduRank">
-              <div>初中</div>
-              <div id="classes">
-                <i v-for="i in [0,1,2]" v-bind:class="orderedOne.teach[1][i]?'ok':'not'">
-                  {{classes[1][i]}}
-                </i>
-              </div>
-            </div>
-            <div class="eduRank">
-              <div>高中</div>
-              <div id="classes">
-                <i v-for="i in [0,1,2]" v-bind:class="orderedOne.teach[2][i]?'ok':'not'">
-                  {{classes[2][i]}}
-                </i>
-              </div>
-            </div>
+          <div>小学</div>
+          <div id="classes">
+            <i v-for="i in [0,1]" @click="toggleOrderTeach([0,i])" v-bind:class="orderedOne.teach[0][i]?'ok':'not'">
+              {{classes[0][i]}}
+            </i>
+          </div>
+        </div>
+        <div class="eduRank">
+          <div>初中</div>
+          <div id="classes">
+            <i v-for="i in [0,1,2]" @click="toggleOrderTeach([1,i])" v-bind:class="orderedOne.teach[1][i]?'ok':'not'">
+              {{classes[1][i]}}
+            </i>
+          </div>
+        </div>
+        <div class="eduRank">
+          <div>高中</div>
+          <div id="classes">
+            <i v-for="i in [0,1,2]" @click="toggleOrderTeach([2,i])" v-bind:class="orderedOne.teach[2][i]?'ok':'not'">
+              {{classes[2][i]}}
+            </i>
+          </div>
+        </div>
           </div>
         </div>
 
@@ -117,7 +117,7 @@
             <div>
               {{days[i]}}
             </div>
-            <div v-for="j in [0,1,2]" :key="j">
+            <div v-for="j in [0,1,2]" :key="j" @click="toggleOrderCalendar([i,j])">
               <div class=" time " v-bind:class="orderedOne.availableTime[i][j]? 'okTime': 'notTime' ">
               </div>
             </div>
@@ -182,13 +182,14 @@ export default {
       'orderedOne'
     ])
   },
-  ...mapMutations([
-    'toggleTeach'
-  ]),
   mounted: function() {
     // this.rawUser = this.orderedOne
   },
   methods: {
+    ...mapMutations([
+      'toggleOrderTeach',
+      'toggleOrderCalendar'
+    ]),
     toBack: function() {
       if (this.showTeacher) {
         this.showTeacher = false

@@ -33,7 +33,11 @@
       </div>
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
         <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
-          注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天</span>
+          注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">
+            {{new Date()}}
+            {{user.createdAt}}
+            {{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天
+            </span>
         </div>
         <div style="margin-top:15px;letter-spacing:2px;">
           {{user.rate}}
@@ -105,7 +109,7 @@
           {{days[i]}}
         </div>
         <div v-for="j in [0,1,2]" @click="toggleCalendar([i,j])">
-          <div class="time" v-bind:class="user.availableTime[i][j]?'okTime':'notTime'"><i v-if='user.availableTime[i][j]' style="color:#FFF;font-size: 12px;padding-top:10px;" class="el-icon-check"></i></div>
+          <div class="time" v-bind:class="user.availableTime[i][j]?'okTime':'notTime'"><i v-if='user.availableTime[i][j]' style="color:#FFF;font-size: 10px;padding-top:7px;" class="el-icon-check"></i></div>
         </div>
       </div>
     </div>
@@ -344,8 +348,8 @@ div.week>div.time>div {
 div.okTime {
   background: #0bb279;
   border-radius: 15px;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin-left: auto;
   margin-right: auto;
 }
