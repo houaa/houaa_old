@@ -86,11 +86,23 @@ const mutations = {
     newTeach[eduRank][classes] = !newTeach[eduRank][classes]
     state.user.teach = newTeach
   },
+  toggleOrderTeach(state, [eduRank, classes]) {
+    window.preventWindowClose = true
+    const newTeach = [...state.orderedOne.teach]
+    newTeach[eduRank][classes] = !newTeach[eduRank][classes]
+    state.orderedOne.teach = newTeach
+  },
   toggleCalendar(state, [day, time]) {
     window.preventWindowClose = true
     const newAvailableTime = [...state.user.availableTime]
     newAvailableTime[day][time] = !newAvailableTime[day][time]
     state.user.availableTime = newAvailableTime
+  },
+  toggleOrderCalendar(state, [day, time]) {
+    window.preventWindowClose = true
+    const newAvailableTime = [...state.orderedOne.availableTime]
+    newAvailableTime[day][time] = !newAvailableTime[day][time]
+    state.orderedOne.availableTime = newAvailableTime
   },
   deleteTag(state, tag) {
     window.preventWindowClose = true
