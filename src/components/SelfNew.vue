@@ -38,8 +38,8 @@
             </span>
         </div>
         <div style="margin-top:15px;letter-spacing:2px;">
-          {{user.rate}}
-          <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
+          <!-- {{user.rate}}
+          <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i> -->
         </div>
       </div>
     </div>

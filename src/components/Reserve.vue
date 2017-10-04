@@ -35,7 +35,7 @@
         还没有处理过的订单哟~
       </div>
     </div>
-  
+
     <transition name="el-zoom-in-bottom">
       <div v-if="showDetail" v-on:click="closeModal" class="float-container" style="padding-top:40%;">
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff;">
