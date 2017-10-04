@@ -160,8 +160,6 @@ const fromCampusToId = (campus) => {
 
 const actions = {
   async getInfo(context, user) {
-    console.log(user)
-
     context.commit('setUserInfo', {
       name: user.name,
       sex: user.gender === 'M',

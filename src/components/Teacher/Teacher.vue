@@ -51,7 +51,7 @@ export default {
     ]),
     getTeachers: function () {
       let self = this
-      fetch('https://api.houaa.xyz/person/teacher/list/6', {
+      fetch('https://api.houaa.xyz/person/teacher/list/1', {
         method: 'GET'
       }).then(raw => raw.json())
       .then(json => {
@@ -78,7 +78,7 @@ export default {
     },
     getStudents: function () {
       let self = this
-      fetch('https://api.houaa.xyz/person/student/list/6', {
+      fetch('https://api.houaa.xyz/person/student/list/1', {
         method: 'GET'
       }).then(raw => raw.json())
       .then(json => {

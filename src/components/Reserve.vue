@@ -75,7 +75,7 @@
                 <div>{{currentReserve.selfIntro}}</div>
               </div>
             </div>
-            <div style="display:flex;margin-top:1em;justify-content:space-between;">
+            <div v-if="sendByMe" style="display:flex;margin-top:1em;justify-content:space-between;">
               <el-button @click="rejectDialogVisible = true" style="width:6em;" size="large" type="text">拒绝</el-button>
               <el-button @click="accept" size="large" style="width:6em;" type="primary">接受</el-button>
             </div>
@@ -83,14 +83,8 @@
         </div>
       </div>
     </transition>
-    <el-dialog
-      size="large"
-      :visible.sync="rejectDialogVisible">
-      <el-input
-        type="textarea"
-        :rows="2"
-        placeholder="填写拒绝理由"
-        v-model="comment">
+    <el-dialog size="large" :visible.sync="rejectDialogVisible">
+      <el-input type="textarea" :rows="2" placeholder="填写拒绝理由" v-model="comment">
       </el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="rejectDialogVisible = false">取消</el-button>
@@ -154,24 +148,36 @@ export default {
         }[item.status]
         return temp
       })
+    },
+    sendByMe: function() {
+      if (this.user.role) {
+        if (this.currentReserve.teacherId === this.user.teacherId) {
+          return false
+        }
+      } else {
+        if (this.currentReserve.studentId === this.user.studentId) {
+          return false
+        }
+      }
+      return true
     }
   },
-  created: function () {
+  created: function() {
     fetch('https://api.houaa.xyz/person/me/', {
       method: 'GET',
       credentials: 'include'
     }).then(raw => raw.json())
-    .then(json => {
-      if (json.status === 'error') {
-        this.$message(json.payload)
+      .then(json => {
+        if (json.status === 'error') {
+          this.$message(json.payload)
+          this.$router.push('/login')
+        } else {
+          this.query()
+        }
+      }).catch(err => {
+        console.log(err)
         this.$router.push('/login')
-      } else {
-        this.query()
-      }
-    }).catch(err => {
-      console.log(err)
-      this.$router.push('/login')
-    })
+      })
     // if (!AV.User.current()) {
     //   this.$router.push('/login')
     //   return
@@ -201,14 +207,14 @@ export default {
           comment: self.comment
         })
       }).then(raw => raw.json())
-      .then(json => {
-        if (json.status === 'error') {
-          self.$message(json.payload)
-        } else {
-          self.showDetail = false
-          self.rejectDialogVisible = false
-        }
-      })
+        .then(json => {
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else {
+            self.showDetail = false
+            self.rejectDialogVisible = false
+          }
+        })
     },
     accept: function() {
       let self = this
@@ -217,13 +223,13 @@ export default {
         credentials: 'include',
         body: '{}'
       }).then(raw => raw.json())
-      .then(json => {
-        if (json.status === 'error') {
-          self.$message(json.payload)
-        } else {
-          self.showDetail = false
-        }
-      })
+        .then(json => {
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else {
+            self.showDetail = false
+          }
+        })
       // let newRecord = this.reserveInfo.map(item => {
       //   if (item.attributes.Teacher.getObjectId() === self.currentReserve.objectId) {
       //     item.set('status', '已同意')
@@ -243,14 +249,14 @@ export default {
         credentials: 'include',
         method: 'GET'
       }).then(raw => raw.json())
-      .then(json => {
-        if (json.status === 'error') {
-          self.$message(json.payload)
-        } else {
-          self.rawReserve = json.payload
-          self.setReserve(self.rawReserve)
-        }
-      })
+        .then(json => {
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else {
+            self.rawReserve = json.payload
+            self.setReserve(self.rawReserve)
+          }
+        })
       // let self = this
       // if (self.reserveInfo && !self.isReserveDirty) {
       //   return

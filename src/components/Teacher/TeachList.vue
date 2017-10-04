@@ -189,7 +189,7 @@
         </div>
         <div style="text-align:center;">
           <el-button class="button" v-on:click="showList=true" style="margin:1em 1em;color:#0BB179;border:1px solid #0BB179;">返回</el-button>
-          <el-button :disabled="allUsers[0].role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;"
+          <el-button :disabled="((location.hash.indexOf('teacher') !== -1) ^ user.role) % 2 === 0" class="button" v-on:click="confimModal=true" style="margin-top:1em;"
             type="primary">预约</el-button>
         </div>
       </div>
@@ -228,10 +228,29 @@
   // import AV from 'leancloud-storage'  // 数据库对象
   import {
     mapGetters,
-    mapMutations
+    mapMutations,
+    mapActions
   } from 'vuex'
   export default {
     name: 'teach',
+    created: function () {
+      console.log(this.user)
+      const self = this
+      if (this.user.role === '') {
+        fetch('https://api.houaa.xyz/person/me/', {
+          method: 'GET',
+          credentials: 'include'
+        }).then(raw => raw.json())
+        .then(json => {
+          if (json.status === 'error') {
+          } else {
+            self.getInfo(json.payload)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    },
     computed: {
       ...mapGetters([
         'loggedIn',
@@ -295,6 +314,7 @@
     ],
     data() {
       return {
+        location: window.location,
         loginModal: false,
         showList: true,
         confimModal: false,
@@ -332,6 +352,9 @@
         'setAllTeachers',
         'setReserveDirty',
         'setOrdered'
+      ]),
+      ...mapActions([
+        'getInfo'
       ]),
       resetFilter: function () {
         this.g_female = true
