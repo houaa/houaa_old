@@ -35,7 +35,7 @@
         还没有处理过的订单哟~
       </div>
     </div>
-  
+
     <transition name="el-zoom-in-bottom">
       <div v-if="showDetail" v-on:click="closeModal" class="float-container" style="padding-top:40%;">
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff;">
@@ -98,7 +98,7 @@ export default {
     }
   },
   filters: {
-    parseDate: function (value) {
+    parseDate: function(value) {
       let result = new Date(value)
       return result.getHours() + ':' + result.getMinutes() + ' ' + (result.getMonth() + 1).toString() + '-' + result.getDate() + '-' + result.getFullYear()
     }
@@ -108,26 +108,30 @@ export default {
       'reserveInfo',
       'isReserveDirty'
     ]),
-    unread: function () {
-      if (!this.reserveInfo) return ''
+    unread: function() {
+      if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
         return item.attributes.status === '未查看'
       }).map(item => {
-        return item.get('Teacher').toJSON()
+        let temp = item.get('Teacher')
+        if (temp) return temp.toJSON()
+        else return ''
       })
     },
-    alreadyRead: function () {
-      if (!this.reserveInfo) return ''
+    alreadyRead: function() {
+      if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
         return item.attributes.status !== '未查看'
       }).map(item => {
-        let temp = item.get('Teacher').toJSON()
+        let temp = item.get('Teacher')
+        if (temp) temp = temp.toJSON()
+        else return ''
         temp.status = item.attributes.status
         return temp
       })
     }
   },
-  created: function () {
+  created: function() {
     if (!AV.User.current()) {
       this.$router.push('/login')
       return
@@ -138,17 +142,17 @@ export default {
     ...mapMutations([
       'setReserve'
     ]),
-    closeModal: function (event) {
+    closeModal: function(event) {
       if (event.target.className === 'float-container') {
         this.showDetail = false
       }
     },
-    toDetail: function (index) {
+    toDetail: function(index) {
       let self = this
       this.showDetail = true
       self.currentReserve = self.unread[index]
     },
-    reject: function () {
+    reject: function() {
       let self = this
       let newRecord = this.reserveInfo.map(item => {
         if (item.attributes.Teacher.getObjectId() === self.currentReserve.objectId) {
@@ -163,7 +167,7 @@ export default {
       self.setReserve(newRecord)
       this.showDetail = false
     },
-    accept: function () {
+    accept: function() {
       let self = this
       let newRecord = this.reserveInfo.map(item => {
         if (item.attributes.Teacher.getObjectId() === self.currentReserve.objectId) {
@@ -178,7 +182,7 @@ export default {
       self.setReserve(newRecord)
       this.showDetail = false
     },
-    query: function () {
+    query: function() {
       let self = this
       if (self.reserveInfo && !self.isReserveDirty) {
         return
