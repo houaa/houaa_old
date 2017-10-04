@@ -177,7 +177,7 @@ const actions = {
       selfIntro: user.selfIntroduction,
       role: 1, // TODO: Fix
       createdAt: new Date(user.joinedAt),
-      campus: user.campus.name
+      campus: user.campus.name || '紫金港校区'
     })
   },
   async submitToBackend(context) {

@@ -49,8 +49,8 @@
         <div class="Content1">
           <div>薪资</div>
           <div>
-            <el-input-number size="small" :min="0" :step="20" v-model="orderedOne.salary"></el-input-number>
-            <span style="font-size:16px; font-weight:200;"></span>
+            <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{orderedOne.salary}}</span>
+            <span style="font-size:16px; font-weight:200;">/小时</span>
           </div>
         </div>
 
@@ -58,8 +58,8 @@
           <div>地点</div>
           <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap">
             <!--TODO:store中新建数据存储信息-->
-            <div style="font-size:16px; font-weight:200;text-align:right;">请确认地点:</div>
-            <input v-on:change="preventWindow" v-model="orderedOne.campus.name" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 60px;border: none;text-align:right;"></input>
+            <!-- <div style="font-size:16px; font-weight:200;text-align:right;">请确认地点:</div> -->
+            <div v-on:change="preventWindow" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 60px;border: none;text-align:right;">{{orderedOne.campus.name}}</div>
           </div>
         </div>
 
@@ -220,13 +220,26 @@
           // teacherMapUser.set('salary', self.orderedOne.salary)
           // teacherMapUser.set('campus', self.orderedOne.campus)
           // teacherMapUser.save()
-          self.$message('预约成功！')
-          this.prompts = '完 成'
-          this.showTeacher = false
-          this.showPay = false
-          this.showDone = true
-          this.buttonText = '去查看'
-          console.log(this.orderedOne)
+          fetch('https://api.houaa.xyz/order/create/', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+              teacherId: self.orderedOne.teacherId
+            })
+          }).then(raw => raw.json())
+          .then(json => {
+            if (json.status === 'error') {
+              self.$message(json.payload)
+            } else {
+              self.$message('预约成功！')
+              self.prompts = '完 成'
+              self.showTeacher = false
+              self.showPay = false
+              self.showDone = true
+              self.buttonText = '去查看'
+              console.log(this.orderedOne)
+            }
+          })
         } else if (this.showDone) {
           this.$router.push('/reserve')
           this.showTeacher = false

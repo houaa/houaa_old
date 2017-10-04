@@ -72,7 +72,7 @@
                 </div>
               </div>
               <div>
-                <el-tag style="margin-right:0.5em;" v-for="(tag,index) in user.tags" :key="index" type="success">{{tag}}</el-tag>
+                <el-tag style="margin-right:0.5em;text-overflow: ellipsis;max-width: 100px;overflow: hidden;" v-for="(tag,index) in user.tags" :key="index" type="success">{{tag}}</el-tag>
               </div>
             </div>
           </div>
