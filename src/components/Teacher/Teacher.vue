@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="scrollable">
     <TeachList :all-users="realUser"></TeachList>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       page: 0,
-      loading: false,
+      end: false,
       allUsers: []
     }
   },
@@ -44,34 +44,37 @@ export default {
   components: {
     TeachList
   },
-  created: function () {
-  },
   methods: {
     ...mapMutations([
       'setAllTeachers',
       'setAllStudents'
     ]),
-    getTeachers: function () {
+    getTeachers: async function () {
       let self = this
-      if (!self.loading) {
-        fetch(`https://api.houaa.xyz/person/teacher/list/${++self.page}`, {
-          method: 'GET'
-        }).then(raw => raw.json())
-        .then(json => {
+      let allUsers = []
+      let end = false
+      let page = 0
+      for (let i = 0; i <= 10; i++) {
+        if (!end) {
+          const raw = await fetch(`https://api.houaa.xyz/person/teacher/list/${++page}`, {
+            method: 'GET'
+          })
+          const json = await raw.json()
           if (json.status === 'error') {
             self.$message(json.payload)
           } else if (json.status === 'success') {
-            self.allUsers.push(json.payload.items)
-            self.setAllTeachers(json.payload.items)
+            if (allUsers.length > 0 && json.payload.items[json.payload.items.length - 1].teacherId === allUsers[allUsers.length - 1].teacherId) {
+              end = true
+            } else {
+              allUsers = allUsers.concat(json.payload.items)
+            }
           }
-          self.loading = false
-        }).catch(err => {
-          console.log(err)
-          self.$message('发生错误')
-          self.loading = false
-        })
+        } else {
+          break
+        }
       }
-      self.loading = true
+      self.allUsers = allUsers
+      self.setAllTeachers(allUsers)
       // let query = new AV.Query('TeacherList')
       // query.find().then((result) => {
       //   // console.log('asdf', result)
@@ -83,25 +86,32 @@ export default {
       //   console.log(error)
       // })
     },
-    getStudents: function () {
+    getStudents: async function () {
       let self = this
-      fetch('https://api.houaa.xyz/person/student/list/1', {
-        method: 'GET'
-      }).then(raw => raw.json())
-      .then(json => {
-        if (json.status === 'error') {
-          self.$message(json.payload)
-        } else if (json.status === 'success') {
-          self.allUsers.push(json.payload.items)
-          self.setAllStudents(self.allUsers)
+      let allUsers = []
+      let end = false
+      let page = 0
+      for (let i = 0; i <= 10; i++) {
+        if (!end) {
+          const raw = await fetch(`https://api.houaa.xyz/person/student/list/${++page}`, {
+            method: 'GET'
+          })
+          const json = await raw.json()
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else if (json.status === 'success') {
+            if (allUsers.length > 0 && json.payload.items[json.payload.items.length - 1].studentId === allUsers[allUsers.length - 1].studentId) {
+              end = true
+            } else {
+              allUsers = allUsers.concat(json.payload.items)
+            }
+          }
+        } else {
+          break
         }
-        self.loading = false
-      }).catch(err => {
-        console.log(err)
-        self.$message('发生错误')
-        self.loading = false
-      })
-      self.loading = true
+      }
+      self.allUsers = allUsers
+      self.setAllStudents(allUsers)
       // let self = this
       // let query = new AV.Query('StudentList')
       // query.find().then((result) => {
