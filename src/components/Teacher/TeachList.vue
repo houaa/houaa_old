@@ -112,7 +112,7 @@
               <!-- {{((new Date()) - currentTeacher.createdAt)/3600000/24}}天 -->
               </span>
             <span style="font-weight: 400;color:rgb(11, 178, 121)">
-              {{Math.floor((new Date()|UTC-currentTeacher.createdAt|UTC)/3600000/24)}}天
+              {{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天
               </span>
           </div>
           <div style="margin-top:15px;letter-spacing:2px;">
