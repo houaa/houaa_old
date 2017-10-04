@@ -723,11 +723,11 @@
 
   .eduRankShow>#classes>i.ok {
     /* background: #0bb279; */
-    color: #0bb279;
-    border: #0bb279 1px solid;
+    color: #444;
+    border: #444 1px solid;
     margin-bottom: 5px;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 200;
   }
 
   .eduRankShow>#classes>i.not {
@@ -742,5 +742,4 @@
     padding: 2px 5px;
     margin: 0 2px;
   }
-
 </style>

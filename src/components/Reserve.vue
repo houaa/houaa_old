@@ -114,7 +114,7 @@ export default {
     }
   },
   filters: {
-    parseDate: function (value) {
+    parseDate: function(value) {
       let result = new Date(value)
       return result.getHours() + ':' + result.getMinutes() + ' ' + (result.getMonth() + 1).toString() + '-' + result.getDate() + '-' + result.getFullYear()
     }
@@ -125,8 +125,8 @@ export default {
       'isReserveDirty',
       'user'
     ]),
-    unread: function () {
-      if (!this.reserveInfo) return ''
+    unread: function() {
+      if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
         return item.status === 'initial'
       }).map(item => {
@@ -137,8 +137,8 @@ export default {
         return this.user.role ? item.student : item.teacher
       })
     },
-    alreadyRead: function () {
-      if (!this.reserveInfo) return ''
+    alreadyRead: function() {
+      if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
         return item.status !== 'initial'
       }).map(item => {
@@ -182,17 +182,17 @@ export default {
     ...mapMutations([
       'setReserve'
     ]),
-    closeModal: function (event) {
+    closeModal: function(event) {
       if (event.target.className === 'float-container') {
         this.showDetail = false
       }
     },
-    toDetail: function (index) {
+    toDetail: function(index) {
       let self = this
       this.showDetail = true
       self.currentReserve = self.unread[index]
     },
-    reject: function () {
+    reject: function() {
       let self = this
       fetch(`https://api.houaa.xyz/order/${self.currentReserve.id}/reject/`, {
         method: 'POST',
@@ -210,7 +210,7 @@ export default {
         }
       })
     },
-    accept: function () {
+    accept: function() {
       let self = this
       fetch(`https://api.houaa.xyz/order/${self.currentReserve.id}/accept/`, {
         method: 'POST',
@@ -237,7 +237,7 @@ export default {
       // self.setReserve(newRecord)
       // this.showDetail = false
     },
-    query: function () {
+    query: function() {
       let self = this
       fetch('https://api.houaa.xyz/order/list/', {
         credentials: 'include',

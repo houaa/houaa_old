@@ -18,4 +18,4 @@ with open('static/sw.js', 'r+') as f:
 
 # call rsync to upload to the server
 call(['rsync', '-avzhe', 'ssh', 'dist/',
-      'root@101.200.46.157:/usr/share/nginx/frontend'])
+      'hao@101.200.46.157:/home/hao/app_frontend'])

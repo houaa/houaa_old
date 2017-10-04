@@ -34,6 +34,8 @@
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
         <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
           注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">
+            <!-- {{new Date()}}
+            {{user.createdAt}} -->
             {{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天
             </span>
         </div>
