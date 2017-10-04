@@ -13,7 +13,9 @@ export default {
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
-      allUsers: {}
+      page: 0,
+      loading: false,
+      allUsers: []
     }
   },
   computed: {
@@ -51,20 +53,25 @@ export default {
     ]),
     getTeachers: function () {
       let self = this
-      fetch('https://api.houaa.xyz/person/teacher/list/1', {
-        method: 'GET'
-      }).then(raw => raw.json())
-      .then(json => {
-        if (json.status === 'error') {
-          self.$message(json.payload)
-        } else if (json.status === 'success') {
-          self.allUsers = json.payload.items
-          self.setAllTeachers(json.payload.items)
-        }
-      }).catch(err => {
-        console.log(err)
-        self.$message('发生错误')
-      })
+      if (!self.loading) {
+        fetch(`https://api.houaa.xyz/person/teacher/list/${++self.page}`, {
+          method: 'GET'
+        }).then(raw => raw.json())
+        .then(json => {
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else if (json.status === 'success') {
+            self.allUsers.push(json.payload.items)
+            self.setAllTeachers(json.payload.items)
+          }
+          self.loading = false
+        }).catch(err => {
+          console.log(err)
+          self.$message('发生错误')
+          self.loading = false
+        })
+      }
+      self.loading = true
       // let query = new AV.Query('TeacherList')
       // query.find().then((result) => {
       //   // console.log('asdf', result)
@@ -85,13 +92,16 @@ export default {
         if (json.status === 'error') {
           self.$message(json.payload)
         } else if (json.status === 'success') {
-          self.allUsers = json.payload.items
-          self.setAllStudents(json.payload.items)
+          self.allUsers.push(json.payload.items)
+          self.setAllStudents(self.allUsers)
         }
+        self.loading = false
       }).catch(err => {
         console.log(err)
         self.$message('发生错误')
+        self.loading = false
       })
+      self.loading = true
       // let self = this
       // let query = new AV.Query('StudentList')
       // query.find().then((result) => {
