@@ -224,7 +224,8 @@
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify({
-              teacherId: self.orderedOne.teacherId
+              teacherId: self.orderedOne.teacherId,
+              studentId: self.orderedOne.studentId
             })
           }).then(raw => raw.json())
           .then(json => {

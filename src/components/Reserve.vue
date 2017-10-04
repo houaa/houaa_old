@@ -76,13 +76,27 @@
               </div>
             </div>
             <div style="display:flex;margin-top:1em;justify-content:space-between;">
-              <el-button @click="reject" style="width:6em;" size="large" type="text">拒绝</el-button>
+              <el-button @click="rejectDialogVisible = true" style="width:6em;" size="large" type="text">拒绝</el-button>
               <el-button @click="accept" size="large" style="width:6em;" type="primary">接受</el-button>
             </div>
           </div>
         </div>
       </div>
     </transition>
+    <el-dialog
+      size="large"
+      :visible.sync="rejectDialogVisible">
+      <el-input
+        type="textarea"
+        :rows="2"
+        placeholder="填写拒绝理由"
+        v-model="comment">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="rejectDialogVisible = false">取消</el-button>
+        <el-button @click="reject" type="primary">拒绝</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -94,7 +108,9 @@ export default {
   data() {
     return {
       showDetail: false,
-      currentReserve: ''
+      currentReserve: '',
+      comment: '',
+      rejectDialogVisible: false
     }
   },
   filters: {
@@ -177,8 +193,22 @@ export default {
       self.currentReserve = self.unread[index]
     },
     reject: function () {
-      // let self = this
-
+      let self = this
+      fetch(`https://api.houaa.xyz/order/${self.currentReserve.id}/reject/`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+          comment: self.comment
+        })
+      }).then(raw => raw.json())
+      .then(json => {
+        if (json.status === 'error') {
+          self.$message(json.payload)
+        } else {
+          self.showDetail = false
+          self.rejectDialogVisible = false
+        }
+      })
     },
     accept: function () {
       let self = this
