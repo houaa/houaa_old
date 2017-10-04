@@ -175,7 +175,7 @@ const actions = {
       availableTime: user.availableTime || [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]],
       tags: user.tags || [],
       selfIntro: user.selfIntroduction,
-      role: 1, // TODO: Fix
+      role: user.studentId === undefined,
       createdAt: new Date(user.joinedAt),
       campus: user.campus.name || '紫金港校区'
     })
