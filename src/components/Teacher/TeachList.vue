@@ -189,7 +189,7 @@
         </div>
         <div style="text-align:center;">
           <el-button class="button" v-on:click="showList=true" style="margin:1em 1em;color:#0BB179;border:1px solid #0BB179;">返回</el-button>
-          <el-button :disabled="allUsers[0].role===user.role" class="button" v-on:click="confimModal=true" style="margin-top:1em;"
+          <el-button :disabled="((location.hash.indexOf('teacher') !== -1) ^ user.role)" class="button" v-on:click="confimModal=true" style="margin-top:1em;"
             type="primary">预约</el-button>
         </div>
       </div>
@@ -295,6 +295,7 @@
     ],
     data() {
       return {
+        location: window.location,
         loginModal: false,
         showList: true,
         confimModal: false,
