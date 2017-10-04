@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import AV from 'leancloud-storage'
+// import AV from 'leancloud-storage'
 import { mapActions } from 'vuex'
 export default {
   name: 'loginNew',
@@ -63,11 +63,23 @@ export default {
     },
     sendSMS: function () {
       let self = this
-      AV.Cloud.requestSmsCode(self.phone).then(success => {
-        self.$message('已发送')
-      }, error => {
-        self.$message('各种错误')
+      fetch('https://api.houaa.xyz/account/sendVerificationCode/', {
+        credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify({
+          phone: self.phoneNumber
+        })
+      }).then(raw => raw.json())
+      .then(json => {
+        if (json.status === 'error') {
+          self.$message(json.payload)
+        } else {
+          self.$message('已发送短信')
+          this.state = 1
+        }
+      }).catch(error => {
         console.log(error)
+        self.$message('各种错误')
       })
     },
     handleClick: function (tab, event) {
@@ -75,14 +87,30 @@ export default {
     },
     logInPhone: function () {
       let self = this
-      AV.User.signUpOrlogInWithMobilePhone(self.phone, self.recaptcha).then(loggedInUser => {
-        self.$message('登陆成功')
-        self.$router.push('/teacher')
-        // self.push('teacher')
-      }, error => {
-        self.$message('不对的验证码噢')
-        console.log(error)
+      fetch('https://api.houaa.xyz/account/login/', {
+        credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify({
+          phone: self.phone,
+          code: self.recaptcha
+        })
+      }).then(raw => raw.json())
+      .then(json => {
+        if (json.status === 'error') {
+          self.$message(json.payload)
+        } else {
+          elf.$message('登陆成功')
+          self.$router.push('/teacher')
+        }
       })
+      // AV.User.signUpOrlogInWithMobilePhone(self.phone, self.recaptcha).then(loggedInUser => {
+      //   self.$message('登陆成功')
+      //   self.$router.push('/teacher')
+      //   // self.push('teacher')
+      // }, error => {
+      //   self.$message('不对的验证码噢')
+      //   console.log(error)
+      // })
     }
   }
 }
