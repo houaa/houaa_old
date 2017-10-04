@@ -3,7 +3,7 @@
     <div style="justify-content: space-between;">
       <div id="Meta">
         <div id="Name">
-          <input v-on:change="preventWindow" placeholder="修改姓名" v-model="user.name" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;"></input>
+          <div placeholder="修改姓名" style="outline:none;font-weight: 800;font-size: 24px;color: rgb(11, 178, 121);width: 95px;border: none;">{{user.name}}</div>
           <div v-if="user.sex" style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/female.svg"></div>
           <div v-else style="display: inline-block;position:relative;top:4px;margin-left: 5px;"><img width="20" src="../assets/male.svg"></div>
         </div>
@@ -34,8 +34,6 @@
       <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
         <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
           注册“猴啊”<span style="font-weight: 400;color:rgb(11, 178, 121)">
-            {{new Date()}}
-            {{user.createdAt}}
             {{Math.floor(((new Date()) - user.createdAt)/3600000/24)}}天
             </span>
         </div>
@@ -62,30 +60,14 @@
         </select>
       </div>
     </div>
-    <div class="Content1">
+    <div class="Content1" style="flex-direction: column;">
       <div>科目</div>
       <div id="class">
-        <div class="eduRank">
-          <div>小学</div>
+        <div class="eduRank" v-for="(subjects, i) in user.teach">
+          <div>{{subjects.name}}</div>
           <div id="classes">
-            <i v-for="i in [0,1]" @click="toggleTeach([0,i])" v-bind:class="user.teach[0][i]?'ok':'not'">
-              {{classes[0][i]}}
-            </i>
-          </div>
-        </div>
-        <div class="eduRank">
-          <div>初中</div>
-          <div id="classes">
-            <i v-for="i in [0,1,2]" @click="toggleTeach([1,i])" v-bind:class="user.teach[1][i]?'ok':'not'">
-              {{classes[1][i]}}
-            </i>
-          </div>
-        </div>
-        <div class="eduRank">
-          <div>高中</div>
-          <div id="classes">
-            <i v-for="i in [0,1,2]" @click="toggleTeach([2,i])" v-bind:class="user.teach[2][i]?'ok':'not'">
-              {{classes[2][i]}}
+            <i v-for="(subject, j) in subjects.subjects" @click="toggleTeach([i, j])" v-bind:class="subject.checked?'ok':'not'">
+              {{subject.name}}
             </i>
           </div>
         </div>
@@ -139,7 +121,7 @@
   </div>
 </template>
 <script>
-import AV from 'leancloud-storage'
+// import AV from 'leancloud-storage'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 window.addEventListener('beforeunload', function (e) {
@@ -153,9 +135,9 @@ export default {
   'name': 'Self',
   data() {
     return {
-      campus: [ '紫金港', '玉泉', '西溪', '华家池', '之江' ],
-      edu: ['小学', '初中', '高中', '本科'],
-      grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
+      campus: [ '紫金港校区', '玉泉校区', '西溪校区', '华家池校区', '之江校区', '舟山校区' ],
+      edu: ['初中', '高中', '小学', '本科'],
+      grades: [['初一', '初二', '初三'], ['高一', '高二', '高三'], ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['大一', '大二', '大三', '大四']],
       classes: [['全科', '陪读'], ['数学', '科学', '英语'], ['数学', '理综', '英语']],
       days: ['一', '二', '三', '四', '五', '六', '日'],
       newTag: '',
@@ -169,15 +151,26 @@ export default {
     ])
   },
   created: function () {
-    if (!AV.User.current()) {
+    fetch('https://api.houaa.xyz/person/me/', {
+      method: 'GET',
+      credentials: 'include'
+    }).then(raw => raw.json())
+    .then(json => {
+      if (json.status === 'error') {
+        this.$message(json.payload)
+        this.$router.push('/login')
+      } else {
+        this.getInfo(json.payload)
+      }
+    }).catch(err => {
+      console.log(err)
       this.$router.push('/login')
-    }
-    this.getInfo(AV.User.current())
+    })
   },
   methods: {
     ...mapActions([
       'getInfo',
-      'submitToAV'
+      'submitToBackend'
     ]),
     ...mapMutations([
       'toggleTeach',
@@ -208,15 +201,19 @@ export default {
     },
     async submit() {
       if (this.user.salary <= 300 && this.user.salary >= 60) {
-        this.inputText(['name', this.user.name])
         this.inputText(['salary', this.user.salary])
         this.inputText(['selfIntro', this.user.selfIntro])
+        console.log(this.user.grade)
         this.inputText(['grade', this.user.grade])
-        this.inputText(['role', this.teacherOrStudent])
         this.inputText(['edu', this.user.edu])
         window.preventWindowClose = false
-        await this.submitToAV()
-        this.$message('修改已提交')
+        try {
+          await this.submitToBackend()
+          this.$message('修改已提交')
+        } catch (err) {
+          console.log(err)
+          this.$message(err.message)
+        }
       } else {
         this.$message('薪水应当大于60并小于300')
       }
@@ -294,14 +291,21 @@ export default {
 }
 
 .eduRank {
-  display: flex;
-  flex-direction: row;
+  display: block;
+  margin-top: 20px;
 }
 
 .eduRank> :first-child {
   font-size: 15px;
   line-height: 30px;
   margin-left: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.eduRank> :last-child {
+  display: inline-block;
+  width: 80%;
 }
 
 .eduRank>#classes>i {
@@ -362,8 +366,8 @@ div.notTime {
 }
 
 #grade > select {
-  appearance: none;  
-  -moz-appearance: none;  
+  appearance: none;
+  -moz-appearance: none;
   -webkit-appearance: none;
   border: none;
   background: #FFF;
