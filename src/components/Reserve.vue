@@ -4,8 +4,8 @@
     <div v-if="unread">
       <div v-for="(item,index) in unread" :key="index" style="color:#555;padding-top:1em;border-radius:2px;border:1px solid #eee;height:4em;display:flex;justify-content:space-between;margin:1em 2em 1em 2em;font-color:#ddd;">
         <div style="padding-left:1em;">
-          <span style="color:#000;font-weight:bold;font-size:1em;margin-right:1em;">{{item.name[0]}}同学</span> /
-          <span>{{item.grade}}</span>
+          <span style="color:#000;font-weight:bold;font-size:1em;margin-right:1em;">{{item.name}}</span> /
+          <span>{{item.grade.name}}</span>
           <div style="margin-top:0.5em;">￥{{item.salary}}/小时</div>
         </div>
         <div style="display:flex;flex-direction: column; text-align:center;justify-content: center;margin-right:1em;">
@@ -23,7 +23,7 @@
         <div v-for="(item,index) in alreadyRead" :key="index" style="color:#555;padding-top:1em;border-radius:2px;border:1px solid #eee;height:4em;display:flex;justify-content:space-between;margin:1em 2em 1em 2em;font-color:#ddd;">
           <div style="padding-left:1em;">
             <span style="color:#000;font-weight:bold;font-size:1em;margin-right:1em;">{{item.name}}</span> /
-            <span>{{item.grade}}</span>
+            <span>{{item.grade.name}}</span>
             <div style="margin-top:0.5em;">￥{{item.salary}}/小时</div>
           </div>
           <div style="display:flex;flex-direction: column; text-align:center;justify-content: center;margin-right:1em;">
@@ -48,17 +48,17 @@
               </div>
               <div class="section-line">
                 <div>预约时间</div>
-                <div>{{currentReserve.createdAt|parseDate}}</div>
+                <div>{{currentReserve.createdAt | parseDate}}</div>
               </div>
             </div>
             <div class="section">
               <div class="section-line">
-                <div>教师</div>
+                <div>{{currentReserve.studentId}}</div>
                 <div>{{currentReserve.name}}</div>
               </div>
               <div class="section-line">
                 <div>年级</div>
-                <div>{{currentReserve.grade}}</div>
+                <div>{{currentReserve.grade.name}}</div>
               </div>
               <div class="section-line">
                 <div>联系方式</div>
@@ -76,25 +76,41 @@
               </div>
             </div>
             <div style="display:flex;margin-top:1em;justify-content:space-between;">
-              <el-button @click="reject" style="width:6em;" size="large" type="text">拒绝</el-button>
+              <el-button @click="rejectDialogVisible = true" style="width:6em;" size="large" type="text">拒绝</el-button>
               <el-button @click="accept" size="large" style="width:6em;" type="primary">接受</el-button>
             </div>
           </div>
         </div>
       </div>
     </transition>
+    <el-dialog
+      size="large"
+      :visible.sync="rejectDialogVisible">
+      <el-input
+        type="textarea"
+        :rows="2"
+        placeholder="填写拒绝理由"
+        v-model="comment">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="rejectDialogVisible = false">取消</el-button>
+        <el-button @click="reject" type="primary">拒绝</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import AV from 'leancloud-storage'
+// import AV from 'leancloud-storage'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'reverse',
   data() {
     return {
       showDetail: false,
-      currentReserve: ''
+      currentReserve: '',
+      comment: '',
+      rejectDialogVisible: false
     }
   },
   filters: {
@@ -106,37 +122,61 @@ export default {
   computed: {
     ...mapGetters([
       'reserveInfo',
-      'isReserveDirty'
+      'isReserveDirty',
+      'user'
     ]),
     unread: function() {
       if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
-        return item.attributes.status === '未查看'
+        return item.status === 'initial'
       }).map(item => {
-        let temp = item.get('Teacher')
-        if (temp) return temp.toJSON()
-        else return ''
+        item.student.createdAt = item.createdAt
+        item.teacher.createdAt = item.createdAt
+        item.student.id = item.id
+        item.teacher.id = item.id
+        return this.user.role ? item.student : item.teacher
       })
     },
     alreadyRead: function() {
       if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
-        return item.attributes.status !== '未查看'
+        return item.status !== 'initial'
       }).map(item => {
-        let temp = item.get('Teacher')
-        if (temp) temp = temp.toJSON()
-        else return ''
-        temp.status = item.attributes.status
+        item.student.createdAt = item.createdAt
+        item.teacher.createdAt = item.createdAt
+        item.student.id = item.id
+        item.teacher.id = item.id
+        let temp = this.user.role ? item.student : item.teacher
+        temp.status = {
+          success: '成功',
+          viewed: '已查看',
+          accepted: '同意订单'
+        }[item.status]
         return temp
       })
     }
   },
-  created: function() {
-    if (!AV.User.current()) {
+  created: function () {
+    fetch('https://api.houaa.xyz/person/me/', {
+      method: 'GET',
+      credentials: 'include'
+    }).then(raw => raw.json())
+    .then(json => {
+      if (json.status === 'error') {
+        this.$message(json.payload)
+        this.$router.push('/login')
+      } else {
+        this.query()
+      }
+    }).catch(err => {
+      console.log(err)
       this.$router.push('/login')
-      return
-    }
-    this.query()
+    })
+    // if (!AV.User.current()) {
+    //   this.$router.push('/login')
+    //   return
+    // }
+    // this.query()
   },
   methods: {
     ...mapMutations([
@@ -154,52 +194,80 @@ export default {
     },
     reject: function() {
       let self = this
-      let newRecord = this.reserveInfo.map(item => {
-        if (item.attributes.Teacher.getObjectId() === self.currentReserve.objectId) {
-          item.set('status', '已拒绝')
-          item.save()
-          item.status = '已拒绝'
-          return item
+      fetch(`https://api.houaa.xyz/order/${self.currentReserve.id}/reject/`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+          comment: self.comment
+        })
+      }).then(raw => raw.json())
+      .then(json => {
+        if (json.status === 'error') {
+          self.$message(json.payload)
         } else {
-          return item
+          self.showDetail = false
+          self.rejectDialogVisible = false
         }
       })
-      self.setReserve(newRecord)
-      this.showDetail = false
     },
     accept: function() {
       let self = this
-      let newRecord = this.reserveInfo.map(item => {
-        if (item.attributes.Teacher.getObjectId() === self.currentReserve.objectId) {
-          item.set('status', '已同意')
-          item.save()
-          item.status = '已同意'
-          return item
+      fetch(`https://api.houaa.xyz/order/${self.currentReserve.id}/accept/`, {
+        method: 'POST',
+        credentials: 'include',
+        body: '{}'
+      }).then(raw => raw.json())
+      .then(json => {
+        if (json.status === 'error') {
+          self.$message(json.payload)
         } else {
-          return item
+          self.showDetail = false
         }
       })
-      self.setReserve(newRecord)
-      this.showDetail = false
+      // let newRecord = this.reserveInfo.map(item => {
+      //   if (item.attributes.Teacher.getObjectId() === self.currentReserve.objectId) {
+      //     item.set('status', '已同意')
+      //     item.save()
+      //     item.status = '已同意'
+      //     return item
+      //   } else {
+      //     return item
+      //   }
+      // })
+      // self.setReserve(newRecord)
+      // this.showDetail = false
     },
     query: function() {
       let self = this
-      if (self.reserveInfo && !self.isReserveDirty) {
-        return
-      }
-      let query = new AV.Query('TeacherMapUser')
-      query.include('Teacher')
-      query.equalTo('User', AV.User.current())
-      query.find().then(result => {
-        self.rawReserve = result
-        // self.reserveInfos = result.map(function (element) {
-        //   let item = element.get('Teacher').toJSON()
-        //   item.status = element.attributes.status
-        //   return item
-        // })
-        self.setReserve(self.rawReserve)
-        console.log('[reserve] fetch from server...')
+      fetch('https://api.houaa.xyz/order/list/', {
+        credentials: 'include',
+        method: 'GET'
+      }).then(raw => raw.json())
+      .then(json => {
+        if (json.status === 'error') {
+          self.$message(json.payload)
+        } else {
+          self.rawReserve = json.payload
+          self.setReserve(self.rawReserve)
+        }
       })
+      // let self = this
+      // if (self.reserveInfo && !self.isReserveDirty) {
+      //   return
+      // }
+      // let query = new AV.Query('TeacherMapUser')
+      // query.include('Teacher')
+      // query.equalTo('User', AV.User.current())
+      // query.find().then(result => {
+      //   self.rawReserve = result
+      //   // self.reserveInfos = result.map(function (element) {
+      //   //   let item = element.get('Teacher').toJSON()
+      //   //   item.status = element.attributes.status
+      //   //   return item
+      //   // })
+      //   self.setReserve(self.rawReserve)
+      //   console.log('[reserve] fetch from server...')
+      // })
     }
   }
 }

@@ -24,6 +24,10 @@
         </div>
         <el-input v-show="state==1" v-model="veri" placeholder="请输入验证码"></el-input>
         </el-input>
+        <el-input v-show="state==1" v-model="name" placeholder="请输入姓名"></el-input>
+        </el-input>
+        <el-switch v-show="state==1" v-model="gender" :width="60" on-text="男" off-text="女" on-color="#13ce66" off-color="#e67e22">
+        </el-switch>
       </div>
       <div style="display:flex;flex-direction:row-reverse;padding-right:2rem;height:6rem;">
         <img style="position:absolute;bottom:4rem;" width="40%" src="../assets/Houaa_logo.svg">
@@ -40,7 +44,6 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import AV from 'leancloud-storage'
 export default {
   name: 'signupnew',
   data() {
@@ -50,6 +53,8 @@ export default {
       state: 0,
       nickname: '',
       veri: '',
+      name: '',
+      gender: true,
       teacherOrStudent: true
     }
   },
@@ -68,39 +73,78 @@ export default {
         // }
         if (!(/^1[3|5|8][0-9]\d{4,8}$/.test(this.phoneNumber))) {
           this.$message('请输入有效的手机号')
-        } else if (window.location.href.includes('localhost')) {
-          console.log('debug')
-          this.state = 1
         } else {
-          AV.Cloud.requestSmsCode({
-            mobilePhoneNumber: self.phoneNumber,
-            name: '猴啊家教',
-            ttl: 10
-          }).then(success => {
-            self.$message('已发送短信')
-            this.state = 1
-          }, error => {
-            self.$message('各种错误')
+          fetch('https://api.houaa.xyz/account/sendVerificationCode/', {
+            credentials: 'include',
+            method: 'POST',
+            body: JSON.stringify({
+              phone: self.phoneNumber
+            })
+          }).then(raw => raw.json())
+          .then(json => {
+            if (json.status === 'error') {
+              self.$message(json.payload)
+            } else {
+              self.$message('已发送短信')
+              this.state = 1
+            }
+          }).catch(error => {
             console.log(error)
+            self.$message('各种错误')
           })
-          // this.state = 1
+          // AV.Cloud.requestSmsCode({
+          //   mobilePhoneNumber: self.phoneNumber,
+          //   name: '猴啊家教',
+          //   ttl: 10
+          // }).then(success => {
+          //   self.$message('已发送短信')
+          //   this.state = 1
+          // }, error => {
+          //   self.$message('各种错误')
+          //   console.log(error)
+          // })
+          // // this.state = 1
         }
       } else {
         if (this.veri === '') {
           this.$message('请输入验证码')
         } else {
-          AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
-            console.log(loggedInUser)
-            // self.setLoggedInUser(loggedInUser)
-            // debug code: 543499
-            loggedInUser.set('role', self.teacherOrStudent)
-            loggedInUser.save()
-            self.userLogin(loggedInUser)
-            self.$message('登陆成功')
-            this.$router.push('self')
-          }, error => {
-            console.log(error)
+          console.log(self.phoneNumber, self.veri, self.teacherOrStudent, self.gender, self.name)
+          fetch('https://api.houaa.xyz/account/signup/', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+              phone: self.phoneNumber,
+              code: self.veri,
+              personType: self.teacherOrStudent ? 'teacher' : 'student',
+              gender: self.gender ? 'M' : 'F',
+              name: self.name
+            })
+          }).then(raw => raw.json())
+          .then(json => {
+            if (json.status === 'error') {
+              self.$message(json.payload)
+            } else {
+              self.$message('注册成功')
+              this.$router.push('self')
+            }
           })
+          .catch(error => {
+            console.log(error)
+            self.$message('发生未知错误')
+          })
+          // AV.User.signUpOrlogInWithMobilePhone(self.phoneNumber, self.veri).then(loggedInUser => {
+          //   console.log(loggedInUser)
+          //   // self.setLoggedInUser(loggedInUser)
+          //   // debug code: 543499
+          //   loggedInUser.set('role', self.teacherOrStudent)
+          //   loggedInUser.save()
+          //   self.userLogin(loggedInUser)
+          //   self.$message('登陆成功')
+          //   this.$router.push('self')
+          // }, error => {
+          //   console.log(error)
+          // })
         }
       }
     },

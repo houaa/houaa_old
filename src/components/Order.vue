@@ -22,8 +22,8 @@
           </div>
 
           <div id="DetailMeta" style="margin-top: 20px;">
-            <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[orderedOne.edu]}}</div>
-            <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[orderedOne.edu][orderedOne.grade]}}</div>
+            <!-- <div id="edu" style="outline:none;color: rgb(187, 187, 187);margin-right:5px;font-weight:300;">{{edu[orderedOne.edu]}}</div>
+            <div id="edu" style="outline:none;margin-right:5px;font-weight:300;">{{grades[orderedOne.edu][orderedOne.grade]}}</div> -->
             <div v-if="orderedOne.auth" id="auth">
               <img width="20" style="padding-top:3px;" src="../assets/auth.svg">
             </div>
@@ -36,11 +36,11 @@
         <div id="rate" style="text-align: right;font-size: 23px;color: #0bb279; font-weight: 600;">
           <div style="color: #000;font-weight: 300;font-size:16px;padding-top: 5px;">
             注册“猴啊”
-            <span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - orderedOne.createdAt)/3600000/24)}}天</span>
+            <span style="font-weight: 400;color:rgb(11, 178, 121)">{{Math.floor(((new Date()) - orderedOne.joinedAt)/3600000/24)}}天</span>
           </div>
           <div style="margin-top:15px;letter-spacing:2px;">
-            {{orderedOne.rate}}
-            <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i>
+            <!-- {{orderedOne.rate}}
+            <i style="font-size: 12px;font-style: normal; font-weight: 400;"> 分</i> -->
           </div>
         </div>
       </div>
@@ -49,8 +49,8 @@
         <div class="Content1">
           <div>薪资</div>
           <div>
-            <el-input-number size="small" :min="0" :step="20" v-model="orderedOne.salary"></el-input-number>
-            <span style="font-size:16px; font-weight:200;"></span>
+            <span style="font-size: 17px;margin-right: 5px;color: #0bb279;font-weight: 600;">¥ {{orderedOne.salary}}</span>
+            <span style="font-size:16px; font-weight:200;">/小时</span>
           </div>
         </div>
 
@@ -58,8 +58,8 @@
           <div>地点</div>
           <div id="editplace" style="display:flex; justify-content: flex-start;flex-wrap: nowrap">
             <!--TODO:store中新建数据存储信息-->
-            <div style="font-size:16px; font-weight:200;text-align:right;">请确认地点:</div>
-            <input v-on:change="preventWindow" v-model="orderedOne.campus" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 60px;border: none;text-align:right;"></input>
+            <!-- <div style="font-size:16px; font-weight:200;text-align:right;">请确认地点:</div> -->
+            <div v-on:change="preventWindow" style="outline:none;font-weight: 600;font-size: 16px;color: rgb(11, 178, 121);width: 60px;border: none;text-align:right;">{{orderedOne.campus.name}}</div>
           </div>
         </div>
 
@@ -70,33 +70,17 @@
             </el-option>
           </el-select>
         </div> -->
-        <div class="Content1">
+        <div class="Content1" style="flex-direction: column;">
           <div>科目</div>
           <div id="class">
-            <div class="eduRank">
-          <div>小学</div>
-          <div id="classes">
-            <i v-for="i in [0,1]" @click="toggleOrderTeach([0,i])" v-bind:class="orderedOne.teach[0][i]?'ok':'not'">
-              {{classes[0][i]}}
-            </i>
-          </div>
-        </div>
-        <div class="eduRank">
-          <div>初中</div>
-          <div id="classes">
-            <i v-for="i in [0,1,2]" @click="toggleOrderTeach([1,i])" v-bind:class="orderedOne.teach[1][i]?'ok':'not'">
-              {{classes[1][i]}}
-            </i>
-          </div>
-        </div>
-        <div class="eduRank">
-          <div>高中</div>
-          <div id="classes">
-            <i v-for="i in [0,1,2]" @click="toggleOrderTeach([2,i])" v-bind:class="orderedOne.teach[2][i]?'ok':'not'">
-              {{classes[2][i]}}
-            </i>
-          </div>
-        </div>
+            <div class="eduRank" v-for="(subjects, i) in orderedOne.subjectTable">
+              <div>{{subjects.name}}</div>
+              <div id="classes">
+                <i v-for="(subject, j) in subjects.subjects" v-bind:class="subject.checked?'ok':'not'">
+                  {{subject.name}}
+                </i>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -160,278 +144,302 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import AV from 'leancloud-storage'  // 数据库对象
-export default {
-  data() {
-    return {
-      showTeacher: true,
-      showPay: false,
-      showDone: false,
-      prompts: '正 在 生 成 订 单',
-      buttonText: '下一步',
-      edu: ['小学', '初中', '高中', '本科'],
-      grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
-      classes: [['全科', '陪读'], ['数学', '科学', '英语'], ['数学', '理综', '英语']],
-      days: ['一', '二', '三', '四', '五', '六', '日'],
-      rawUser: ''
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'orderedOne'
-    ])
-  },
-  mounted: function() {
-    // this.rawUser = this.orderedOne
-  },
-  methods: {
-    ...mapMutations([
-      'toggleOrderTeach',
-      'toggleOrderCalendar'
-    ]),
-    toBack: function() {
-      if (this.showTeacher) {
-        this.showTeacher = false
-        this.$router.push('/reserve')
-        this.prompts = '正 在 生 成 订 单'
-        console.log(this.orderedOne)
-      } else if (this.showPay) {
-        this.showPay = false
-        this.showTeacher = true
-      } else if (this.showDone) {
-        this.showDone = false
-        this.showPay = true
-        this.prompts = '正 在 准 备 付 款'
+  import {
+    mapGetters,
+    mapMutations
+  } from 'vuex'
+  // import AV from 'leancloud-storage' // 数据库对象
+  export default {
+    data() {
+      return {
+        showTeacher: true,
+        showPay: false,
+        showDone: false,
+        prompts: '正 在 生 成 订 单',
+        buttonText: '下一步',
+        // edu: ['小学', '初中', '高中', '本科'],
+        // grades: [['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'], ['初一', '初二', '初三'], ['高一', '高二', '高三'], ['大一', '大二', '大三', '大四']],
+        // classes: [['全科', '陪读'], ['数学', '科学', '英语'], ['数学', '理综', '英语']],
+        days: ['一', '二', '三', '四', '五', '六', '日'],
+        rawUser: ''
       }
     },
-    getClass: function() {
-      switch (this.orderedOne.grade) {
-        case 0:
-          return 0
-        case 1:
-          return 1
-        case 2:
-          return 2
-      }
+    computed: {
+      ...mapGetters([
+        'orderedOne'
+      ])
     },
-    gonext: function() {
-      let self = this
-      if (this.showTeacher) {
-        this.showTeacher = false
-        this.showPay = true
-        this.showDone = false
-        this.prompts = '正 在 准 备 付 款'
-        console.log(this.orderedOne)
-      } else if (this.showPay) {
-        // 预约的代码，与后端交互
-        const teacherMapUser = new AV.Object('TeacherMapUser')
-        const targetUser = new AV.Object.createWithoutData('TeacherList', self.orderedOne.objectId)
-        teacherMapUser.set('Teacher', targetUser)
-        teacherMapUser.set('User', AV.User.current())
-        teacherMapUser.set('status', '未查看')
-        teacherMapUser.set('salary', self.orderedOne.salary)
-        teacherMapUser.set('campus', self.orderedOne.campus)
-        teacherMapUser.save()
-        self.$message('预约成功！')
-        this.prompts = '完 成'
-        this.showTeacher = false
-        this.showPay = false
-        this.showDone = true
-        this.buttonText = '去查看'
-        console.log(this.orderedOne)
-      } else if (this.showDone) {
-        this.$router.push('/reserve')
-        this.showTeacher = false
-        this.showPay = false
-        this.showDone = false
-        console.log(this.orderedOne)
-      }
+    mounted: function () {
+      // this.rawUser = this.orderedOne
     },
-    preventWindow() {
-      window.preventWindowClose = true
+    methods: {
+      ...mapMutations([
+        'toggleOrderTeach',
+        'toggleOrderCalendar'
+      ]),
+      toBack: function () {
+        if (this.showTeacher) {
+          this.showTeacher = false
+          this.$router.push('/reserve')
+          this.prompts = '正 在 生 成 订 单'
+          console.log(this.orderedOne)
+        } else if (this.showPay) {
+          this.showPay = false
+          this.showTeacher = true
+        } else if (this.showDone) {
+          this.showDone = false
+          this.showPay = true
+          this.prompts = '正 在 准 备 付 款'
+        }
+      },
+      getClass: function () {
+        switch (this.orderedOne.grade) {
+          case 0:
+            return 0
+          case 1:
+            return 1
+          case 2:
+            return 2
+        }
+      },
+      gonext: function () {
+        let self = this
+        if (this.showTeacher) {
+          this.showTeacher = false
+          this.showPay = true
+          this.showDone = false
+          this.prompts = '正 在 准 备 付 款'
+          console.log(this.orderedOne)
+        } else if (this.showPay) {
+          // 预约的代码，与后端交互
+          // const teacherMapUser = new AV.Object('TeacherMapUser')
+          // const targetUser = new AV.Object.createWithoutData('TeacherList', self.orderedOne.objectId)
+          // teacherMapUser.set('Teacher', targetUser)
+          // teacherMapUser.set('User', AV.User.current())
+          // teacherMapUser.set('status', '未查看')
+          // teacherMapUser.set('salary', self.orderedOne.salary)
+          // teacherMapUser.set('campus', self.orderedOne.campus)
+          // teacherMapUser.save()
+          fetch('https://api.houaa.xyz/order/create/', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+              teacherId: self.orderedOne.teacherId,
+              studentId: self.orderedOne.studentId
+            })
+          }).then(raw => raw.json())
+          .then(json => {
+            if (json.status === 'error') {
+              self.$message(json.payload)
+            } else {
+              self.$message('预约成功！')
+              self.prompts = '完 成'
+              self.showTeacher = false
+              self.showPay = false
+              self.showDone = true
+              self.buttonText = '去查看'
+              console.log(this.orderedOne)
+            }
+          })
+        } else if (this.showDone) {
+          this.$router.push('/reserve')
+          this.showTeacher = false
+          this.showPay = false
+          this.showDone = false
+          console.log(this.orderedOne)
+        }
+      },
+      preventWindow() {
+        window.preventWindowClose = true
+      }
     }
   }
-}
+
 </script>
 
 <style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity .3s
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .3s
+  }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0
-}
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0
+  }
+
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .order-container::-webkit-scrollbar {
+    display: none
+  }
 
-.order-container::-webkit-scrollbar {
-  display:none
-}
+  .order-container {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #7e7e7e;
+  }
 
-.order-container {
-  overflow-x:hidden;
-  overflow-y:scroll;
-  height: 100%;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  color: #7e7e7e;
-}
+  .head {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+  }
 
-.head {
-  text-align: center;
-  font-size: 18px;
-  font-weight: 500;
-  color: #000;
-}
+  .order-head {
+    height: 60px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    border-bottom: 1px solid rgb(238, 238, 238);
+  }
 
-.order-head {
-  height: 60px;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  border-bottom: 1px solid rgb(238, 238, 238);
-}
+  .contents {
+    margin: 0 10px;
+  }
 
-.contents {
-  margin: 0 10px;
-}
+  .Content1 {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
 
-.Content1 {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid rgb(238, 238, 238);
-  padding-bottom: 20px;
-  padding-top: 20px;
-}
+  .Content1>:first-child {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #000;
+  }
 
-.Content1>:first-child {
-  font-size: 1.2em;
-  font-weight: 600;
-  color: #000;
-}
+  .next {
+    margin: 20px 0 30px 0;
+    text-align: center;
+  }
 
-.next {
-  margin: 20px 0 30px 0;
-  text-align: center;
-}
+  .pay {
+    margin-top: 200px;
+    text-align: center;
+  }
 
-.pay {
-  margin-top: 200px;
-  text-align: center;
-}
+  .pay>:first-child {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #888;
+  }
 
-.pay>:first-child {
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 400;
-  color: #888;
-}
+  .cost {
+    display: block;
+    font-size: 40px;
+  }
 
-.cost {
-  display: block;
-  font-size: 40px;
-}
+  .Cong {
+    margin-top: 150px;
+    margin-bottom: 100px;
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+  }
 
-.Cong {
-  margin-top: 150px;
-  margin-bottom: 100px;
-  font-size: 20px;
-  color: #000;
-  text-align: center;
-}
+  .Notes {
+    text-align: center;
+    margin: 15px;
+    font-size: 13px;
+  }
 
-.Notes {
-  text-align: center;
-  margin: 15px;
-  font-size: 13px;
-}
+  #DetailMeta {
+    display: flex;
+    flex-direction: row;
+  }
 
-#DetailMeta {
-  display: flex;
-  flex-direction: row;
-}
+  div.week {
+    margin-top: 20px;
+    display: flex;
+  }
 
-div.week {
-  margin-top: 20px;
-  display: flex;
-}
+  div.week>div {
+    flex-grow: 1;
+  }
 
-div.week>div {
-  flex-grow: 1;
-}
+  div.week>div>div {
+    flex-grow: 1;
+    text-align: center;
+    height: 30px;
+    margin-bottom: 5px;
+  }
 
-div.week>div>div {
-  flex-grow: 1;
-  text-align: center;
-  height: 30px;
-  margin-bottom: 5px;
-}
+  div.week>div.time>div {
+    font-size: 16px;
+  }
 
-div.week>div.time>div {
-  font-size: 16px;
-}
+  div.okTime {
+    background: #0bb279;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-div.okTime {
-  background: #0bb279;
-  border-radius: 15px;
-  width: 30px;
-  height: 30px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  div.notTime {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-div.notTime {
-  width: 30px;
-  height: 30px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .eduRank {
+    display: block;
+    margin-top: 20px;
+  }
 
-.eduRank {
-  display: flex;
-  flex-direction: row;
-}
+  .eduRank> :first-child {
+    font-size: 15px;
+    line-height: 30px;
+    margin-left: 20px;
+    display: inline-block;
+    vertical-align: top;
+  }
 
-.eduRank> :first-child {
-  font-size: 15px;
-  line-height: 30px;
-  margin-left: 20px;
-}
+  .eduRank> :last-child {
+    display: inline-block;
+    width: 80%;
+  }
 
-.eduRank>#classes>i {
-  border-radius: 7px;
-  font-style: normal;
-  margin-left: 20px;
-  text-align: center;
-  display: inline-block;
-  padding: 2px 5px;
-}
+  .eduRank>#classes>i {
+    border-radius: 7px;
+    font-style: normal;
+    margin-left: 20px;
+    text-align: center;
+    display: inline-block;
+    padding: 2px 5px;
+  }
 
-.eduRank>#classes>i.ok {
-  background: #0bb279;
-  color: #FFF;
-  border: #0bb279 1px solid;
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-weight: 600;
-}
+  .eduRank>#classes>i.ok {
+    background: #0bb279;
+    color: #FFF;
+    border: #0bb279 1px solid;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-.eduRank>#classes>i.not {
-  border: #bbb 1px solid;
-  margin-bottom: 5px;
-  color: #bbb;
-  font-weight: 600;
-  font-size: 14px;
-}
+  .eduRank>#classes>i.not {
+    border: #bbb 1px solid;
+    margin-bottom: 5px;
+    color: #bbb;
+    font-weight: 600;
+    font-size: 14px;
+  }
 
 </style>
-
