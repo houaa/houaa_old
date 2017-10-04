@@ -67,7 +67,7 @@ export default {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify({
-          phone: self.phoneNumber
+          phone: self.phone
         })
       }).then(raw => raw.json())
       .then(json => {
@@ -99,7 +99,7 @@ export default {
         if (json.status === 'error') {
           self.$message(json.payload)
         } else {
-          elf.$message('登陆成功')
+          self.$message('登陆成功')
           self.$router.push('/teacher')
         }
       })
