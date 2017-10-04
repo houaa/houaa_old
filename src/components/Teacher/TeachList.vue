@@ -34,7 +34,7 @@
           </div>
           <div style="flex-grow:1;margin: auto 0.5rem auto 0.5rem;padding: 0.6rem 1.5rem 0.6rem 0rem;">
             <div style="font-size: 14px; color: #555;justify-content:space-around; ">
-              <div style="margin-bottom:0.4em;">学科</div>
+              <!-- <div style="margin-bottom:0.4em;">学科</div> -->
               <!-- <div style="margin-bottom:0.4em;">{{edu[user.attributes.edu]}} {{grades[user.attributes.edu][user.attributes.grade]}}</div> -->
               <!-- <div style="margin-bottom:0.4em;">地点：{{user.attributes.campus}}</div> -->
           <div>
@@ -693,12 +693,11 @@ div.notTime {
 
 
 .eduRankShow>#classes>i.ok {
-  /* background: #0bb279; */
-  color: #0bb279;
-  border: #0bb279 1px solid;
+  color: #444;
+  border: #444 1px solid;
   margin-bottom: 5px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 200;
 }
 
 .eduRankShow>#classes>i.not {

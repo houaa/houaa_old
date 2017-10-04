@@ -4,7 +4,7 @@
     <div v-if="unread">
       <div v-for="(item,index) in unread" :key="index" style="color:#555;padding-top:1em;border-radius:2px;border:1px solid #eee;height:4em;display:flex;justify-content:space-between;margin:1em 2em 1em 2em;font-color:#ddd;">
         <div style="padding-left:1em;">
-          <span style="color:#000;font-weight:bold;font-size:1em;margin-right:1em;">{{item.name}}</span> /
+          <span style="color:#000;font-weight:bold;font-size:1em;margin-right:1em;">{{item.name[0]}}同学</span> /
           <span>{{item.grade}}</span>
           <div style="margin-top:0.5em;">￥{{item.salary}}/小时</div>
         </div>
