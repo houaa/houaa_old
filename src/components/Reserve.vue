@@ -288,6 +288,7 @@ export default {
 
 .section-line>div:nth-child(1) {
   width: 30%;
+  font-weight: 600;
 }
 
 .section-line>div:nth-child(2) {
