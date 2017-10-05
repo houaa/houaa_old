@@ -53,7 +53,7 @@
             </div>
             <div class="section">
               <div class="section-line">
-                <div>{{currentReserve.studentId}}</div>
+                <div>姓名</div>
                 <div>{{currentReserve.name}}</div>
               </div>
               <div class="section-line">
@@ -124,11 +124,11 @@ export default {
       return this.reserveInfo.filter(item => {
         return item.status === 'initial'
       }).map(item => {
-        item.student.createdAt = item.createdAt
-        item.teacher.createdAt = item.createdAt
-        item.student.id = item.id
-        item.teacher.id = item.id
-        return this.user.role ? item.student : item.teacher
+        const ans = this.user.role ? item.student : item.teacher
+        ans.id = item.id
+        ans.createdAt = item.createdAt
+
+        return ans
       })
     },
     alreadyRead: function() {
