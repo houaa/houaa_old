@@ -40,7 +40,7 @@
       <div v-if="showDetail" v-on:click="closeModal" class="float-container" style="padding-top:40%;">
         <div style="box-shadow:#515050 0px -0.5px 30px 0px;height:100%;background-color:#fff;">
           <div style="padding:2em 2em 1em 2em;">
-            <h3 style="padding-bottom:0.8em;border-bottom:1px solid #eee;">订单详情</h3>
+            <h3 style="display:inline-block;padding-bottom:0.8em;border-bottom:1px solid #eee;">订单详情</h3><span style="margin-left: 10px;">{{currentReserve.status}}</span>
             <div class="section">
               <div class="section-line">
                 <div>科目</div>
@@ -122,12 +122,17 @@ export default {
     unread: function() {
       if (this.reserveInfo.length === 0) return []
       return this.reserveInfo.filter(item => {
-        return item.status === 'initial'
+        return item.status !== 'success' && item.status !== 'cancelled'
       }).map(item => {
         const ans = this.user.role ? item.student : item.teacher
         ans.id = item.id
         ans.createdAt = item.createdAt
-
+        ans.status = {
+          success: '成功',
+          viewed: '已查看',
+          accepted: '已同意',
+          initial: '未读'
+        }[item.status]
         return ans
       })
     },
@@ -144,7 +149,8 @@ export default {
         temp.status = {
           success: '成功',
           viewed: '已查看',
-          accepted: '同意订单'
+          accepted: '同意订单',
+          initial: '未读'
         }[item.status]
         return temp
       })
