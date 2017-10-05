@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import AV from 'leancloud-storage'
+// import AV from 'leancloud-storage'
 import TeachList from './Teacher/TeachList'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
@@ -110,12 +110,27 @@ export default {
     search: function (event) {
       let self = this
       if (self.searchValue !== '') {
-        let query = new AV.SearchQuery('TeacherList')
-        query.queryString(self.searchValue)
-        query.find().then(function (result) {
-          console.log(query.hits())
-          self.searchResult = result
+        fetch('https://api.houaa.xyz/person/teacher/list/', {
+          credentials: 'include',
+          method: 'POST',
+          body: JSON.stringify({
+            searchText: self.searchValue
+          })
+        }).then(raw => raw.json())
+        .then(json => {
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else {
+            console.log(json.payload)
+            self.searchResult = json.payload
+          }
         })
+        // let query = new AV.SearchQuery('TeacherList')
+        // query.queryString(self.searchValue)
+        // query.find().then(function (result) {
+        //   console.log(query.hits())
+        //   self.searchResult = result
+        // })
       } else {
         self.searchResult = ''
       }
