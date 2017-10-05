@@ -234,7 +234,6 @@
   export default {
     name: 'teach',
     created: function () {
-      console.log(this.user)
       const self = this
       if (this.user.role === '') {
         fetch('https://api.houaa.xyz/person/me/', {
@@ -378,13 +377,14 @@
         }
       },
       showDetail: function (index, event) {
+        const self = this
         fetch('https://api.houaa.xyz/account/isLogin/', {
           method: 'GET',
           credentials: 'include'
         }).then(raw => raw.json())
         .then(json => {
           if (json.status === 'error') {
-            this.$message(json.payload)
+            self.$message(json.payload)
           } else {
             if (json.payload) {
               fetch(`https://api.houaa.xyz/person/${this.role ? 'teacher' : 'student'}/${this.role ? this.allUsers[index].teacherId : this.allUsers[index].studentId}/info/`, {
@@ -393,13 +393,15 @@
               }).then(raw => raw.json())
               .then(json => {
                 if (json.status === 'error') {
-                  this.$message(json.payload)
+                  self.$message(json.payload)
                 } else {
-                  this.currentTeacher = json.payload
-                  this.currentIndex = index
-                  this.showList = false
+                  self.currentTeacher = json.payload
+                  self.currentIndex = index
+                  self.showList = false
                 }
               })
+            } else {
+              self.loginModal = true
             }
           }
         })
