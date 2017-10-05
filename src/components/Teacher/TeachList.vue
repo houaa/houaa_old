@@ -508,7 +508,7 @@
     /* margin-bottom: 0.5rem;  */
     display: flex;
     border-bottom: 1px solid #eee;
-    min-height: 7.5em;
+    min-height: 6.5em;
   }
 
   .img-figure {
