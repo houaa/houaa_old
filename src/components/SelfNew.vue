@@ -102,7 +102,7 @@
         标签
       </div>
       <div style="">
-        <el-tag :key="tag" v-for="tag in user.tags" :closable="true" :close-transition="false" @close="deleteTag(tag)" style="font-weight:600;font-size:14px;display: inline-block;border-radius: 5px;background:#0bb279;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
+        <el-tag :key="tag" v-for="tag in user.tags" :closable="true" :close-transition="false" @close="deleteTag(tag)" style="text-overflow: ellipsis;max-width: 100px;overflow: hidden;font-weight:600;font-size:14px;display: inline-block;border-radius: 5px;background:#0bb279;margin-right: 9px;color:#FFF;margin-bottom: 10px;">
           {{tag}}
         </el-tag>
         <el-input v-on:change="preventWindow" class="input-new-tag" v-if="newTagInputVisible" v-model="newTag" ref="saveTagInput" size="mini" @keyup.enter.native="handleNewTagConfirm" @blur="handleNewTagConfirm">
