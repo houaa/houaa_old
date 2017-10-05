@@ -124,11 +124,11 @@ export default {
       return this.reserveInfo.filter(item => {
         return item.status === 'initial'
       }).map(item => {
-        item.student.createdAt = item.createdAt
-        item.teacher.createdAt = item.createdAt
-        item.student.id = item.id
-        item.teacher.id = item.id
-        return this.user.role ? item.student : item.teacher
+        const ans = this.user.role ? item.student : item.teacher
+        ans.id = item.id
+        ans.createdAt = item.createdAt
+
+        return ans
       })
     },
     alreadyRead: function() {
