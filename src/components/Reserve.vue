@@ -53,7 +53,7 @@
             </div>
             <div class="section">
               <div class="section-line">
-                <div>{{currentReserve.studentId}}</div>
+                <div>姓名</div>
                 <div>{{currentReserve.name}}</div>
               </div>
               <div class="section-line">
