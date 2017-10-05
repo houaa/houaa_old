@@ -29,7 +29,7 @@
       <transition-group name="el-fade-in-linear">
         <el-col class="main-card" :xs="24" :sm="8" :lg="6" @click.native="showDetail(index, $event)" :key="index" v-for="(user,index) in filteredUsers">
           <div style="flex-shrink:0;flex-basis:25%;display:flex;justify-content: center;align-items: center;">
-            <div :style="{backgroundColor: allUsers[0].role?'#00AF63':'#0271C9'}" style="width:2em;height:2em;color:#fff;font-size:2em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
+            <div :style="{backgroundColor: allUsers[0].role?'#00AF63':'#0271C9'}" style="width:2em;height:2em;color:#fff;font-size:1.5em;border-radius:50%;text-align:center;display:flex;justify-content: center;align-items: center;">
               {{user.name?user.name[0]:'未'}}
             </div>
           </div>
