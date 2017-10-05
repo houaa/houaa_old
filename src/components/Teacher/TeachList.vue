@@ -258,7 +258,7 @@
         'user'
       ]),
       role: function () {
-        return document.location.hash.indexOf('teacher') !== -1
+        return !(document.location.hash.indexOf('student') !== -1)
       },
       filteredUsers: function () {
         let filtered = this.allUsers
@@ -387,7 +387,7 @@
             self.$message(json.payload)
           } else {
             if (json.payload) {
-              fetch(`https://api.houaa.xyz/person/${this.role ? 'teacher' : 'student'}/${this.role ? this.allUsers[index].teacherId : this.allUsers[index].studentId}/info/`, {
+              fetch(`https://api.houaa.xyz/person/${self.role ? 'teacher' : 'student'}/${self.role ? self.allUsers[index].teacherId : self.allUsers[index].studentId}/info/`, {
                 method: 'GET',
                 credentials: 'include'
               }).then(raw => raw.json())
