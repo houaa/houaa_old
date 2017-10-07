@@ -127,6 +127,7 @@ export default {
         const ans = this.user.role ? item.student : item.teacher
         ans.id = item.id
         ans.createdAt = item.createdAt
+        ans.initiator = item.initiator
         ans.status = {
           success: '成功',
           viewed: '已查看',
@@ -146,6 +147,7 @@ export default {
         item.student.id = item.id
         item.teacher.id = item.id
         let temp = this.user.role ? item.student : item.teacher
+        temp.initiator = item.initiator
         temp.status = {
           success: '成功',
           viewed: '已查看',
@@ -157,11 +159,11 @@ export default {
     },
     sendByMe: function() {
       if (this.user.role) {
-        if (this.currentReserve.teacherId === this.user.teacherId) {
+        if (this.currentReserve.initiator === 'teacher') {
           return false
         }
       } else {
-        if (this.currentReserve.studentId === this.user.studentId) {
+        if (this.currentReserve.initiator === 'student') {
           return false
         }
       }
