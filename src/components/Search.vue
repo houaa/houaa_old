@@ -109,6 +109,7 @@ export default {
     },
     search: function (event) {
       let self = this
+      let ans = []
       if (self.searchValue !== '') {
         fetch('https://api.houaa.xyz/person/teacher/list/', {
           credentials: 'include',
@@ -121,8 +122,22 @@ export default {
           if (json.status === 'error') {
             self.$message(json.payload)
           } else {
-            console.log(json.payload)
-            self.searchResult = json.payload
+            ans = json.payload
+            fetch('https://api.houaa.xyz/person/student/list/', {
+              credentials: 'include',
+              method: 'POST',
+              body: JSON.stringify({
+                searchText: self.searchValue
+              })
+            }).then(raw => raw.json())
+            .then(json => {
+              if (json.status === 'error') {
+                self.$message(json.payload)
+              } else {
+                ans = ans.concat(json.payload)
+                self.searchResult = ans
+              }
+            })
           }
         })
         // let query = new AV.SearchQuery('TeacherList')
