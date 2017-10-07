@@ -22,6 +22,18 @@
           </div>
         </transition>
 
+        <transition name="fade">
+          <div v-if="loginModal " :body-style="{padding: '0px'} ">
+            <div class="float-content ">
+              <div class="float-text ">如需查看详细信息或进行筛选搜索，请您</div>
+              <div style="display:flex;margin-top:1em;justify-content:space-between; padding: 0 20px;">
+                <el-button @click="toLoginPage()" style="width:6em; border: 1px solid #0BB179" size="large " type="text ">登录</el-button>
+                <el-button @click="toSignupPage()" size="large " style="width:6em; " type="primary ">注册</el-button>
+              </div>
+            </div>
+          </div>
+        </transition>
+
       </div>
     </div>
 
@@ -38,7 +50,8 @@ export default {
     ...mapGetters([
       'loggedIn',
       'loginModal',
-      'userInfo'
+      'userInfo',
+      'user'
     ])
   },
   components: {
@@ -109,8 +122,10 @@ export default {
     },
     search: function (event) {
       let self = this
-      let ans = []
-      if (self.searchValue !== '') {
+      console.log(self.user)
+      if (self.user.role === '') {
+        self.showLoginModal()
+      } else if (self.searchValue !== '' && self.user.role === false) {
         fetch('https://api.houaa.xyz/person/teacher/list/', {
           credentials: 'include',
           method: 'POST',
@@ -122,33 +137,31 @@ export default {
           if (json.status === 'error') {
             self.$message(json.payload)
           } else {
-            ans = json.payload
-            fetch('https://api.houaa.xyz/person/student/list/', {
-              credentials: 'include',
-              method: 'POST',
-              body: JSON.stringify({
-                searchText: self.searchValue
-              })
-            }).then(raw => raw.json())
-            .then(json => {
-              if (json.status === 'error') {
-                self.$message(json.payload)
-              } else {
-                ans = ans.concat(json.payload)
-                self.searchResult = ans
-              }
-            })
+            self.searchResult = json.payload
           }
         })
+      } else if (self.searchValue !== '' && self.user.role === true) {
+        fetch('https://api.houaa.xyz/person/student/list/', {
+          credentials: 'include',
+          method: 'POST',
+          body: JSON.stringify({
+            searchText: self.searchValue
+          })
+        }).then(raw => raw.json())
+        .then(json => {
+          if (json.status === 'error') {
+            self.$message(json.payload)
+          } else {
+            self.searchResult = json.payload
+          }
+        })
+      }
         // let query = new AV.SearchQuery('TeacherList')
         // query.queryString(self.searchValue)
         // query.find().then(function (result) {
         //   console.log(query.hits())
         //   self.searchResult = result
         // })
-      } else {
-        self.searchResult = ''
-      }
     },
     clickTag: function (item) {
       if (item.value !== '#dddddd') {
@@ -162,9 +175,11 @@ export default {
     },
     toLoginPage: function () {
       this.$router.push('/login')
+      this.hideLoginModal()
     },
     toSignupPage: function () {
       this.$router.push('/signup')
+      this.hideLoginModal()
     }
   }
 }
