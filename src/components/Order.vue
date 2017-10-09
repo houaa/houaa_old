@@ -225,7 +225,9 @@
             credentials: 'include',
             body: JSON.stringify({
               teacherId: self.orderedOne.teacherId,
-              studentId: self.orderedOne.studentId
+              studentId: self.orderedOne.studentId,
+              subjectTable: self.orderedOne.subjectTable,
+              timeTable: self.orderedOne.availableTime
             })
           }).then(raw => raw.json())
           .then(json => {
@@ -238,7 +240,7 @@
               self.showPay = false
               self.showDone = true
               self.buttonText = '去查看'
-              console.log(this.orderedOne)
+              // console.log(this.orderedOne)
             }
           })
         } else if (this.showDone) {
@@ -246,7 +248,7 @@
           this.showTeacher = false
           this.showPay = false
           this.showDone = false
-          console.log(this.orderedOne)
+          // console.log(this.orderedOne)
         }
       },
       preventWindow() {
