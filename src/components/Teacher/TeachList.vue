@@ -404,6 +404,7 @@
         .then(json => {
           if (json.payload.totalPageCount < num) {
             self.scrollEnd()
+            return
           }
           let items = json.payload.items
           self.allUsers = self.allUsers.concat(items)
