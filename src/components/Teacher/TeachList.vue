@@ -82,6 +82,9 @@
             <!-- <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button> -->
           </div>
         </el-col>
+        <el-col class="main-card" :key="1000000" :xs="24" :sm="8" :lg="6">
+          <div @click.native="showMore()"><img src="../../assets/download.svg"></div>
+        </el-col>
       </transition-group>
     </el-row>
 
@@ -309,7 +312,8 @@
       }
     },
     props: [
-      'allUsers'
+      'allUsers',
+      'pageNumber'
     ],
     data() {
       return {
@@ -375,6 +379,19 @@
         } else if (event.target.className === 'float-container2') {
           this.confimModal = false
         }
+      },
+      showMore: function() {
+        const self = this
+        let num = this.pageNumber + 1
+        let url = (this.$route.path === '/student') ? 'https://api.houaa.xyz/person/student/list/' : 'https://api.houaa.xyz/person/teacher/list/'
+        url += num
+        fetch(url, {
+          method: 'GET'
+        }).then(raw => raw.json())
+        .then(json => {
+          console.log(json.payload.items)
+          console.log(self.allUsers)
+        })
       },
       showDetail: function (index, event) {
         const self = this
