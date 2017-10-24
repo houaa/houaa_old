@@ -82,6 +82,9 @@
             <!-- <el-button type="primary" @click="showDetail(index, $event)">查看详情</el-button> -->
           </div>
         </el-col>
+        <el-col id="downdiv" class="main-card" :key="1000000" :xs="24" :sm="8" :lg="6" @click.native="showMore()">
+          <img src="../../assets/download.svg" id="downcard">
+        </el-col>
       </transition-group>
     </el-row>
 
@@ -309,7 +312,8 @@
       }
     },
     props: [
-      'allUsers'
+      'allUsers',
+      'pageNumber'
     ],
     data() {
       return {
@@ -362,10 +366,17 @@
       },
       filterIt: function (index) {
         index = index + 1
-        if (index === this.filterSelected) {
-          this.filterSelected = -index
+        if (index === 3) {
+          if (index === this.filterSelected) {
+            this.filterSelected = -index
+          } else {
+            this.filterSelected = index
+          }
         } else {
-          this.filterSelected = index
+          this.$message({
+            duration: 500,
+            message: '正在施工中'
+          })
         }
       },
       handleValue: function (value) {},
@@ -375,6 +386,33 @@
         } else if (event.target.className === 'float-container2') {
           this.confimModal = false
         }
+      },
+      scrollEnd: function() {
+        this.$message({
+          message: '已经是最后一页了',
+          duration: 500
+        })
+      },
+      showMore: function() {
+        const self = this
+        let num = this.pageNumber + 1
+        let url = (this.$route.path === '/student') ? 'https://api.houaa.xyz/person/student/list/' : 'https://api.houaa.xyz/person/teacher/list/'
+        url += num
+        fetch(url, {
+          method: 'GET'
+        }).then(raw => raw.json())
+        .then(json => {
+          if (json.payload.totalPageCount < num) {
+            self.scrollEnd()
+          }
+          let items = json.payload.items
+          self.allUsers = self.allUsers.concat(items)
+          self.pageNumber++
+        })
+        .catch(error => {
+          console.log(error)
+          self.scrollEnd()
+        })
       },
       showDetail: function (index, event) {
         const self = this
@@ -766,5 +804,15 @@
     display: inline-block;
     padding: 2px 5px;
     margin: 0 2px;
+  }
+
+  #downcard{
+    height: 4em;
+    margin: 0 auto;
+  }
+
+  #downdiv{
+    min-height: 4em;
+    height: 4em;
   }
 </style>

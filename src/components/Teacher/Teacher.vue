@@ -1,6 +1,6 @@
 <template>
   <div id="scrollable">
-    <TeachList :all-users="realUser"></TeachList>
+    <TeachList :page-number="pageNumber" :all-users="realUser"></TeachList>
   </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       page: 0,
       end: false,
-      allUsers: []
+      allUsers: [],
+      pageNumber: 1
     }
   },
   computed: {
@@ -51,14 +52,14 @@ export default {
     ]),
     getTeachers: function () {
       const self = this
-      fetch(`https://api.houaa.xyz/person/teacher/list/`, {
+      fetch(`https://api.houaa.xyz/person/teacher/list/1`, {
         method: 'GET'
       }).then(raw => raw.json())
       .then(json => {
         if (json.status === 'error') {
           self.$message(json.payload)
         } else if (json.status === 'success') {
-          const allUsers = json.payload
+          const allUsers = json.payload.items
           self.allUsers = allUsers
           self.setAllTeachers(allUsers)
         }
@@ -76,14 +77,14 @@ export default {
     },
     getStudents: async function () {
       const self = this
-      fetch(`https://api.houaa.xyz/person/student/list/`, {
+      fetch(`https://api.houaa.xyz/person/student/list/1`, {
         method: 'GET'
       }).then(raw => raw.json())
       .then(json => {
         if (json.status === 'error') {
           self.$message(json.payload)
         } else if (json.status === 'success') {
-          const allUsers = json.payload
+          const allUsers = json.payload.items
           self.allUsers = allUsers
           self.setAllStudents(allUsers)
         }
