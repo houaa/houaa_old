@@ -52,14 +52,14 @@ export default {
     ]),
     getTeachers: function () {
       const self = this
-      fetch(`https://api.houaa.xyz/person/teacher/list`, {
+      fetch(`https://api.houaa.xyz/person/teacher/list/1`, {
         method: 'GET'
       }).then(raw => raw.json())
       .then(json => {
         if (json.status === 'error') {
           self.$message(json.payload)
         } else if (json.status === 'success') {
-          const allUsers = json.payload
+          const allUsers = json.payload.items
           self.allUsers = allUsers
           self.setAllTeachers(allUsers)
         }
